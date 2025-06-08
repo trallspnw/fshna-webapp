@@ -21,11 +21,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     env_file:
       - .env.local
-    environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
 
 volumes:
