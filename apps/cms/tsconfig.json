@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "moduleResolution": "bundler",
-    "noEmit": true,
+    "noEmit": true
   },
   "include": [
     "next-env.d.ts",

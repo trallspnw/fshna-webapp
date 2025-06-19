@@ -33,8 +33,7 @@
       "@types/*": ["packages/types/src/*"],
       "@ui/*": ["packages/ui/src/*"]
     },
-    "target": "ES2022",
-    "outDir": "dist",
+    "target": "ES2022"
   },
   "exclude": [
     "**/*.js",

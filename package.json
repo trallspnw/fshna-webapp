@@ -12,7 +12,8 @@
     "lint": "pnpm --recursive run lint",
     "format": "prettier --write .",
     "typecheck": "tsc -b",
-    "clean": "rm -rf node_modules **/node_modules **/dist **/.next"
+    "clean": "pnpm -r exec rm -rf dist .next node_modules out",
+    "static": "pnpm --filter site dev:static"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.43.0",

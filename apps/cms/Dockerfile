@@ -30,7 +30,7 @@ COPY . .
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN \
-  if [ -f pnpm-lock.yaml ]; then pnpm run build; \
+  if [ -f pnpm-lock.yaml ]; then pnpm --filter cms... run build; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
