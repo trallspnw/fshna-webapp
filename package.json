@@ -1,13 +1,47 @@
 {
   "name": "fshna-webapp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "FSHNA webapp monorepo with CMS, site, and shared packages.",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm --filter ./apps/cms dev",
+    "build": "pnpm --recursive run build",
+    "lint": "pnpm --recursive run lint",
+    "format": "prettier --write .",
+    "typecheck": "tsc -b",
+    "clean": "rm -rf node_modules **/node_modules **/dist **/.next"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.11.0"
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.43.0",
+    "@payloadcms/next": "3.43.0",
+    "@payloadcms/payload-cloud": "3.43.0",
+    "@payloadcms/richtext-lexical": "3.43.0",
+    "@payloadcms/ui": "3.43.0",
+    "cross-env": "^7.0.3",
+    "graphql": "^16.11.0",
+    "next": "15.3.4",
+    "payload": "3.43.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "sharp": "0.34.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@next/eslint-plugin-next": "^15.3.4",
+    "@types/node": "^24.0.3",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "eslint": "^9.29.0",
+    "eslint-config-next": "15.3.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "prettier": "^3.5.3",
+    "typescript": "5.8.3"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0",
+    "pnpm": "^9 || ^10"
+  }
 }

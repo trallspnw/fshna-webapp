@@ -1,13 +1,12 @@
 {
   "name": "ui",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Reusable UI components for the FSHNA webapp.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
     "build": "tsc -b"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.11.0"
+  }
 }

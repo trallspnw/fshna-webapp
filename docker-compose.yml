@@ -1,0 +1,33 @@
+services:
+  cms:
+    build:
+      context: .
+      dockerfile: apps/cms/Dockerfile
+      args:
+        NODE_ENV: ${NODE_ENV}
+    user: "${UID}:${GID}"
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/workspace
+      - node_modules:/home/node/app/node_modules
+    working_dir: /workspace/apps/cms
+    command: sh -c "pnpm install && pnpm dev"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+    restart: always
+
+volumes:
+  pgdata:
+  node_modules:
