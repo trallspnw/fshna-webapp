@@ -1,43 +1,13 @@
-import { getPayload } from 'payload';
-import configPromise from '@payload-config';
-import type { Metadata } from 'next';
+import renderPage from '@ui/routes/[slug]/page'
+import { CmsPageFetcher } from '@cms/lib/CmsPageFetcher'
 
-interface PageProps {
-  params: Promise<{ slug?: string }>;
-}
+const CmsPage = (ctx: { params: Promise<{ slug?: string }> }) =>
+  renderPage({ ...ctx, fetcher: new CmsPageFetcher() })
 
-export default async function Page({ params }: PageProps) {
-  const { slug = 'home' } = await params;
-  const payload = await getPayload({ config: configPromise });
+export default CmsPage
 
-  const result = await payload.find({
-    collection: 'pages',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  });
-
-  const page = result.docs[0];
-
-  if (!page) return <div>Page not found.</div>;
-
-  return (
-    <main>
-      <h1>{page.title}</h1>
-      <div>{page.content}</div>
-    </main>
-  );
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug = 'home' } = await params;
-  const payload = await getPayload({ config: configPromise });
-
-  const result = await payload.find({
-    collection: 'pages',
-    where: { slug: { equals: slug } },
-    limit: 1,
-  });
-
-  const page = result.docs[0];
-  return { title: page?.title || 'FSHNA' };
+export async function generateMetadata({ params }: { params: Promise<{ slug?: string }> }) {
+  const { slug = 'home' } = await params
+  const page = await new CmsPageFetcher().getBySlug(slug)
+  return { title: page?.title || 'FSHNA' }
 }

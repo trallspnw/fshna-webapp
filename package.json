@@ -8,7 +8,7 @@
   "packageManager": "pnpm@10.11.0",
   "scripts": {
     "dev": "pnpm --filter ./apps/cms dev",
-    "build": "pnpm --recursive run build",
+    "build": "pnpm --filter cms build && pnpm --filter site build",
     "lint": "pnpm --recursive run lint",
     "format": "prettier --write .",
     "typecheck": "tsc -b",
