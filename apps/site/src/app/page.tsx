@@ -1,5 +1,5 @@
-import { BaseHomeHandler } from '@ui/handlers/home'
-import { SitePageFetcher } from '@site/lib/SitePageFetcher'
+import { BaseHomeHandler } from '@common/handlers/home'
+import { SitePageFetcher } from '@site/lib/sitePageFetcher'
 
 class SiteHomeHandler extends BaseHomeHandler {
   protected readonly fetcher = new SitePageFetcher()

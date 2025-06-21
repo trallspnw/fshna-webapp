@@ -1,5 +1,5 @@
-import { BaseHomeHandler } from '@ui/handlers/home'
-import { CmsPageFetcher } from '@cms/lib/CmsPageFetcher'
+import { BaseHomeHandler } from '@common/handlers/home'
+import { CmsPageFetcher } from '@cms/lib/cmsPageFetcher'
 
 class CmsHomeHandler extends BaseHomeHandler {
   protected readonly fetcher = new CmsPageFetcher()

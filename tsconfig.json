@@ -29,9 +29,8 @@
       "@cms/*": ["apps/cms/src/*"],
       "@site/*": ["apps/site/src/*"],
       "@payload-config": ["apps/cms/src/payload.config.ts"],
-      "@types/*": ["packages/types/src/*"],
-      "@types": ["packages/types/src/index.ts"],
-      "@ui/*": ["packages/ui/src/*"]
+      "@common/*": ["packages/common/src/*"],
+      "@common": ["packages/common/src/index.ts"],
     },
     "target": "ES2022"
   },

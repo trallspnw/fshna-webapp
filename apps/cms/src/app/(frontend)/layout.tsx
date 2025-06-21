@@ -1,4 +1,4 @@
-import { renderRootLayout, baseMetadata } from '@ui/layouts/layout'
+import { renderRootLayout, baseMetadata } from '@common/layouts/layout'
 
 export const metadata = baseMetadata
 

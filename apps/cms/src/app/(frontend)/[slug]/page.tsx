@@ -1,5 +1,5 @@
-import { BasePageHandler, RouteContext } from '@ui/handlers/page'
-import { CmsPageFetcher } from '@cms/lib/CmsPageFetcher'
+import { BasePageHandler, RouteContext } from '@common/handlers/page'
+import { CmsPageFetcher } from '@cms/lib/cmsPageFetcher'
 
 class CmsPageHandler extends BasePageHandler {
   protected fetcher = new CmsPageFetcher()

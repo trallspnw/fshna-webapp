@@ -1,7 +1,7 @@
 {
-  "name": "types",
+  "name": "common",
   "version": "1.0.0",
-  "description": "Shared TypeScript types for CMS and site.",
+  "description": "Shared types, components, and utilities for the FSHNA web app.",
   "type": "module",
   "exports": {
     ".": "./src/index.ts"

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import type { PageFetcher } from '@types'
+import type { PageFetcher } from '@common/fetchers/pageFetcher'
 import type { JSX } from 'react'
 
 export type RouteParams = {

@@ -1,5 +1,5 @@
-import { BasePageHandler, RouteContext } from '@ui/handlers/page'
-import { SitePageFetcher } from '@site/lib/SitePageFetcher'
+import { BasePageHandler, RouteContext } from '@common/handlers/page'
+import { SitePageFetcher } from '@site/lib/sitePageFetcher'
 
 class SitePageHandler extends BasePageHandler {
   protected readonly fetcher = new SitePageFetcher()
