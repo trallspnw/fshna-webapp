@@ -1,5 +1,5 @@
 import { Page } from '@types'
-import { PageFetcher } from '@ui/fetcher/PageFetcher'
+import { PageFetcher } from '@/packages/ui/src/fetchers/PageFetcher'
 
 export class SitePageFetcher extends PageFetcher {
   async getBySlug(slug: string): Promise<Page | null> {

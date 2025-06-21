@@ -1,13 +1,16 @@
-import renderPage from '@ui/routes/[slug]/page'
+import { BasePageHandler, RouteContext } from '@ui/handlers/page'
 import { CmsPageFetcher } from '@cms/lib/CmsPageFetcher'
 
-const CmsPage = (ctx: { params: Promise<{ slug: string }> }) =>
-  renderPage({ ...ctx, fetcher: new CmsPageFetcher() })
+class CmsPageHandler extends BasePageHandler {
+  protected fetcher = new CmsPageFetcher()
+}
 
-export default CmsPage
+const handler = new CmsPageHandler()
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug = 'home' } = await params
-  const page = await new CmsPageFetcher().getBySlug(slug)
-  return { title: page?.title }
+export default async function Page(context: RouteContext) {
+  return handler.render(context)
+}
+
+export async function generateMetadata(context: RouteContext) {
+    return handler.generateMetadata(context)
 }

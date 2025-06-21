@@ -1,13 +1,19 @@
-import renderHomepage from '@ui/routes/page'
+import { BaseHomeHandler } from '@ui/handlers/home'
 import { CmsPageFetcher } from '@cms/lib/CmsPageFetcher'
 
+class CmsHomeHandler extends BaseHomeHandler {
+  protected readonly fetcher = new CmsPageFetcher()
+}
+
+const handler = new CmsHomeHandler()
+
+// Prevents missing secret key errors
 export const dynamic = 'force-dynamic'
 
-const CmsPage = () => renderHomepage({ fetcher: new CmsPageFetcher() })
-
-export default CmsPage
+export default async function Page() {
+  return handler.render()
+}
 
 export async function generateMetadata() {
-  const page = await new CmsPageFetcher().getBySlug('home')
-  return { title: page?.title || 'FSHNA' }
+  return handler.generateMetadata()
 }

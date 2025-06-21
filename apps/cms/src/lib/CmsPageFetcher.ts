@@ -1,6 +1,6 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { PageFetcher } from '@ui/fetcher/PageFetcher'
+import { PageFetcher } from '@/packages/ui/src/fetchers/PageFetcher'
 import { Page } from '@types'
 
 export class CmsPageFetcher extends PageFetcher {
