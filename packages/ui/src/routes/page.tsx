@@ -4,16 +4,12 @@ type PageFetcher = {
   getBySlug(slug: string): Promise<Page | null>
 }
 
-export default async function renderPage({
-  params,
+export default async function renderHomepage({
   fetcher,
 }: {
-  params: Promise<{ slug: string }>
   fetcher: PageFetcher
 }) {
-  const resolvedParams = await Promise.resolve(params)
-  const { slug = 'home' } = resolvedParams
-  const page = await fetcher.getBySlug(slug)
+  const page = await fetcher.getBySlug('home')
 
   if (!page) return <div>Page not found</div>
 

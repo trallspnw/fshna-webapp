@@ -9,6 +9,6 @@
     "start": "next start",
     "lint": "next lint",
     "serve": "serve out -l 3001",
-    "dev:static": "pnpm build && pnpm serve -l 3001"
+    "dev:static": "pnpm build && serve out -l 3001"
   }
 }

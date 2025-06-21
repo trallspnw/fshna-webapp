@@ -1,19 +1,7 @@
-import React from 'react'
-import '@ui/styles/globals.css'
+import { renderRootLayout, baseMetadata } from '@ui/routes/layout'
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
-}
+export const metadata = baseMetadata
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
-
-  return (
-    <html lang="en">
-      <body>
-        <main>{children}</main>
-      </body>
-    </html>
-  )
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return renderRootLayout({ children })
 }

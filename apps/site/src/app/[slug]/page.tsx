@@ -10,3 +10,9 @@ export async function generateStaticParams() {
   const pages = await new SitePageFetcher().getAll()
   return pages.map((page) => ({ slug: page.slug }))
 }
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const page = await new SitePageFetcher().getBySlug(slug)
+  return { title: page?.title }
+}
