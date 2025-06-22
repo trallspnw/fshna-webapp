@@ -65,7 +65,9 @@ export interface Config {
   auth: {
     admins: AdminAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    'text-block': TextBlock;
+  };
   collections: {
     admins: Admin;
     media: Media;
@@ -117,6 +119,19 @@ export interface AdminAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "text-block".
+ */
+export interface TextBlock {
+  text?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admins".
  */
 export interface Admin {
@@ -157,9 +172,20 @@ export interface Media {
  */
 export interface Page {
   id: number;
-  title: string;
   slug: string;
+  title: string;
   content?: string | null;
+  blocks?:
+    | {
+        text?: {
+          en?: string | null;
+          es?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'text-block';
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -262,9 +288,25 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
-  title?: T;
   slug?: T;
+  title?: T;
   content?: T;
+  blocks?:
+    | T
+    | {
+        'text-block'?:
+          | T
+          | {
+              text?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
 }

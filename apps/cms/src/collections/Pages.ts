@@ -1,20 +1,19 @@
 import { CollectionConfig } from 'payload'
+import { TextBlock } from '@cms/blocks/TextBlock'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug'],
+    defaultColumns: [
+      'title', 
+      'slug', 
+    ],
   },
   access: {
     read: () => true,
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
     {
       name: 'slug',
       type: 'text',
@@ -22,8 +21,18 @@ export const Pages: CollectionConfig = {
       unique: true,
     },
     {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    {
       name: 'content',
       type: 'text',
+    },
+    {
+      name: 'blocks',
+      type: 'blocks',
+      blocks: [TextBlock],
     },
   ],
 }

@@ -8,6 +8,7 @@ import sharp from 'sharp'
 import { Admins } from './collections/Admins'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { TextBlock } from './blocks/TextBlock'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,4 +34,7 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
+  blocks: [
+    TextBlock,
+  ],
 })

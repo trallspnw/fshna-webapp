@@ -1,9 +1,9 @@
 import '@common/styles/globals.scss'
 import Logo from '../components/ui/Logo'
+import { LanguageSelector } from '../components/ui/LanguageSelector'
 
 type LayoutProps = {
   children: React.ReactNode
-  
 }
 
 export const baseMetadata = {
@@ -14,11 +14,14 @@ export const baseMetadata = {
 export function renderRootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
-      <body>{children}</body>
-      <Logo 
-        imageUrl='https://i.postimg.cc/9QVgK103/fshna-logo.png'
-        altText='Seminary Hill Natural Area Logo'
-      />
+      <body>
+        <Logo 
+          imageUrl='https://i.postimg.cc/9QVgK103/fshna-logo.png'
+          altText='Seminary Hill Natural Area Logo'
+        />
+        <LanguageSelector />
+        {children}
+        </body>
     </html>
   )
 }

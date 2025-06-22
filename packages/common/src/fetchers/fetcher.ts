@@ -1,4 +1,4 @@
 export abstract class Fetcher<T> {
-  abstract getBySlug(slug: string): Promise<T | null>
+  abstract get(slug: string): Promise<T>
   abstract getAll(): Promise<T[]>
 }

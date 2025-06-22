@@ -7,13 +7,11 @@
   "license": "UNLICENSED",
   "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "dev": "pnpm --filter ./apps/cms dev",
-    "build": "pnpm --filter cms build && pnpm --filter site build",
-    "lint": "pnpm --recursive run lint",
-    "format": "prettier --write .",
-    "typecheck": "tsc -b",
+    "cms": "pnpm --filter cms dev",
+    "site": "pnpm --filter site dev",
+    "db": "docker compose up -d postgres",
     "clean": "pnpm -r exec rm -rf dist .next node_modules out",
-    "static": "pnpm --filter site dev:static"
+    "types": "pnpm --filter cms generate:types"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.43.0",

@@ -1,16 +1,16 @@
-import { PageFetcher } from '@common/fetchers/pageFetcher'
+import { Fetcher } from '@common/fetchers/fetcher'
 import { Page } from '@common/types/payload-types'
 
-export class SitePageFetcher extends PageFetcher {
-  async getBySlug(slug: string): Promise<Page | null> {
+export class SitePageFetcher extends Fetcher<Page> {
+  async get(slug: string): Promise<Page> {
     const res = await fetch(`${process.env.CMS_URL}/api/pages?where[slug][equals]=${slug}`)
     const data = await res.json()
-    return data?.docs?.[0] || null
+    return data.docs[0] as Page
   }
 
   async getAll(): Promise<Page[]> {
     const res = await fetch(`${process.env.CMS_URL}/api/pages?limit=100`)
     const data = await res.json()
-    return data?.docs || []
+    return data.docs as Page[]
   }
 }
