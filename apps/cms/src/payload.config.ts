@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Admins } from './collections/Admins'
-import { Media } from './collections/Media'
+import { Events } from './collections/Events'
 import { Pages } from './collections/Pages'
 import { TextBlock } from './blocks/TextBlock'
 
@@ -20,7 +20,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Admins, Media, Pages],
+  collections: [Admins, Pages, Events],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
