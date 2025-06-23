@@ -6,7 +6,7 @@ export class SiteFetcher<T> extends Fetcher<T> {
   }
 
   async get(slug: string): Promise<T | null> {
-    const res = await fetch(`${process.env.CMS_URL}/api/pages?where[slug][equals]=${slug}`)
+    const res = await fetch(`${process.env.CMS_URL}/api/${this.collection}?where[slug][equals]=${slug}`)
     const data = await res.json()
     return (data.docs[0] as T) ?? null
   }

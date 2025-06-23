@@ -4,6 +4,7 @@ import type { JSX } from 'react'
 import { Event, TextBlock } from '@common/types/payload-types'
 import { Text } from '@common/components/blocks/Text'
 import { Language } from '@common/types/language'
+import { notFound } from 'next/navigation'
 
 export type RouteParams = { 
   slug: string,
@@ -20,7 +21,7 @@ export abstract class BaseEventHandler {
   async render(context: RouteContext): Promise<JSX.Element> {
     const event = await this.fetcher.get((await context.params).slug)
 
-    if (!event) return <span>404</span>
+    if (!event) notFound()
 
     return (
       <div>

@@ -4,6 +4,7 @@ import type { JSX } from 'react'
 import { Page, TextBlock } from '@common/types/payload-types'
 import { Text } from '@common/components/blocks/Text'
 import { Language } from '@common/types/language'
+import { notFound } from 'next/navigation'
 
 export type RouteParams = {
   slug: string,
@@ -20,11 +21,7 @@ export abstract class BasePageHandler {
   async render(context: RouteContext): Promise<JSX.Element> {
     const page = await this.fetcher.get((await context.params).slug)
 
-    if (!page) {
-      return (
-        <span>404</span>
-      )
-    }
+    if (!page) notFound()
 
     return (
       <div>
