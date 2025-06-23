@@ -1,8 +1,9 @@
+import { Page } from '@common/types/payload-types'
 import { BasePageHandler, RouteContext } from '@common/handlers/page'
-import { SitePageFetcher } from '@site/lib/sitePageFetcher'
+import { SiteFetcher } from '@site/lib/siteFetcher'
 
 class SitePageHandler extends BasePageHandler {
-  protected readonly fetcher = new SitePageFetcher()
+  protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
 
   async generateStaticParams() {
     const pages = await this.fetcher.getAll()
@@ -12,7 +13,7 @@ class SitePageHandler extends BasePageHandler {
 
 const handler = new SitePageHandler()
 
-export default async function Page(context: RouteContext) {
+export default async function render(context: RouteContext) {
   return handler.render(context)
 }
 

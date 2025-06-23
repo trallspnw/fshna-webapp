@@ -1,13 +1,14 @@
 import { BasePageHandler, RouteContext } from '@common/handlers/page'
-import { CmsPageFetcher } from '@cms/lib/cmsPageFetcher'
+import { CmsFetcher } from '@cms/lib/cmsFetcher'
+import { Page } from '@common/types/payload-types'
 
 class CmsPageHandler extends BasePageHandler {
-  protected fetcher = new CmsPageFetcher()
+  protected fetcher = new CmsFetcher<Page>(this.COLLECTION)
 }
 
 const handler = new CmsPageHandler()
 
-export default async function Page(context: RouteContext) {
+export default async function render(context: RouteContext) {
   return handler.render(context)
 }
 

@@ -14,6 +14,7 @@ export type RouteContext = {
 }
 
 export abstract class BasePageHandler {
+  protected readonly COLLECTION = 'pages'
   protected abstract fetcher: Fetcher<Page>
 
   async render(context: RouteContext): Promise<JSX.Element> {

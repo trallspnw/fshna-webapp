@@ -1,8 +1,9 @@
 import { BaseHomeHandler } from '@common/handlers/home'
-import { CmsPageFetcher } from '@cms/lib/cmsPageFetcher'
+import { CmsFetcher } from '@cms/lib/cmsFetcher'
+import { Page } from '@common/types/payload-types'
 
 class CmsHomeHandler extends BaseHomeHandler {
-  protected readonly fetcher = new CmsPageFetcher()
+  protected readonly fetcher = new CmsFetcher<Page>(this.COLLECTION)
 }
 
 const handler = new CmsHomeHandler()
@@ -10,7 +11,7 @@ const handler = new CmsHomeHandler()
 // Prevents missing secret key errors
 export const dynamic = 'force-dynamic'
 
-export default async function Page() {
+export default async function render() {
   return handler.render()
 }
 

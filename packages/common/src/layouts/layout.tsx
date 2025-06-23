@@ -11,7 +11,7 @@ export const baseMetadata = {
   title: 'Payload Blank Template',
 }
 
-export function renderRootLayout({ children }: LayoutProps) {
+export function render({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body>

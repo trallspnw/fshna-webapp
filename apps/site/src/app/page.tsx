@@ -1,13 +1,14 @@
+import { Page } from '@common/types/payload-types'
 import { BaseHomeHandler } from '@common/handlers/home'
-import { SitePageFetcher } from '@site/lib/sitePageFetcher'
+import { SiteFetcher } from '@site/lib/siteFetcher'
 
 class SiteHomeHandler extends BaseHomeHandler {
-  protected readonly fetcher = new SitePageFetcher()
+  protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
 }
 
 const handler = new SiteHomeHandler()
 
-export default async function Page() {
+export default async function render() {
   return handler.render()
 }
 
