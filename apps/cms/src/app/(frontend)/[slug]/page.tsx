@@ -1,6 +1,7 @@
-import { BasePageHandler, RouteContext } from '@common/handlers/page'
+import { BasePageHandler } from '@common/handlers/page'
 import { CmsFetcher } from '@cms/lib/cmsFetcher'
 import { Page } from '@common/types/payload-types'
+import { RouteContext } from '@common/handlers/baseContent'
 
 class CmsPageHandler extends BasePageHandler {
   protected fetcher = new CmsFetcher<Page>(this.COLLECTION)

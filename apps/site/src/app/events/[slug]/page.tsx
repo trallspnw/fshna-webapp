@@ -1,6 +1,7 @@
-import { BaseEventHandler, RouteContext } from '@common/handlers/event'
+import { BaseEventHandler } from '@common/handlers/event'
 import { SiteFetcher } from '@site/lib/siteFetcher'
 import { Event } from '@common/types/payload-types'
+import { RouteContext } from '@common/handlers/baseContent'
 
 class SiteEventHandler extends BaseEventHandler {
   protected readonly fetcher = new SiteFetcher<Event>(this.COLLECTION)

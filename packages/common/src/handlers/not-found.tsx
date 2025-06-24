@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { JSX } from 'react'
-import { BasePageHandler, RouteContext } from './page'
+import { BasePageHandler } from '@common/handlers/page'
+import { RouteContext } from '@common/handlers/baseContent'
 
 export abstract class BaseNotFoundHandler extends BasePageHandler {
   private readonly homeContext: RouteContext = {

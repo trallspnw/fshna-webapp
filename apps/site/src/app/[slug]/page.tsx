@@ -1,6 +1,7 @@
 import { Page } from '@common/types/payload-types'
-import { BasePageHandler, RouteContext } from '@common/handlers/page'
+import { BasePageHandler } from '@common/handlers/page'
 import { SiteFetcher } from '@site/lib/siteFetcher'
+import { RouteContext } from '@common/handlers/baseContent'
 
 class SitePageHandler extends BasePageHandler {
   protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
