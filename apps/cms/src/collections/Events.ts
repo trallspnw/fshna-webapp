@@ -1,5 +1,7 @@
 import { CollectionConfig } from 'payload'
-import { TextBlock } from '@cms/blocks/TextBlock'
+import { Hero } from '@cms/blocks/Hero'
+import { LocalizedTextField } from '@cms/fields/localizedTextField'
+import { DEFAULT_LANGUAGE } from '@common/types/language'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -10,6 +12,14 @@ export const Events: CollectionConfig = {
       'slug', 
     ],
   },
+  hooks: {
+      beforeValidate: [
+        ({ data }) => ({
+          ...data,
+          title: data?.localizedTitle?.[DEFAULT_LANGUAGE] || '[Missing Title]',
+        }),
+      ],
+    },
   access: {
     read: () => true,
   },
@@ -24,7 +34,11 @@ export const Events: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        hidden: true,
+      },
     },
+    LocalizedTextField('localizedTitle', 'Localized Title', true),
     {
       name: 'dateTime',
       label: 'Date and Time',
@@ -38,13 +52,12 @@ export const Events: CollectionConfig = {
       },
     },
     {
-      name: 'content',
-      type: 'text',
-    },
-    {
       name: 'blocks',
       type: 'blocks',
-      blocks: [TextBlock],
+      label: 'Content Blocks',
+      blocks: [
+        Hero,
+      ],
     },
   ],
 }

@@ -19,6 +19,7 @@
     "@payloadcms/payload-cloud": "3.43.0",
     "@payloadcms/richtext-lexical": "3.43.0",
     "@payloadcms/ui": "3.43.0",
+    "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "dotenv-flow": "^4.1.0",
     "graphql": "^16.11.0",

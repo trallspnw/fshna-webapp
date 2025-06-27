@@ -8,7 +8,8 @@ import sharp from 'sharp'
 import { Admins } from './collections/Admins'
 import { Events } from './collections/Events'
 import { Pages } from './collections/Pages'
-import { TextBlock } from './blocks/TextBlock'
+import { Hero } from './blocks/Hero'
+import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,7 +21,12 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Admins, Pages, Events],
+  collections: [
+    Admins, 
+    Pages, 
+    Events,
+    Media,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -35,6 +41,6 @@ export default buildConfig({
   sharp,
   plugins: [],
   blocks: [
-    TextBlock,
+    Hero,
   ],
 })

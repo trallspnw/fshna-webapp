@@ -13,3 +13,6 @@
 # TS
 *dist/
 *tsconfig.tsbuildinfo
+
+# cms
+apps/cms/media

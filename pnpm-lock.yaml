@@ -23,6 +23,9 @@ importers:
       '@payloadcms/ui':
         specifier: 3.43.0
         version: 3.43.0(@types/react@19.1.8)(monaco-editor@0.52.2)(next@15.3.4(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.89.2))(payload@3.43.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

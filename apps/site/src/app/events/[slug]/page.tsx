@@ -8,6 +8,10 @@ class SiteEventHandler extends BaseEventHandler {
 
   async generateStaticParams() {
     const events = await this.fetcher.getAll()
+    if (!Array.isArray(events) || events.length == 0) {
+      console.warn(`No ${this.COLLECTION} found - skipping static params`)
+      return [{ slug: '__fake__' }];
+    }
     return events.map((event) => ({ slug: event.slug }))
   }
 }

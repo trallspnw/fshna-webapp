@@ -1,19 +1,8 @@
 import type { Metadata } from 'next'
 import type { Fetcher } from '@common/fetchers/fetcher'
 import type { JSX } from 'react'
-import { textFromBlock } from '@common/handlers/blocks/text'
 import { notFound } from 'next/navigation'
-import { TextBlock } from '@common/types/payload-types'
-
-export type BlockTypeMap = {
-  'text-block': TextBlock
-}
-
-export type BaseBlock = BlockTypeMap[keyof BlockTypeMap]
-
-const blockRenderers: Record<string, (block: BaseBlock) => JSX.Element> = {
-  'text-block': textFromBlock,
-}
+import { BaseBlock, blockRenderers } from '@common/lib/blockConfig'
 
 export type RouteParams = { 
   slug: string,
@@ -40,9 +29,9 @@ export abstract class BaseContentHandler<T extends { slug: string; title: string
 
   private renderBlocks(blocks?: BaseBlock[] | null): JSX.Element[] {
     return (
-      blocks?.map((block) => {
+      blocks?.map((block, index) => {
         const render = blockRenderers[block.blockType]
-        return render ? render(block) : null
+        return render ? render(block, index) : null
       })
       .filter(Boolean) as JSX.Element[]
     )

@@ -8,6 +8,10 @@ class SitePageHandler extends BasePageHandler {
 
   async generateStaticParams() {
     const pages = await this.fetcher.getAll()
+    if (!Array.isArray(pages) || pages.length == 0) {
+      console.warn(`No ${this.COLLECTION} found - skipping static params`)
+      return [{ slug: '__fake__' }];
+    }
     return pages.map((page) => ({ slug: page.slug }))
   }
 }

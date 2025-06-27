@@ -4,7 +4,7 @@
   "description": "Static frontend for the FSHNA website.",
   "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "dev": "pnpm build && serve out -l 3001",
+    "dev": "APP_ENV=site pnpm build && cp -r ../cms/media out/media && serve out -l 3001",
     "build": "next build"
   }
 }

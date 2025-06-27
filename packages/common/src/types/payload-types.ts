@@ -66,12 +66,13 @@ export interface Config {
     admins: AdminAuthOperations;
   };
   blocks: {
-    'text-block': TextBlock;
+    hero: Hero;
   };
   collections: {
     admins: Admin;
     pages: Page;
     events: Event;
+    media: Media;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +82,7 @@ export interface Config {
     admins: AdminsSelect<false> | AdminsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -119,16 +121,57 @@ export interface AdminAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "text-block".
+ * via the `definition` "hero".
  */
-export interface TextBlock {
-  text?: {
+export interface Hero {
+  heading: {
+    en: string;
+    es?: string | null;
+  };
+  subheading?: {
     en?: string | null;
     es?: string | null;
   };
+  backgroundMedia: {
+    en: number | Media;
+    es?: (number | null) | Media;
+  };
+  ctas?:
+    | {
+        label: {
+          en: string;
+          es?: string | null;
+        };
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'text-block';
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  title?: string | null;
+  alt: {
+    en: string;
+    es?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -155,16 +198,37 @@ export interface Page {
   id: number;
   slug: string;
   title: string;
-  content?: string | null;
+  localizedTitle: {
+    en: string;
+    es?: string | null;
+  };
   blocks?:
     | {
-        text?: {
+        heading: {
+          en: string;
+          es?: string | null;
+        };
+        subheading?: {
           en?: string | null;
           es?: string | null;
         };
+        backgroundMedia: {
+          en: number | Media;
+          es?: (number | null) | Media;
+        };
+        ctas?:
+          | {
+              label: {
+                en: string;
+                es?: string | null;
+              };
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'text-block';
+        blockType: 'hero';
       }[]
     | null;
   updatedAt: string;
@@ -178,17 +242,38 @@ export interface Event {
   id: number;
   slug: string;
   title: string;
+  localizedTitle: {
+    en: string;
+    es?: string | null;
+  };
   dateTime: string;
-  content?: string | null;
   blocks?:
     | {
-        text?: {
+        heading: {
+          en: string;
+          es?: string | null;
+        };
+        subheading?: {
           en?: string | null;
           es?: string | null;
         };
+        backgroundMedia: {
+          en: number | Media;
+          es?: (number | null) | Media;
+        };
+        ctas?:
+          | {
+              label: {
+                en: string;
+                es?: string | null;
+              };
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'text-block';
+        blockType: 'hero';
       }[]
     | null;
   updatedAt: string;
@@ -212,6 +297,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -277,18 +366,47 @@ export interface AdminsSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   title?: T;
-  content?: T;
+  localizedTitle?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
   blocks?:
     | T
     | {
-        'text-block'?:
+        hero?:
           | T
           | {
-              text?:
+              heading?:
                 | T
                 | {
                     en?: T;
                     es?: T;
+                  };
+              subheading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              backgroundMedia?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              ctas?:
+                | T
+                | {
+                    label?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
+                    url?: T;
+                    id?: T;
                   };
               id?: T;
               blockName?: T;
@@ -304,19 +422,48 @@ export interface PagesSelect<T extends boolean = true> {
 export interface EventsSelect<T extends boolean = true> {
   slug?: T;
   title?: T;
+  localizedTitle?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
   dateTime?: T;
-  content?: T;
   blocks?:
     | T
     | {
-        'text-block'?:
+        hero?:
           | T
           | {
-              text?:
+              heading?:
                 | T
                 | {
                     en?: T;
                     es?: T;
+                  };
+              subheading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              backgroundMedia?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              ctas?:
+                | T
+                | {
+                    label?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
+                    url?: T;
+                    id?: T;
                   };
               id?: T;
               blockName?: T;
@@ -324,6 +471,30 @@ export interface EventsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  alt?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

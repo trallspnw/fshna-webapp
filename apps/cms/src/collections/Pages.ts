@@ -1,5 +1,7 @@
 import { CollectionConfig } from 'payload'
-import { TextBlock } from '@cms/blocks/TextBlock'
+import { Hero } from '@cms/blocks/Hero'
+import { LocalizedTextField } from '@cms/fields/localizedTextField'
+import { DEFAULT_LANGUAGE } from '@common/types/language'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -8,6 +10,14 @@ export const Pages: CollectionConfig = {
     defaultColumns: [
       'title', 
       'slug', 
+    ],
+  },
+  hooks: {
+    beforeValidate: [
+      ({ data }) => ({
+        ...data,
+        title: data?.localizedTitle?.[DEFAULT_LANGUAGE] || '[Missing Title]',
+      }),
     ],
   },
   access: {
@@ -24,15 +34,18 @@ export const Pages: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        hidden: true,
+      },
     },
-    {
-      name: 'content',
-      type: 'text',
-    },
+    LocalizedTextField('localizedTitle', 'Localized Title', true),
     {
       name: 'blocks',
       type: 'blocks',
-      blocks: [TextBlock],
+      label: 'Content Blocks',
+      blocks: [
+        Hero,
+      ],
     },
   ],
 }

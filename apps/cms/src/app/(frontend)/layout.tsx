@@ -1,6 +1,4 @@
-import { render as renderCommon, baseMetadata } from '@common/layouts/layout'
-
-export const metadata = baseMetadata
+import { render as renderCommon } from '@common/layouts/layout'
 
 export default function render({ children }: { children: React.ReactNode }) {
   return renderCommon({ children })
