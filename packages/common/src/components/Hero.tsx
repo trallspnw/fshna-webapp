@@ -4,7 +4,7 @@ import { useLanguage } from '@common/hooks/useLanguage'
 import { getLocalizedValue } from '@common/lib/translation'
 import { LocalizedMedia, LocalizedText } from '@common/types/language'
 import { Button, ButtonProps } from '@common/components/Button'
-import { Media } from '@common/components//Media'
+import { Media } from '@common/components/Media'
 import clsx from 'clsx'
 
 type HeroProps = {

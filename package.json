@@ -10,10 +10,13 @@
     "cms": "pnpm --filter cms dev",
     "site": "pnpm --filter site dev",
     "db": "docker compose up -d postgres",
-    "clean": "pnpm -r exec rm -rf dist .next node_modules out",
+    "clean": "pnpm -r exec rm -rf dist .next node_modules out && rm -rf .pnpm-store node_modules",
     "types": "pnpm --filter cms generate:types"
   },
   "dependencies": {
+    "@mantine/core": "^8.1.2",
+    "@mantine/form": "^8.1.2",
+    "@mantine/hooks": "^8.1.2",
     "@payloadcms/db-postgres": "3.43.0",
     "@payloadcms/next": "3.43.0",
     "@payloadcms/payload-cloud": "3.43.0",
@@ -40,6 +43,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "prettier": "^3.5.3",
     "sass": "^1.89.2",
+    "sass-embedded": "^1.89.2",
     "serve": "^14.2.4",
     "typescript": "5.8.3"
   },

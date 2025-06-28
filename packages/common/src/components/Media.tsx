@@ -37,6 +37,7 @@ export function Media({ media, className, fill, width, height, priority }: Media
   )
 }
 
+// todo - this isn't working properly on site/browser
 function rewriteMediaUrl(url: string) {
   if (app === 'site') {
     return url.replace(/^\/api\/media\/file/, '/media')
