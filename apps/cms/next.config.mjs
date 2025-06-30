@@ -4,9 +4,16 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   output: 'standalone',
 
+  env: {
+    APP_ENV: 'cms',
+  },
+
   sassOptions: {
     implementation: 'sass-embedded',
-    additionalData: `@use "@common/styles/mantine.scss" as mantine;`,
+    additionalData: `
+      @use "@common/styles/mantine.scss" as *;
+      @use "@common/styles/variables.scss" as *;
+    `,
   },
 
   webpack(config) {

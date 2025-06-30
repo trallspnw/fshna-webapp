@@ -19,8 +19,15 @@ export function getLocalizedValue<T>(
   current: Language,
   fallback?: T
 ): T {
-  const result = localized?.[current] ?? localized?.[DEFAULT_LANGUAGE]
-  if (result !== undefined) return result
-  if (typeof fallback !== 'undefined') return fallback
+  const currentValue = localized?.[current]
+  const defaultValue = localized?.[DEFAULT_LANGUAGE]
+
+  const isEmpty = (val: T | undefined): boolean =>
+    val === undefined || (typeof val === 'string' && val.trim() === '')
+
+  if (!isEmpty(currentValue)) return currentValue as T
+  if (!isEmpty(defaultValue)) return defaultValue as T
+  if (fallback !== undefined) return fallback
+
   return '' as T
 }

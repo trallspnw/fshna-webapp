@@ -5,8 +5,7 @@ import { getLocalizedValue } from '@common/lib/translation'
 import { LocalizedMedia } from '@common/types/language'
 import Image from 'next/image'
 import clsx from 'clsx'
-
-const app = process.env.APP_ENV;
+import { rewriteMediaUrl } from '@common/lib/mediaUtil'
 
 type MediaProps = {
   media: LocalizedMedia
@@ -35,12 +34,4 @@ export function Media({ media, className, fill, width, height, priority }: Media
       unoptimized
     />
   )
-}
-
-// todo - this isn't working properly on site/browser
-function rewriteMediaUrl(url: string) {
-  if (app === 'site') {
-    return url.replace(/^\/api\/media\/file/, '/media')
-  }
-  return url
 }
