@@ -196,11 +196,34 @@ export interface Admin {
  */
 export interface Page {
   id: number;
+  /**
+   * Part of the URL which routes to this page
+   */
   slug: string;
-  title: string;
-  localizedTitle: {
+  /**
+   * Used to identify this page in a list of pages
+   */
+  name: string;
+  /**
+   * Shows up in the browser tab and search results
+   */
+  pageTitle: {
     en: string;
     es?: string | null;
+  };
+  showInNav?: boolean | null;
+  /**
+   * Pages with lower values will be listed first
+   */
+  navigationOptions?: {
+    navOrder?: number | null;
+    /**
+     * Navigation link label
+     */
+    navLabel: {
+      en: string;
+      es?: string | null;
+    };
   };
   blocks?:
     | {
@@ -240,9 +263,18 @@ export interface Page {
  */
 export interface Event {
   id: number;
+  /**
+   * Part of the URL which routes to this event
+   */
   slug: string;
-  title: string;
-  localizedTitle: {
+  /**
+   * Used to identify this page in a list of events
+   */
+  name: string;
+  /**
+   * Shows up in the browser tab and search results
+   */
+  pageTitle: {
     en: string;
     es?: string | null;
   };
@@ -365,12 +397,24 @@ export interface AdminsSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
-  title?: T;
-  localizedTitle?:
+  name?: T;
+  pageTitle?:
     | T
     | {
         en?: T;
         es?: T;
+      };
+  showInNav?: T;
+  navigationOptions?:
+    | T
+    | {
+        navOrder?: T;
+        navLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
       };
   blocks?:
     | T
@@ -421,8 +465,8 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   slug?: T;
-  title?: T;
-  localizedTitle?:
+  name?: T;
+  pageTitle?:
     | T
     | {
         en?: T;

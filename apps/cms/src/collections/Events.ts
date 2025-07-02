@@ -1,25 +1,16 @@
 import { CollectionConfig } from 'payload'
 import { Hero } from '@cms/blocks/Hero'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
-import { DEFAULT_LANGUAGE } from '@common/types/language'
 
 export const Events: CollectionConfig = {
   slug: 'events',
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: 'name',
     defaultColumns: [
-      'title', 
+      'name', 
       'slug', 
     ],
   },
-  hooks: {
-      beforeValidate: [
-        ({ data }) => ({
-          ...data,
-          title: data?.localizedTitle?.[DEFAULT_LANGUAGE] || '[Missing Title]',
-        }),
-      ],
-    },
   access: {
     read: () => true,
   },
@@ -27,18 +18,29 @@ export const Events: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
+      label: 'Slug',
+      admin: {
+        description: 'Part of the URL which routes to this event'
+      },
       required: true,
       unique: true,
     },
     {
-      name: 'title',
+      name: 'name',
       type: 'text',
-      required: true,
+      label: 'Internal Name',
       admin: {
-        hidden: true,
+        description: 'Used to identify this page in a list of events'
       },
+      required: true,
+      unique: true,
     },
-    LocalizedTextField('localizedTitle', 'Localized Title', true),
+    LocalizedTextField(
+      'pageTitle', 
+      'Page Title', 
+      true, 
+      'Shows up in the browser tab and search results',
+    ),
     {
       name: 'dateTime',
       label: 'Date and Time',

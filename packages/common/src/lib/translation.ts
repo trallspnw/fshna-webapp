@@ -22,8 +22,8 @@ export function getLocalizedValue<T>(
   const currentValue = localized?.[current]
   const defaultValue = localized?.[DEFAULT_LANGUAGE]
 
-  const isEmpty = (val: T | undefined): boolean =>
-    val === undefined || (typeof val === 'string' && val.trim() === '')
+  const isEmpty = <T>(val: T | undefined | null): boolean =>
+    val == null || (typeof val === 'string' && val.trim() === '');
 
   if (!isEmpty(currentValue)) return currentValue as T
   if (!isEmpty(defaultValue)) return defaultValue as T

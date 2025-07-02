@@ -1,3 +1,5 @@
+import { NavItem } from '@/packages/common/src/types/nav'
+import { Page } from '@/packages/common/src/types/payload-types'
 import { Fetcher, FetchOptions } from '@common/fetchers/fetcher'
 
 export class SiteFetcher<T> extends Fetcher<T> {
@@ -12,6 +14,14 @@ export class SiteFetcher<T> extends Fetcher<T> {
   }
 
   async getAll(options: FetchOptions = {}): Promise<T[]> {
+    return this.getAllOfType<T>(options);
+  }
+
+  async getNavItems(): Promise<NavItem[]> {
+    return this.mapPagesToNavItems(await this.getAllOfType<Page>())
+  }
+
+  private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {
     const url = new URL(`${process.env.CMS_URL}/api/${this.collection}`)
     url.searchParams.set('limit', String(options.limit ?? 100))
 
@@ -22,6 +32,6 @@ export class SiteFetcher<T> extends Fetcher<T> {
 
     const res = await fetch(url.toString())
     const data = await res.json()
-    return data.docs as T[]
+    return data.docs as U[]
   }
 }

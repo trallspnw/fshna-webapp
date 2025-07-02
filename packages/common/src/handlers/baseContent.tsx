@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import type { Fetcher } from '@common/fetchers/fetcher'
 import type { JSX } from 'react'
 import { notFound } from 'next/navigation'
-import { BaseBlock, blockRenderers } from '@common/lib/blockConfig'
+import { BaseBlock, renderBlocks } from '@common/lib/blockUtil'
+import { BodyLayout } from '@common/components/BodyLayout'
+import { LocalizedText } from '@common/types/language'
+import { getLocalizedValue } from '@common/lib/translation'
 
 export type RouteParams = { 
   slug: string,
@@ -12,28 +15,35 @@ export type RouteContext = {
   params: Promise<RouteParams>, 
 }
 
-export abstract class BaseContentHandler<T extends { slug: string; title: string; blocks?: BaseBlock[] | null }> {
+export abstract class BaseContentHandler<T extends { slug: string; pageTitle: LocalizedText; blocks?: BaseBlock[] | null }> {
   protected abstract fetcher: Fetcher<T>
 
   async render(context: RouteContext): Promise<JSX.Element> {
     const content = await this.fetcher.get((await context.params).slug)
     if (!content) notFound()
 
-    return <>{this.renderBlocks(content.blocks)}</>
+    const navItems = await this.fetcher.getNavItems();
+    const blocks = content.blocks || []
+    const [firstBlock, ...remainingBlocks] = content.blocks || []
+    const isHero = firstBlock?.blockType === 'hero'
+    const heroBlock = isHero ? firstBlock : null
+    const bodyBlocks = isHero ? remainingBlocks : blocks
+
+    console.log(JSON.stringify(heroBlock))
+
+    return (
+      <BodyLayout
+        navItems={navItems}
+        hero={heroBlock ? renderBlocks([heroBlock]) : undefined}
+      >
+        {renderBlocks(bodyBlocks)}
+      </BodyLayout>
+    )
   }
 
   async generateMetadata(context: RouteContext): Promise<Metadata> {
     const content = await this.fetcher.get((await context.params).slug)
-    return content ? { title: content.title } : {}
-  }
-
-  private renderBlocks(blocks?: BaseBlock[] | null): JSX.Element[] {
-    return (
-      blocks?.map((block, index) => {
-        const render = blockRenderers[block.blockType]
-        return render ? render(block, index) : null
-      })
-      .filter(Boolean) as JSX.Element[]
-    )
+    // TODO - genereate for en/es
+    return content ? { title: getLocalizedValue(content.pageTitle, 'en') } : {}
   }
 }

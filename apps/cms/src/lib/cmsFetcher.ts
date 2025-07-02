@@ -1,6 +1,8 @@
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Fetcher, FetchOptions } from '@common/fetchers/fetcher'
+import { NavItem } from '@common/types/nav'
+import { Page } from '@common/types/payload-types'
 
 export class CmsFetcher<T> extends Fetcher<T> {
   constructor(private collection: string) {
@@ -22,8 +24,17 @@ export class CmsFetcher<T> extends Fetcher<T> {
   }
 
   async getAll(options: FetchOptions = {}): Promise<T[]> {
+    return this.getAllOfType<T>(options);
+  }
+
+  async getNavItems(): Promise<NavItem[]> {
+    return this.mapPagesToNavItems(await this.getAllOfType<Page>())
+  }
+
+  private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {
     const payload = await this.getPayloadInstance()
     const { limit = 100, sortOptions } = options
+
     const sort = sortOptions
       ? `${sortOptions.sortOrder === 'desc' ? '-' : ''}${sortOptions.sortBy}`
       : undefined
@@ -34,6 +45,6 @@ export class CmsFetcher<T> extends Fetcher<T> {
       ...(sort && { sort }),
     })
 
-    return result.docs as T[]
+    return result.docs as U[]
   }
 }
