@@ -1,17 +1,16 @@
-// Adapted from https://ui.mantine.dev/category/headers/
-
 'use client'
 
-import { Burger, Container, Group } from '@mantine/core'
+import { Burger, Container, Group, Anchor, Button, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import classes from './Nav.module.scss'
-import { getLocalizedValue } from '../lib/translation'
+import { getLocalizedValue } from '@common/lib/translation'
 import { useLanguage } from '../hooks/useLanguage'
 import { usePathname } from 'next/navigation'
-import { Link } from './Link'
-import clsx from 'clsx'
 import { LanguageSelector } from './LanguageSelector'
-import { NavItem } from '../types/nav'
+import { NavItem } from '@common/types/nav'
+import classes from './Nav.module.scss'
+import clsx from 'clsx'
+import NextLink from 'next/link'
+import { IconTrees } from '@tabler/icons-react'
 
 export type NavProps = {
   pages: NavItem[]
@@ -22,30 +21,48 @@ export function Nav({ pages }: NavProps) {
   const pathname = usePathname()
   const [opened, { toggle }] = useDisclosure(false)
 
-  const links = pages.map(({ href, label }) => (
-    <Link
-        key={href}
-        href={href}
-        className={clsx(
-          classes.link,
-          {
-            [classes.active]: pathname === href,
-          },
-        )}
-      >
+  const links = pages.map(({ href, label }, index) => (
+    <Button 
+      key={index}
+      component='a'
+      href={href}
+      variant='subtle'
+      className={clsx(
+        classes.link,
+        {
+          [classes.active]: pathname === href,
+        },
+      )}
+    >
       {getLocalizedValue(label, language)}
-    </Link>
+    </Button>
   ))
 
   return (
     <header className={classes.header}>
       <Container size="xl" className={classes.inner}>
-        <Link href='/'>Logo</Link>
-        <LanguageSelector />
-        <Group gap={5} visibleFrom="xs">
-          {links}
+        <Anchor component={NextLink} href="/" className={classes.link}>
+          <Group gap="xs">
+            <IconTrees size={20} />
+            <Text fw={600} size="md">Seminary Hill</Text>
+          </Group>
+        </Anchor>
+
+        <Group className={classes.inner_right} gap="sm">
+          <Group gap={5} visibleFrom="xs">
+            {links}
+          </Group>
+
+          <LanguageSelector />
+
+          <Burger
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="xs"
+            size="sm"
+            aria-label="Toggle navigation"
+          />
         </Group>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
       </Container>
     </header>
   )

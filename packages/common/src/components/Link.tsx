@@ -1,3 +1,6 @@
+'use client'
+
+import { Anchor } from '@mantine/core'
 import NextLink from 'next/link'
 
 type LinkProps = {
@@ -11,20 +14,24 @@ export function Link({ href, children, className }: LinkProps) {
 
   if (isExternal) {
     return (
-      <a
+      <Anchor
         href={href}
         className={className}
         target="_blank"
         rel="noopener noreferrer"
       >
         {children}
-      </a>
+      </Anchor>
     )
   }
 
   return (
-    <NextLink href={href} className={className}>
+    <Anchor
+      component={NextLink}
+      href={href}
+      className={className}
+    >
       {children}
-    </NextLink>
+    </Anchor>
   )
 }

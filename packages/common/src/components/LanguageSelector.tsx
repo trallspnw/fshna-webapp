@@ -2,24 +2,34 @@
 
 import { useLanguage } from '@common/hooks/useLanguage'
 import { SUPPORTED_LANGUAGES, LANGUAGE_LABELS } from '@common/types/language'
+import { Menu, Button } from '@mantine/core'
+import { IconChevronDown } from '@tabler/icons-react'
 
 export function LanguageSelector() {
   const [selectedLanguage, setLanguage] = useLanguage()
 
-  // Temp proof of concept layout
   return (
-    <div>
-      {SUPPORTED_LANGUAGES.map((language) => (
-        <button
-          key={language}
-          onClick={() => {
-            setLanguage(language)
-          }}
-          disabled={selectedLanguage === language}
+    <Menu withinPortal>
+      <Menu.Target>
+        <Button
+          variant="subtle"
+          rightSection={<IconChevronDown size={16} />}
         >
-          {LANGUAGE_LABELS[language]}
-        </button>
-      ))}
-    </div>
+          {selectedLanguage.toUpperCase()}
+        </Button>
+      </Menu.Target>
+
+      <Menu.Dropdown>
+        {SUPPORTED_LANGUAGES.map((language) => (
+          <Menu.Item
+            key={language}
+            onClick={() => setLanguage(language)}
+            disabled={selectedLanguage === language}
+          >
+            {LANGUAGE_LABELS[language]}
+          </Menu.Item>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   )
 }
