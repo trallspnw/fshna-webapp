@@ -18,7 +18,7 @@ export type BodyLayoutProps = {
 
 export function BodyLayout({ hero, navItems, children }: BodyLayoutProps) {
   return (
-    <body>
+    <body className={clsx(classes.body)}>
       <MantineProvider
         theme={theme}
       >
