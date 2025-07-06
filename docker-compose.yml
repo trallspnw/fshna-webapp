@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: apps/cms/Dockerfile
+      target: base
       args:
         NODE_ENV: ${NODE_ENV}
     user: "${UID}:${GID}"
@@ -31,3 +32,4 @@ services:
 volumes:
   pgdata:
   node_modules:
+  

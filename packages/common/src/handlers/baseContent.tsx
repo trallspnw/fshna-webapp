@@ -15,7 +15,13 @@ export type RouteContext = {
   params: Promise<RouteParams>, 
 }
 
-export abstract class BaseContentHandler<T extends { slug: string; pageTitle: LocalizedText; blocks?: BaseBlock[] | null }> {
+type ContentWithBlocks = {
+  slug: string
+  pageTitle: LocalizedText
+  blocks?: BaseBlock[] | null
+}
+
+export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   protected abstract fetcher: Fetcher<T>
 
   async render(context: RouteContext): Promise<JSX.Element> {

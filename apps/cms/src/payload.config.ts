@@ -10,6 +10,8 @@ import { Events } from './collections/Events'
 import { Pages } from './collections/Pages'
 import { Hero } from './blocks/Hero'
 import { Media } from './collections/Media'
+import { Paragraph } from './blocks/Paragraph'
+import { Section } from './blocks/Section'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,10 +39,13 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
+    push: true,
   }),
   sharp,
   plugins: [],
   blocks: [
     Hero,
+    Section,
+    Paragraph,
   ],
 })

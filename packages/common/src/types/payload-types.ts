@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {
     hero: Hero;
+    section: Section;
   };
   collections: {
     admins: Admin;
@@ -175,6 +176,37 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "section".
+ */
+export interface Section {
+  heading: {
+    en: string;
+    es?: string | null;
+  };
+  blocks?: Paragraph[] | null;
+  media: {
+    en: number | Media;
+    es?: (number | null) | Media;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Paragraph".
+ */
+export interface Paragraph {
+  text: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'paragraph';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admins".
  */
 export interface Admin {
@@ -226,33 +258,50 @@ export interface Page {
     };
   };
   blocks?:
-    | {
-        heading: {
-          en: string;
-          es?: string | null;
-        };
-        subheading?: {
-          en?: string | null;
-          es?: string | null;
-        };
-        backgroundMedia: {
-          en: number | Media;
-          es?: (number | null) | Media;
-        };
-        ctas?:
-          | {
-              label: {
-                en: string;
-                es?: string | null;
-              };
-              url: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
-      }[]
+    | (
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            subheading?: {
+              en?: string | null;
+              es?: string | null;
+            };
+            backgroundMedia: {
+              en: number | Media;
+              es?: (number | null) | Media;
+            };
+            ctas?:
+              | {
+                  label: {
+                    en: string;
+                    es?: string | null;
+                  };
+                  url: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            blocks?: Paragraph[] | null;
+            media: {
+              en: number | Media;
+              es?: (number | null) | Media;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'section';
+          }
+        | Paragraph
+      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -455,9 +504,47 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        section?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              blocks?:
+                | T
+                | {
+                    paragraph?: T | ParagraphSelect<T>;
+                  };
+              media?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        paragraph?: T | ParagraphSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Paragraph_select".
+ */
+export interface ParagraphSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

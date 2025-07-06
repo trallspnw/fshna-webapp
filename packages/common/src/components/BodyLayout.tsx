@@ -2,7 +2,9 @@
 
 import { createTheme, MantineProvider } from "@mantine/core"
 import { Nav } from "./Nav"
-import { NavItem } from "@common/types/nav";
+import { NavItem } from "@common/types/nav"
+import classes from './BodyLayout.module.scss'
+import clsx from "clsx"
 
 const theme = createTheme({
   // TODO - pull from globals
@@ -22,21 +24,9 @@ export function BodyLayout({ hero, navItems, children }: BodyLayoutProps) {
       >
         {hero && hero}
         <Nav pages={navItems}/>
-        {children}
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
-        <h1>test</h1>
+        <main className={clsx(classes.main)}>
+          {children}
+        </main>
       </MantineProvider>
     </body>
   )

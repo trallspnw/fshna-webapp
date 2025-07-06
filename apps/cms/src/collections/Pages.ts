@@ -1,5 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { Hero } from '@cms/blocks/Hero'
+import { Paragraph } from '@cms/blocks/Paragraph'
+import { Section } from '@cms/blocks/Section'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
 
 const hideFromNav = ['home', 'not-found']
@@ -80,9 +82,11 @@ export const Pages: CollectionConfig = {
     {
       name: 'blocks',
       type: 'blocks',
-      label: 'Content Blocks',
+      label: 'Page Content',
       blocks: [
         Hero,
+        Section,
+        Paragraph,
       ],
     },
   ],
