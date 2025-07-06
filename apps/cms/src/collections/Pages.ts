@@ -42,7 +42,7 @@ export const Pages: CollectionConfig = {
     LocalizedTextField(
       'pageTitle', 
       'Page Title', 
-      true, 
+      false, 
       'Shows up in the browser tab and search results',
     ),
     {

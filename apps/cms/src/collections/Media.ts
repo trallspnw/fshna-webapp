@@ -1,5 +1,4 @@
 import { CollectionConfig } from 'payload'
-import { LocalizedTextField } from '@cms/fields/localizedTextField'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -13,6 +12,5 @@ export const Media: CollectionConfig = {
       type: 'text',
       label: 'Title',
     },
-    LocalizedTextField('alt', 'Alt Text', true),
   ],
 }

@@ -5,11 +5,11 @@ import { useLanguage } from "../hooks/useLanguage"
 import { LocalizedText } from "../types/language"
 import { getLocalizedValue } from '../lib/translation'
 
-type TextProps = {
+type ParagraphProps = {
   text: LocalizedText
 }
 
-export function Text({ text }: TextProps) {
+export function Paragraph({ text }: ParagraphProps) {
   const [language] = useLanguage()
 
   return (

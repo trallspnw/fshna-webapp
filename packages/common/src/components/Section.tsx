@@ -15,6 +15,12 @@ export type SectionProps = {
 
 export function Section({ title, children, media }: SectionProps) {
   const [language] = useLanguage()
+  const mediaValue = getLocalizedValue(media, language)
+  const altText = getLocalizedValue(media?.altText, language) || ''
+
+  const url = typeof mediaValue === 'object' && mediaValue !== null
+    ? mediaValue.url ?? ''
+    : ''
 
   return (
     <section>
@@ -22,9 +28,12 @@ export function Section({ title, children, media }: SectionProps) {
       
       {children}
     
-      {media && <Media 
-        media={media}
-      />}
+      {url && (
+        <Media 
+          url={url}
+          alt={altText}
+        />
+      )}
     </section>
   )
 }

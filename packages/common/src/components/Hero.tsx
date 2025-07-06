@@ -6,9 +6,8 @@ import { useLanguage } from '@common/hooks/useLanguage'
 import { getLocalizedValue } from '@common/lib/translation'
 import { LocalizedMedia, LocalizedText } from '@common/types/language'
 import clsx from 'clsx'
-import { Overlay, Title, Text, Container } from '@mantine/core'
+import { Overlay, Title, Text, Container, Button } from '@mantine/core'
 import classes from './Hero.module.scss';
-import { Cta } from './Cta'
 import { rewriteMediaUrl } from '@common/lib/mediaUtil'
 
 type HeroProps = {
@@ -53,12 +52,16 @@ export function Hero({ heading, subheading, media, ctas, className }: HeroProps)
           {ctas && ctas?.length > 0 && (
             <div className={classes.controls}>
               {ctas.map((cta, index) => (
-                <Cta 
-                  key={index} 
-                  label={cta.label} 
-                  href={cta.href} 
-                  secondary={index !== 0}
-                />
+                <Button
+                  key={index}
+                  component='a'
+                  href={cta.href}
+                  size='lg'
+                  variant={index === 0 ? 'filled' : 'light'}
+                  className={clsx(classes.button)}
+                >
+                  {getLocalizedValue(cta.label, language)}
+                </Button>
               ))}
             </div>
           )}

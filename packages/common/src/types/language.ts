@@ -17,4 +17,8 @@ export const DEFAULT_LANGUAGE: Language = LANGUAGES.EN;
 export type Language = (typeof LANGUAGES)[keyof typeof LANGUAGES];
 
 export type LocalizedText = Partial<Record<Language, string | null>>
-export type LocalizedMedia = Partial<Record<Language, Media | null>>
+export type LocalizedMedia = {
+  [key in Language]?: number | Media | null
+} & {
+  altText?: LocalizedText
+}

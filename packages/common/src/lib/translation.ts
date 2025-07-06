@@ -1,20 +1,5 @@
 import { DEFAULT_LANGUAGE, Language } from "@common/types/language"
 
-export function normalizeLocalization<T>(
-  input: Partial<Record<string, T | number | null>> | undefined
-): Partial<Record<Language, T>> {
-  const result: Partial<Record<Language, T>> = {}
-
-  for (const [language, value] of Object.entries(input ?? {})) {
-    if (value != null && typeof value === 'object') {
-      result[language as Language] = value as T
-    }
-  }
-
-  return result
-}
-
-
 export function getLocalizedValue<T>(
   localized: Partial<Record<Language, T>> | undefined,
   current: Language,

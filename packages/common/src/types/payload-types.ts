@@ -133,9 +133,13 @@ export interface Hero {
     en?: string | null;
     es?: string | null;
   };
-  backgroundMedia: {
-    en: number | Media;
+  backgroundMedia?: {
+    en?: (number | null) | Media;
     es?: (number | null) | Media;
+    altText?: {
+      en?: string | null;
+      es?: string | null;
+    };
   };
   ctas?:
     | {
@@ -158,10 +162,6 @@ export interface Hero {
 export interface Media {
   id: number;
   title?: string | null;
-  alt: {
-    en: string;
-    es?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -184,9 +184,13 @@ export interface Section {
     es?: string | null;
   };
   blocks?: Paragraph[] | null;
-  media: {
-    en: number | Media;
+  media?: {
+    en?: (number | null) | Media;
     es?: (number | null) | Media;
+    altText?: {
+      en?: string | null;
+      es?: string | null;
+    };
   };
   id?: string | null;
   blockName?: string | null;
@@ -239,8 +243,8 @@ export interface Page {
   /**
    * Shows up in the browser tab and search results
    */
-  pageTitle: {
-    en: string;
+  pageTitle?: {
+    en?: string | null;
     es?: string | null;
   };
   showInNav?: boolean | null;
@@ -268,9 +272,13 @@ export interface Page {
               en?: string | null;
               es?: string | null;
             };
-            backgroundMedia: {
-              en: number | Media;
+            backgroundMedia?: {
+              en?: (number | null) | Media;
               es?: (number | null) | Media;
+              altText?: {
+                en?: string | null;
+                es?: string | null;
+              };
             };
             ctas?:
               | {
@@ -292,9 +300,13 @@ export interface Page {
               es?: string | null;
             };
             blocks?: Paragraph[] | null;
-            media: {
-              en: number | Media;
+            media?: {
+              en?: (number | null) | Media;
               es?: (number | null) | Media;
+              altText?: {
+                en?: string | null;
+                es?: string | null;
+              };
             };
             id?: string | null;
             blockName?: string | null;
@@ -338,9 +350,13 @@ export interface Event {
           en?: string | null;
           es?: string | null;
         };
-        backgroundMedia: {
-          en: number | Media;
+        backgroundMedia?: {
+          en?: (number | null) | Media;
           es?: (number | null) | Media;
+          altText?: {
+            en?: string | null;
+            es?: string | null;
+          };
         };
         ctas?:
           | {
@@ -488,6 +504,12 @@ export interface PagesSelect<T extends boolean = true> {
                 | {
                     en?: T;
                     es?: T;
+                    altText?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
                   };
               ctas?:
                 | T
@@ -523,6 +545,12 @@ export interface PagesSelect<T extends boolean = true> {
                 | {
                     en?: T;
                     es?: T;
+                    altText?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
                   };
               id?: T;
               blockName?: T;
@@ -583,6 +611,12 @@ export interface EventsSelect<T extends boolean = true> {
                 | {
                     en?: T;
                     es?: T;
+                    altText?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
                   };
               ctas?:
                 | T
@@ -609,12 +643,6 @@ export interface EventsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   title?: T;
-  alt?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   url?: T;

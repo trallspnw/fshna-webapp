@@ -1,13 +1,12 @@
 import { JSX } from "react";
-import { Paragraph } from '@common/types/payload-types'
-import { normalizeLocalization } from "../../lib/translation";
-import { Text } from "@common/components/Text"
+import { Paragraph } from "../../components/Paragraph";
+import { Paragraph as ParagraphType } from '@common/types/payload-types' 
 
-export function render(block: Paragraph, index: number): JSX.Element {
+export function render(block: ParagraphType, index: number): JSX.Element {
   return (
-    <Text
+    <Paragraph
       key={index}
-      text={normalizeLocalization(block.text)}
+      text={block.text}
     />
   )
 }
