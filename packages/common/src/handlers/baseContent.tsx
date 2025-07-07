@@ -35,8 +35,6 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     const heroBlock = isHero ? firstBlock : null
     const bodyBlocks = isHero ? remainingBlocks : blocks
 
-    console.log(JSON.stringify(heroBlock))
-
     return (
       <BodyLayout
         navItems={navItems}

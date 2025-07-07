@@ -2,8 +2,16 @@
   min-width: $min-width;
 }
 
+.bodyInner {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .main {
+  flex: 1;
+  width: 100%;
   max-width: $max-width;
   margin: 0 auto;
-  padding: 0 $spacing-md;
+  padding: 0 var(--mantine-spacing-md);
 }

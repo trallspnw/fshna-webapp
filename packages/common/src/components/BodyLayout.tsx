@@ -5,6 +5,7 @@ import { Nav } from "./Nav"
 import { NavItem } from "@common/types/nav"
 import classes from './BodyLayout.module.scss'
 import clsx from "clsx"
+import { Footer } from "./Footer"
 
 // TODO - placeholder theme - this should be pulled from payload globals
 const forestGreen: MantineColorsTuple = [
@@ -62,11 +63,51 @@ export function BodyLayout({ hero, navItems, children }: BodyLayoutProps) {
       <MantineProvider
         theme={theme}
       >
-        {hero && hero}
-        <Nav pages={navItems}/>
-        <main className={clsx(classes.main)}>
-          {children}
-        </main>
+        <div className={clsx(classes.bodyInner)}>
+          {hero && hero}
+          <Nav pages={navItems}/>
+          <main className={clsx(classes.main)}>
+            {children}
+          </main>
+
+          {/* TODO - Placeholder footer */}
+          <Footer
+            description="Connect with nature."
+            linkGroups={[
+              {
+                title: 'Explore',
+                links: [
+                  { href: '/visit', label: { en: 'Visit', es: 'Visitar' } },
+                  { href: '/map', label: { en: 'Map', es: 'Mapa' } },
+                  { href: '/events', label: { en: 'Events', es: 'Eventos' } },
+                ],
+              },
+              {
+                title: 'Explore',
+                links: [
+                  { href: '/visit', label: { en: 'Visit', es: 'Visitar' } },
+                  { href: '/map', label: { en: 'Map', es: 'Mapa' } },
+                  { href: '/events', label: { en: 'Events', es: 'Eventos' } },
+                ],
+              },
+              {
+                title: 'Explore',
+                links: [
+                  { href: '/visit', label: { en: 'Visit', es: 'Visitar' } },
+                  { href: '/map', label: { en: 'Map', es: 'Mapa' } },
+                  { href: '/events', label: { en: 'Events', es: 'Eventos' } },
+                ],
+              },
+            ]}
+            socialLinks={{
+              facebook: 'https://facebook.com/fshna',
+              instagram: 'https://instagram.com/fshna',
+              x: 'https://x.com/fshna',
+              youtube: '',
+              bluesky: '',
+            }}
+          />
+        </div>
       </MantineProvider>
     </body>
   )
