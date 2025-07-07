@@ -1,0 +1,3 @@
+.paragraph:not(:last-child) {
+  margin-bottom: var(--mantine-spacing-xl);
+}

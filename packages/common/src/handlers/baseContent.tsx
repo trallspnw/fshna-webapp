@@ -17,7 +17,7 @@ export type RouteContext = {
 
 type ContentWithBlocks = {
   slug: string
-  pageTitle: LocalizedText
+  pageTitle?: LocalizedText
   blocks?: BaseBlock[] | null
 }
 

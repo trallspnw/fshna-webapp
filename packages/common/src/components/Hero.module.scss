@@ -1,34 +1,34 @@
 // Adapted from https://ui.mantine.dev/category/hero/
 
 .container {
-  display: flex;
-  justify-content: center;
   background-color: gray;
-  min-height: 400px;
   height: 80vh;
+  flex-shrink: 0;
+  min-height: 400px;
   max-height: 1000px;
+  position: relative;
 }
 
 .wrapper {
-  width: $max-width-wide;
+  height: 100%;
+  width: 100%;
+  max-width: $max-width-wide;
   position: relative;
-  padding-top: 180px;
-  padding-bottom: 130px;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 
-  @media (max-width: $mantine-breakpoint-xs) {
-    padding-top: 80px;
-    padding-bottom: 50px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mantine-spacing-xl);
 }
 
 .inner {
-  position: relative;
   max-width: $max-width;
-  padding: var(--mantine-spacing-md);
   margin: 0 auto;
   z-index: 1;
+  text-align: center;
 }
 
 .title {
@@ -39,19 +39,11 @@
   margin-bottom: var(--mantine-spacing-xs);
   text-align: center;
   font-family: Outfit, var(--mantine-font-family);
-
-  @media (max-width: $mantine-breakpoint-xs) {
-    font-size: 28px;
-  }
 }
 
 .description {
   color: var(--mantine-color-gray-0);
   text-align: center;
-
-  @media (max-width: $mantine-breakpoint-xs) {
-    font-size: var(--mantine-font-size-md);
-  }
 }
 
 .controls {

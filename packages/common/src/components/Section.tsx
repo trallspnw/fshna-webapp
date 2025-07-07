@@ -26,16 +26,26 @@ export function Section({ title, children, media }: SectionProps) {
 
   return (
     <section className={clsx(classes.section)}>
-      <Title order={2}>{getLocalizedValue(title, language)}</Title>
+      <Title order={2} className={clsx(classes.title)}>
+        {getLocalizedValue(title, language)}
+      </Title>
       
-      {children}
-    
-      {url && (
-        <Media 
-          url={url}
-          alt={altText}
-        />
-      )}
+      <div
+        className={clsx(
+          classes.contentRow,
+          !url && classes.noImage
+        )}
+      >
+        <div className={classes.text}>
+          {children}
+        </div>
+
+        {url && (
+          <div className={classes.image}>
+            <Media url={url} alt={altText} />
+          </div>
+        )}
+      </div>
     </section>
   )
 }

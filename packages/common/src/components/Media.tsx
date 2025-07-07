@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { Image } from '@mantine/core';
 import clsx from 'clsx'
 import { rewriteMediaUrl } from '@common/lib/mediaUtil'
 import classes from './Media.module.scss'
@@ -13,14 +13,11 @@ export type MediaProps = {
 
 export function Media({ url, alt, className }: MediaProps) {
   return (
-    <div className={clsx(classes.container, className)}>
-      <Image
-        src={rewriteMediaUrl(url)}
-        alt={alt}
-        className={clsx(classes.image, className)}
-        fill={true}
-        unoptimized
-      />
-    </div>
+    <Image
+      src={rewriteMediaUrl(url)}
+      alt={alt}
+      radius='md'
+      className={clsx(classes.image, className)}
+    />
   )
 }

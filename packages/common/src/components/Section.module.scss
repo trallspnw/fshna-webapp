@@ -1,3 +1,52 @@
 .section {
   margin-bottom: var(--mantine-spacing-xl);
 }
+
+.title {
+  margin-bottom: var(--mantine-spacing-lg);
+  text-align: center;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    text-align: left;
+  }
+}
+
+.contentRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-lg);
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    flex-direction: row;
+    gap: var(--mantine-spacing-xl);
+    align-items: flex-start;
+  }
+}
+
+.noImage {
+  @media (min-width: $mantine-breakpoint-sm) {
+    flex-direction: column;
+  }
+}
+
+.text {
+  flex: 1;
+  max-width: 100%;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    max-width: 60%;
+  }
+
+  .noImage & {
+    max-width: 100%;
+  }
+}
+
+.image {
+  flex: 1;
+  max-width: 100%;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    max-width: 40%;
+  }
+}
