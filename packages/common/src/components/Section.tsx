@@ -6,6 +6,8 @@ import { useLanguage } from "../hooks/useLanguage"
 import { Title } from "@mantine/core"
 import { getLocalizedValue } from "../lib/translation"
 import { Media } from "./Media"
+import clsx from "clsx"
+import classes from './Section.module.scss'
 
 export type SectionProps = {
   title: LocalizedText
@@ -23,7 +25,7 @@ export function Section({ title, children, media }: SectionProps) {
     : ''
 
   return (
-    <section>
+    <section className={clsx(classes.section)}>
       <Title order={2}>{getLocalizedValue(title, language)}</Title>
       
       {children}

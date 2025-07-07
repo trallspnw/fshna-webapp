@@ -39,7 +39,7 @@ export function Nav({ pages }: NavProps) {
   ))
 
   return (
-    <header className={classes.header}>
+    <header className={classes.nav}>
       <Container size="xl" className={classes.inner}>
         <Anchor component={NextLink} href="/" className={classes.link}>
           <Group gap="xs">

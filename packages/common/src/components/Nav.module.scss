@@ -1,14 +1,17 @@
 // Adapted from https://ui.mantine.dev/category/headers/
 
-.header {
+.nav {
   height: 56px;
   position: sticky;
   top: 0;
   background-color: var(--mantine-color-body);
   border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  margin-bottom: var(--mantine-spacing-xl);
 }
 
 .inner {
+  max-width: $max-width;
+  padding: 0 var(--mantine-spacing-md);
   height: 56px;
   display: flex;
   justify-content: space-between;

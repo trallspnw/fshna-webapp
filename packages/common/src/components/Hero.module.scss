@@ -25,6 +25,9 @@
 
 .inner {
   position: relative;
+  max-width: $max-width;
+  padding: var(--mantine-spacing-md);
+  margin: 0 auto;
   z-index: 1;
 }
 
@@ -32,8 +35,6 @@
   font-weight: 800;
   font-size: 40px;
   letter-spacing: -1px;
-  padding-left: var(--mantine-spacing-md);
-  padding-right: var(--mantine-spacing-md);
   color: var(--mantine-color-white);
   margin-bottom: var(--mantine-spacing-xs);
   text-align: center;
@@ -60,7 +61,5 @@
   gap: var(--mantine-spacing-md);
   flex-wrap: wrap-reverse;
   justify-content: center;
-  padding-left: var(--mantine-spacing-md);
-  padding-right: var(--mantine-spacing-md);
 }
 
