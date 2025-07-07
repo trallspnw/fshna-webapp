@@ -16,7 +16,8 @@ export function EventCardGrid({ events, rows, showMoreLabel }: EventCardGridProp
   const isLg = useMediaQuery('(min-width: 1200px)')
   const isMd = useMediaQuery('(min-width: 900px)')
 
-  const columns = isLg ? 4 : isMd ? 3 : 2
+  const desiredColumns = isLg ? 4 : isMd ? 3 : 2
+  const columns = Math.min(desiredColumns, events.length)
   const [visibleRows, setVisibleRows] = useState(rows)
   const visibleCount = visibleRows * columns
 

@@ -1,0 +1,18 @@
+.section {
+  margin-bottom: var(--mantine-spacing-xl);
+}
+
+.title {
+  margin-bottom: var(--mantine-spacing-lg);
+  text-align: center;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    text-align: left;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
