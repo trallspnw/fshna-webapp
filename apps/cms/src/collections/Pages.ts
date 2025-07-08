@@ -3,6 +3,7 @@ import { Hero } from '@cms/blocks/Hero'
 import { Paragraph } from '@cms/blocks/Paragraph'
 import { Section } from '@cms/blocks/Section'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
+import { LinkButton } from '../blocks/LinkButton'
 
 const hideFromNav = ['home', 'not-found']
 
@@ -87,6 +88,7 @@ export const Pages: CollectionConfig = {
         Hero,
         Section,
         Paragraph,
+        LinkButton,
       ],
     },
   ],

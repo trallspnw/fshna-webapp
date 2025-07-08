@@ -183,7 +183,7 @@ export interface Section {
     en: string;
     es?: string | null;
   };
-  blocks?: Paragraph[] | null;
+  blocks?: (Paragraph | LinkButton)[] | null;
   media?: {
     en?: (number | null) | Media;
     es?: (number | null) | Media;
@@ -208,6 +208,20 @@ export interface Paragraph {
   id?: string | null;
   blockName?: string | null;
   blockType: 'paragraph';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkButton".
+ */
+export interface LinkButton {
+  label: {
+    en: string;
+    es?: string | null;
+  };
+  url: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'linkButton';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -299,7 +313,7 @@ export interface Page {
               en: string;
               es?: string | null;
             };
-            blocks?: Paragraph[] | null;
+            blocks?: (Paragraph | LinkButton)[] | null;
             media?: {
               en?: (number | null) | Media;
               es?: (number | null) | Media;
@@ -313,6 +327,7 @@ export interface Page {
             blockType: 'section';
           }
         | Paragraph
+        | LinkButton
       )[]
     | null;
   updatedAt: string;
@@ -539,6 +554,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     paragraph?: T | ParagraphSelect<T>;
+                    linkButton?: T | LinkButtonSelect<T>;
                   };
               media?:
                 | T
@@ -556,6 +572,7 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         paragraph?: T | ParagraphSelect<T>;
+        linkButton?: T | LinkButtonSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -571,6 +588,21 @@ export interface ParagraphSelect<T extends boolean = true> {
         en?: T;
         es?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LinkButton_select".
+ */
+export interface LinkButtonSelect<T extends boolean = true> {
+  label?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  url?: T;
   id?: T;
   blockName?: T;
 }
