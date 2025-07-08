@@ -1,6 +1,8 @@
 import { CollectionConfig } from 'payload'
-import { Hero } from '@cms/blocks/Hero'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
+import { LocalizedMediaField } from '../fields/localizedMediaField'
+import { Paragraph } from '../blocks/Paragraph'
+import { LinkButton } from '../blocks/LinkButton'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -53,13 +55,24 @@ export const Events: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    LocalizedTextField(
+      'location', 
+      'Location', 
+      true,
+    ),
+    LocalizedMediaField(
+      'media', 
+      'Event Image',
+      true,
+    ),
     {
       name: 'blocks',
       type: 'blocks',
-      label: 'Content Blocks',
+      label: 'Section Content',
       blocks: [
-        Hero,
-      ],
+        Paragraph,
+        LinkButton
+      ]
     },
   ],
 }

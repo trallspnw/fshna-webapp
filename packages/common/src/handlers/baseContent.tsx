@@ -24,6 +24,10 @@ type ContentWithBlocks = {
 export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   protected abstract fetcher: Fetcher<T>
 
+  protected renderBeforeBody(context: RouteContext, content: T): JSX.Element | null {
+    return null
+  }
+
   async render(context: RouteContext): Promise<JSX.Element> {
     const content = await this.fetcher.get((await context.params).slug)
     if (!content) notFound()
@@ -40,6 +44,7 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
         navItems={navItems}
         hero={heroBlock ? renderBlocks([heroBlock]) : undefined}
       >
+        {this.renderBeforeBody(context, content)}
         {renderBlocks(bodyBlocks)}
       </BodyLayout>
     )

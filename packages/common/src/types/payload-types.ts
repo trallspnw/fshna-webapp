@@ -355,39 +355,19 @@ export interface Event {
     es?: string | null;
   };
   dateTime: string;
-  blocks?:
-    | {
-        heading: {
-          en: string;
-          es?: string | null;
-        };
-        subheading?: {
-          en?: string | null;
-          es?: string | null;
-        };
-        backgroundMedia?: {
-          en?: (number | null) | Media;
-          es?: (number | null) | Media;
-          altText?: {
-            en?: string | null;
-            es?: string | null;
-          };
-        };
-        ctas?:
-          | {
-              label: {
-                en: string;
-                es?: string | null;
-              };
-              url: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'hero';
-      }[]
-    | null;
+  location: {
+    en: string;
+    es?: string | null;
+  };
+  media: {
+    en: number | Media;
+    es?: (number | null) | Media;
+    altText: {
+      en: string;
+      es?: string | null;
+    };
+  };
+  blocks?: (Paragraph | LinkButton)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -620,51 +600,29 @@ export interface EventsSelect<T extends boolean = true> {
         es?: T;
       };
   dateTime?: T;
+  location?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  media?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+        altText?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+      };
   blocks?:
     | T
     | {
-        hero?:
-          | T
-          | {
-              heading?:
-                | T
-                | {
-                    en?: T;
-                    es?: T;
-                  };
-              subheading?:
-                | T
-                | {
-                    en?: T;
-                    es?: T;
-                  };
-              backgroundMedia?:
-                | T
-                | {
-                    en?: T;
-                    es?: T;
-                    altText?:
-                      | T
-                      | {
-                          en?: T;
-                          es?: T;
-                        };
-                  };
-              ctas?:
-                | T
-                | {
-                    label?:
-                      | T
-                      | {
-                          en?: T;
-                          es?: T;
-                        };
-                    url?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
+        paragraph?: T | ParagraphSelect<T>;
+        linkButton?: T | LinkButtonSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;

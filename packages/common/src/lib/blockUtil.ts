@@ -1,7 +1,8 @@
-import { Hero, Section, Paragraph } from "@common/types/payload-types";
+import { Hero, Section, Paragraph, LinkButton } from "@common/types/payload-types";
 import { render as renderHero } from '@common/handlers/blocks/hero'
 import { render as renderSection } from '@common/handlers/blocks/section'
 import { render as renderParagraph } from '@common/handlers/blocks/paragraph'
+import { render as renderLinkButton } from '@common/handlers/blocks/linkButton'
 import { JSX } from "react";
 
 export const blockRegistry = {
@@ -16,6 +17,10 @@ export const blockRegistry = {
   section: {
     render: renderSection,
     type: {} as Section,
+  },
+  linkButton: {
+    render: renderLinkButton,
+    type: {} as LinkButton,
   },
 }
 
