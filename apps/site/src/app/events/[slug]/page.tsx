@@ -1,10 +1,14 @@
 import { BaseEventHandler } from '@common/handlers/event'
 import { SiteFetcher } from '@site/lib/siteFetcher'
-import { Event } from '@common/types/payload-types'
+import { Event, Page } from '@common/types/payload-types'
 import { RouteContext } from '@common/handlers/baseContent'
 
 class SiteEventHandler extends BaseEventHandler {
   protected readonly fetcher = new SiteFetcher<Event>(this.COLLECTION)
+    protected readonly allFetchers = {
+    page: new SiteFetcher<Page>('pages'),
+    event: this.fetcher,
+  }
 
   async generateStaticParams() {
     const events = await this.fetcher.getAll()

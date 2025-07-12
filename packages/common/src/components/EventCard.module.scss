@@ -2,20 +2,17 @@
 
 .card {
   position: relative;
-  height: 256px;
+  height: 192px;
   background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-
-  @mixin hover {
-    & .image {
-      transform: scale(1.03);
-    }
-  }
+  width: 100%;
+  max-width: 400px;
 }
 
 .image {
   position: absolute;
   inset: 0;
   background-size: cover;
+  background-position: center; 
   transition: transform 500ms ease;
 }
 

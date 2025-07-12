@@ -4,6 +4,10 @@ import { Page } from '@common/types/payload-types'
 
 class CmsNotFoundHandler extends BaseNotFoundHandler {
   protected readonly fetcher = new CmsFetcher<Page>(this.COLLECTION)
+  protected readonly allFetchers = {
+    page: this.fetcher,
+    event: new CmsFetcher<Event>('events'),
+  }
 }
 
 const handler = new CmsNotFoundHandler()

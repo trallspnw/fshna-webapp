@@ -2,8 +2,9 @@ import { JSX } from "react";
 import { Section as SectionType } from '@common/types/payload-types'
 import { Section } from "../../components/Section";
 import { renderBlocks } from "../../lib/blockUtil";
+import { Fetchers } from "../../fetchers/fetcher";
 
-export function render(block: SectionType, index: number): JSX.Element {
+export function render(block: SectionType, index: number, fetchers: Fetchers): JSX.Element {
   return (
     <Section 
       key={index}
@@ -11,7 +12,7 @@ export function render(block: SectionType, index: number): JSX.Element {
       media={block.media}
     >
       <>
-        {renderBlocks(block.blocks)}
+        {block.blocks && renderBlocks(block.blocks, fetchers)}
       </>
     </Section>
   )

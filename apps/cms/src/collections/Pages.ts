@@ -4,6 +4,7 @@ import { Paragraph } from '@cms/blocks/Paragraph'
 import { Section } from '@cms/blocks/Section'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
 import { LinkButton } from '../blocks/LinkButton'
+import { EventCardGrid } from '../blocks/EventCardGrid'
 
 const hideFromNav = ['home', 'not-found']
 
@@ -86,6 +87,7 @@ export const Pages: CollectionConfig = {
       label: 'Page Content',
       blocks: [
         Hero,
+        EventCardGrid,
         Section,
         Paragraph,
         LinkButton,

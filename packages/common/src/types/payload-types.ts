@@ -308,6 +308,7 @@ export interface Page {
             blockName?: string | null;
             blockType: 'hero';
           }
+        | EventCardGrid
         | {
             heading: {
               en: string;
@@ -332,6 +333,25 @@ export interface Page {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardGrid".
+ */
+export interface EventCardGrid {
+  heading: {
+    en: string;
+    es?: string | null;
+  };
+  rowsToShow: number;
+  showMoreLabel?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  filter: 'upcoming' | 'past';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventCardGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -521,6 +541,7 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        eventCardGrid?: T | EventCardGridSelect<T>;
         section?:
           | T
           | {
@@ -556,6 +577,28 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardGrid_select".
+ */
+export interface EventCardGridSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  rowsToShow?: T;
+  showMoreLabel?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  filter?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

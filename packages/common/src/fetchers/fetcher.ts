@@ -1,6 +1,9 @@
 import { NavItem } from "@common/types/nav";
 import { Page } from "@common/types/payload-types";
 
+export type FetcherTypes = 'page' | 'event'
+export type Fetchers = Record<FetcherTypes, Fetcher<any>>
+
 export interface FetchOptions {
   limit?: number,
   sortOptions?: {

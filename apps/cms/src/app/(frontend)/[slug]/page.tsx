@@ -5,6 +5,10 @@ import { RouteContext } from '@common/handlers/baseContent'
 
 class CmsPageHandler extends BasePageHandler {
   protected fetcher = new CmsFetcher<Page>(this.COLLECTION)
+  protected readonly allFetchers = {
+    page: this.fetcher,
+    event: new CmsFetcher<Event>('events'),
+  }
 }
 
 const handler = new CmsPageHandler()

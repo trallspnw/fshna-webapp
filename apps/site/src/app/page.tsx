@@ -4,6 +4,10 @@ import { SiteFetcher } from '@site/lib/siteFetcher'
 
 class SiteHomeHandler extends BaseHomeHandler {
   protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
+  protected readonly allFetchers = {
+    page: this.fetcher,
+    event: new SiteFetcher<Event>('events'),
+  }
 }
 
 const handler = new SiteHomeHandler()

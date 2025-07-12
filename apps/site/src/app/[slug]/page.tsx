@@ -5,6 +5,10 @@ import { RouteContext } from '@common/handlers/baseContent'
 
 class SitePageHandler extends BasePageHandler {
   protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
+  protected readonly allFetchers = {
+    page: this.fetcher,
+    event: new SiteFetcher<Event>('events'),
+  }
 
   async generateStaticParams() {
     const pages = await this.fetcher.getAll()

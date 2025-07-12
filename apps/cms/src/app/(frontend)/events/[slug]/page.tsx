@@ -1,10 +1,14 @@
 import { BaseEventHandler } from '@common/handlers/event'
 import { CmsFetcher } from '@cms/lib/cmsFetcher'
-import { Event } from '@common/types/payload-types'
+import { Event, Page } from '@common/types/payload-types'
 import { RouteContext } from '@common/handlers/baseContent'
 
 class CmsEventHandler extends BaseEventHandler {
-  protected fetcher = new CmsFetcher<Event>(this.COLLECTION)
+  protected readonly fetcher =new CmsFetcher<Event>(this.COLLECTION)
+  protected readonly allFetchers = {
+    page: new CmsFetcher<Page>('pages'),
+    event: this.fetcher,
+  }
 }
 
 const handler = new CmsEventHandler()

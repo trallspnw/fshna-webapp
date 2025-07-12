@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import type { Fetcher } from '@common/fetchers/fetcher'
+import type { Fetcher, Fetchers } from '@common/fetchers/fetcher'
 import type { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { BaseBlock, renderBlocks } from '@common/lib/blockUtil'
@@ -23,6 +23,7 @@ type ContentWithBlocks = {
 
 export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   protected abstract fetcher: Fetcher<T>
+  protected abstract allFetchers: Fetchers
 
   protected renderBeforeBody(context: RouteContext, content: T): JSX.Element | null {
     return null
@@ -42,10 +43,10 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     return (
       <BodyLayout
         navItems={navItems}
-        hero={heroBlock ? renderBlocks([heroBlock]) : undefined}
+        hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers) : undefined}
       >
         {this.renderBeforeBody(context, content)}
-        {renderBlocks(bodyBlocks)}
+        {renderBlocks(bodyBlocks, this.allFetchers)}
       </BodyLayout>
     )
   }

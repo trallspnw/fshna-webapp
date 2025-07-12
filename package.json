@@ -8,9 +8,10 @@
   "packageManager": "pnpm@10.11.0",
   "scripts": {
     "cms": "pnpm --filter cms dev",
-    "site": "pnpm --filter site dev",
+    "site": "pnpm clean:site && pnpm --filter site dev",
     "db": "docker compose up -d postgres",
     "clean": "pnpm -r exec rm -rf dist .next node_modules out && rm -rf .pnpm-store node_modules",
+    "clean:site": "rm -rf apps/site/.next apps/site/out",
     "types": "pnpm --filter cms generate:types"
   },
   "dependencies": {
