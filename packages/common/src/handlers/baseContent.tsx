@@ -6,6 +6,8 @@ import { BaseBlock, renderBlocks } from '@common/lib/blockUtil'
 import { BodyLayout } from '@common/components/BodyLayout'
 import { LocalizedText } from '@common/types/language'
 import { getLocalizedValue } from '@common/lib/translation'
+import { Footer } from '../types/payload-types'
+import { FooterProps, SocialChannel } from '../components/Footer'
 
 export type RouteParams = { 
   slug: string,
@@ -34,6 +36,7 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     if (!content) notFound()
 
     const navItems = await this.fetcher.getNavItems();
+    const footer = await this.fetcher.getFooterData()
     const blocks = content.blocks || []
     const [firstBlock, ...remainingBlocks] = content.blocks || []
     const isHero = firstBlock?.blockType === 'hero'
@@ -44,6 +47,7 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
       <BodyLayout
         navItems={navItems}
         hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers) : undefined}
+        footer={mapFooterToProps(footer)}
       >
         {this.renderBeforeBody(context, content)}
         {renderBlocks(bodyBlocks, this.allFetchers)}
@@ -57,3 +61,24 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     return content ? { title: getLocalizedValue(content.pageTitle, 'en') } : {}
   }
 }
+
+function mapFooterToProps(footer: Footer): FooterProps {
+  return {
+    description: footer.description,
+    linkGroups: (footer.linkGroups ?? []).map(group => ({
+      title: group.groupName,
+      links: (group.links ?? []).map(link => ({
+        href: link.href,
+        label: link.label,
+      })),
+    })),
+    socialLinks: Object.entries(footer.socialLinks ?? {}).reduce(
+      (acc, [key, value]) => {
+        if (value != null) acc[key as keyof typeof acc] = value
+        return acc
+      },
+      {} as Partial<Record<SocialChannel, string>>
+    ),
+  }
+}
+

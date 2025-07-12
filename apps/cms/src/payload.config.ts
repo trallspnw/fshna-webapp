@@ -12,6 +12,7 @@ import { Hero } from './blocks/Hero'
 import { Media } from './collections/Media'
 import { Paragraph } from './blocks/Paragraph'
 import { Section } from './blocks/Section'
+import { FooterGlobal } from './globals/Footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -28,6 +29,9 @@ export default buildConfig({
     Pages, 
     Events,
     Media,
+  ],
+  globals: [
+    FooterGlobal,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

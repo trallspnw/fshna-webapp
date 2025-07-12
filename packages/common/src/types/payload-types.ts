@@ -91,8 +91,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    footer: Footer;
+  };
+  globalsSelect: {
+    footer: FooterSelect<false> | FooterSelect<true>;
+  };
   locale: null;
   user: Admin & {
     collection: 'admins';
@@ -719,6 +723,101 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  /**
+   * Shows below the logo
+   */
+  description?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  linkGroups?:
+    | {
+        /**
+         * Heading for link group
+         */
+        groupName: {
+          en: string;
+          es?: string | null;
+        };
+        links?:
+          | {
+              href: string;
+              /**
+               * Clickable link text
+               */
+              label: {
+                en: string;
+                es?: string | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?: {
+    facebook?: string | null;
+    instagram?: string | null;
+    x?: string | null;
+    youtube?: string | null;
+    bluesky?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  description?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  linkGroups?:
+    | T
+    | {
+        groupName?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        links?:
+          | T
+          | {
+              href?: T;
+              label?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        x?: T;
+        youtube?: T;
+        bluesky?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

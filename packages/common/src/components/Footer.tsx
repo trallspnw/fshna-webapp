@@ -17,19 +17,19 @@ import { getLocalizedValue } from '../lib/translation';
 import clsx from 'clsx';
 import type { JSX } from 'react';
 
-type SocialChannel = 'facebook' | 'instagram' | 'x' | 'youtube' | 'bluesky';
+export type SocialChannel = 'facebook' | 'instagram' | 'x' | 'youtube' | 'bluesky';
 
 type LinkGroup = {
-  title: string;
+  title: LocalizedText;
   links: {
     href: string;
     label: LocalizedText;
   }[];
 };
 
-type FooterProps = {
+export type FooterProps = {
   linkGroups: LinkGroup[];
-  description: string;
+  description?: LocalizedText;
   socialLinks?: Partial<Record<SocialChannel, string>>;
   className?: string;
 };
@@ -52,7 +52,7 @@ export function Footer({ linkGroups, description, socialLinks = {}, className }:
 
   const groups = linkGroups.map((group, lgIndex) => (
     <div className={classes.wrapper} key={`lg-${lgIndex}`}>
-      <Text className={classes.title}>{group.title}</Text>
+      <Text className={classes.title}>{getLocalizedValue(group.title, language)}</Text>
       {group.links.map((link, lIndex) => (
         <Text<'a'>
           key={`l-${lIndex}`}
@@ -72,7 +72,7 @@ export function Footer({ linkGroups, description, socialLinks = {}, className }:
         <div className={classes.logo}>
           LOGO
           <Text size="xs" c="dimmed" className={classes.description}>
-            {description}
+            {getLocalizedValue(description, language)}
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
@@ -81,21 +81,24 @@ export function Footer({ linkGroups, description, socialLinks = {}, className }:
       {Object.keys(socialLinks).length > 0 && (
         <Container className={classes.socials}>
           <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
-            {Object.entries(socialLinks).map(([channel, href], index) => (
-              <ActionIcon
-                key={`social-${index}`}
-                size="lg"
-                color="gray"
-                variant="subtle"
-                component="a"
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={channel}
-              >
-                {iconMap[channel as SocialChannel]}
-              </ActionIcon>
-            ))}
+            {Object.entries(socialLinks).map(([channel, href], index) => {
+              if (!href) return null;
+              return (
+                <ActionIcon
+                  key={`social-${index}`}
+                  size="lg"
+                  color="gray"
+                  variant="subtle"
+                  component="a"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={channel}
+                >
+                  {iconMap[channel as SocialChannel]}
+                </ActionIcon>
+              );
+            })}
           </Group>
         </Container>
       )}
