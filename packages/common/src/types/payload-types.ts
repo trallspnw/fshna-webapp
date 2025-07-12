@@ -93,9 +93,11 @@ export interface Config {
   };
   globals: {
     footer: Footer;
+    general: General;
   };
   globalsSelect: {
     footer: FooterSelect<false> | FooterSelect<true>;
+    general: GeneralSelect<false> | GeneralSelect<true>;
   };
   locale: null;
   user: Admin & {
@@ -792,6 +794,23 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general".
+ */
+export interface General {
+  id: number;
+  logo?: {
+    en?: (number | null) | Media;
+    es?: (number | null) | Media;
+    altText?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
@@ -832,6 +851,27 @@ export interface FooterSelect<T extends boolean = true> {
         x?: T;
         youtube?: T;
         bluesky?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "general_select".
+ */
+export interface GeneralSelect<T extends boolean = true> {
+  logo?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+        altText?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

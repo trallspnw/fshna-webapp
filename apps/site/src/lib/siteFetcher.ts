@@ -1,5 +1,5 @@
 import { NavItem } from '@/packages/common/src/types/nav'
-import { Footer, Page } from '@/packages/common/src/types/payload-types'
+import { Page } from '@/packages/common/src/types/payload-types'
 import { Fetcher, FetchOptions } from '@common/fetchers/fetcher'
 
 export class SiteFetcher<T> extends Fetcher<T> {
@@ -21,10 +21,10 @@ export class SiteFetcher<T> extends Fetcher<T> {
     return this.mapPagesToNavItems(await this.getAllOfType<Page>())
   }
 
-  async getFooterData(): Promise<Footer> {
-    const result = await fetch(`${process.env.CMS_URL}/api/globals/footer`)
+  async getGlobalData<U>(slug: string): Promise<U> {
+    const result = await fetch(`${process.env.CMS_URL}/api/globals/${slug}`)
     const data = await result.json()
-    return data as Footer
+    return data as U
   }
 
   private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {

@@ -8,15 +8,16 @@ import classes from './Media.module.scss'
 export type MediaProps = {
   url: string
   alt: string
+  radius?: boolean
   className?: string
 }
 
-export function Media({ url, alt, className }: MediaProps) {
+export function Media({ url, alt, radius = true, className }: MediaProps) {
   return (
     <Image
       src={rewriteMediaUrl(url)}
       alt={alt}
-      radius='md'
+      radius={radius === true ? 'md' : ''}
       className={clsx(classes.image, className)}
     />
   )

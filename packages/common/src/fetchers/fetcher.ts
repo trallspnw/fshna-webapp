@@ -1,5 +1,5 @@
 import { NavItem } from "@common/types/nav";
-import { Footer, Page } from "@common/types/payload-types";
+import { Page } from "@common/types/payload-types";
 
 export type FetcherTypes = 'page' | 'event'
 export type Fetchers = Record<FetcherTypes, Fetcher<any>>
@@ -16,7 +16,7 @@ export abstract class Fetcher<T> {
   abstract get(slug: string): Promise<T | null>
   abstract getAll(): Promise<T[]>
   abstract getNavItems(): Promise<NavItem[]>
-  abstract getFooterData(): Promise<Footer>
+  abstract getGlobalData<U>(slug: string): Promise<U>
 
   protected async mapPagesToNavItems(pages: Page[]): Promise<NavItem[]> {
     return pages.filter((page) => page.showInNav)

@@ -4,9 +4,9 @@ import type { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { BaseBlock, renderBlocks } from '@common/lib/blockUtil'
 import { BodyLayout } from '@common/components/BodyLayout'
-import { LocalizedText } from '@common/types/language'
+import { LocalizedMedia, LocalizedText } from '@common/types/language'
 import { getLocalizedValue } from '@common/lib/translation'
-import { Footer } from '../types/payload-types'
+import { Footer, General } from '../types/payload-types'
 import { FooterProps, SocialChannel } from '../components/Footer'
 
 export type RouteParams = { 
@@ -36,7 +36,8 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     if (!content) notFound()
 
     const navItems = await this.fetcher.getNavItems();
-    const footer = await this.fetcher.getFooterData()
+    const footer = await this.fetcher.getGlobalData<Footer>('footer')
+    const general = await this.fetcher.getGlobalData<General>('general')
     const blocks = content.blocks || []
     const [firstBlock, ...remainingBlocks] = content.blocks || []
     const isHero = firstBlock?.blockType === 'hero'
@@ -45,9 +46,10 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
 
     return (
       <BodyLayout
+        logo={general.logo}
         navItems={navItems}
         hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers) : undefined}
-        footer={mapFooterToProps(footer)}
+        footer={mapFooterToProps(footer, general.logo)}
       >
         {this.renderBeforeBody(context, content)}
         {renderBlocks(bodyBlocks, this.allFetchers)}
@@ -62,8 +64,9 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   }
 }
 
-function mapFooterToProps(footer: Footer): FooterProps {
+function mapFooterToProps(footer: Footer, logo?: LocalizedMedia): FooterProps {
   return {
+    logo: logo,
     description: footer.description,
     linkGroups: (footer.linkGroups ?? []).map(group => ({
       title: group.groupName,

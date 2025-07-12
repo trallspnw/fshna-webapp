@@ -1,6 +1,6 @@
 'use client'
 
-import { Burger, Container, Group, Anchor, Button, Text } from '@mantine/core'
+import { Burger, Container, Group, Button } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { getLocalizedValue } from '@common/lib/translation'
 import { useLanguage } from '../hooks/useLanguage'
@@ -9,14 +9,15 @@ import { LanguageSelector } from './LanguageSelector'
 import { NavItem } from '@common/types/nav'
 import classes from './Nav.module.scss'
 import clsx from 'clsx'
-import NextLink from 'next/link'
-import { IconTrees } from '@tabler/icons-react'
+import { LocalizedMedia } from '../types/language'
+import { Logo } from './Logo'
 
 export type NavProps = {
+  logo?: LocalizedMedia
   pages: NavItem[]
 }
 
-export function Nav({ pages }: NavProps) {
+export function Nav({ logo, pages }: NavProps) {
   const [language] = useLanguage()
   const pathname = usePathname()
   const [opened, { toggle }] = useDisclosure(false)
@@ -41,12 +42,9 @@ export function Nav({ pages }: NavProps) {
   return (
     <header className={classes.nav}>
       <Container size="xl" className={classes.inner}>
-        <Anchor component={NextLink} href="/" className={classes.link}>
-          <Group gap="xs">
-            <IconTrees size={20} />
-            <Text fw={600} size="md">Seminary Hill</Text>
-          </Group>
-        </Anchor>
+        {logo && <Logo 
+          media={logo} 
+        />}
 
         <Group className={classes.inner_right} gap="sm">
           <Group gap={5} visibleFrom="xs">

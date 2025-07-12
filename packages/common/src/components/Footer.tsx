@@ -11,27 +11,29 @@ import {
 } from '@tabler/icons-react';
 import { ActionIcon, Container, Group, Text } from '@mantine/core';
 import classes from './Footer.module.scss';
-import { LocalizedText } from '../types/language';
+import { LocalizedMedia, LocalizedText } from '../types/language';
 import { useLanguage } from '../hooks/useLanguage';
 import { getLocalizedValue } from '../lib/translation';
 import clsx from 'clsx';
 import type { JSX } from 'react';
+import { Logo } from './Logo';
 
 export type SocialChannel = 'facebook' | 'instagram' | 'x' | 'youtube' | 'bluesky';
 
 type LinkGroup = {
-  title: LocalizedText;
+  title: LocalizedText
   links: {
-    href: string;
-    label: LocalizedText;
+    href: string
+    label: LocalizedText
   }[];
 };
 
 export type FooterProps = {
-  linkGroups: LinkGroup[];
-  description?: LocalizedText;
-  socialLinks?: Partial<Record<SocialChannel, string>>;
-  className?: string;
+  logo?: LocalizedMedia
+  linkGroups: LinkGroup[]
+  description?: LocalizedText
+  socialLinks?: Partial<Record<SocialChannel, string>>
+  className?: string
 };
 
 const iconProps = {
@@ -47,7 +49,7 @@ const iconMap: Record<SocialChannel, JSX.Element> = {
   bluesky: <IconBrandBluesky {... iconProps} />,
 };
 
-export function Footer({ linkGroups, description, socialLinks = {}, className }: FooterProps) {
+export function Footer({ logo, linkGroups, description, socialLinks = {}, className }: FooterProps) {
   const [language] = useLanguage();
 
   const groups = linkGroups.map((group, lgIndex) => (
@@ -70,7 +72,9 @@ export function Footer({ linkGroups, description, socialLinks = {}, className }:
     <footer className={clsx(classes.footer, className)}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          LOGO
+          {logo && <Logo 
+            media={logo} 
+          />}
           <Text size="xs" c="dimmed" className={classes.description}>
             {getLocalizedValue(description, language)}
           </Text>

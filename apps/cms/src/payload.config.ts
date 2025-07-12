@@ -13,6 +13,7 @@ import { Media } from './collections/Media'
 import { Paragraph } from './blocks/Paragraph'
 import { Section } from './blocks/Section'
 import { FooterGlobal } from './globals/Footer'
+import { GeneralGlobal } from './globals/General'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -32,6 +33,7 @@ export default buildConfig({
   ],
   globals: [
     FooterGlobal,
+    GeneralGlobal,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

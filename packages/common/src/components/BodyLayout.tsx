@@ -6,6 +6,7 @@ import { NavItem } from "@common/types/nav"
 import classes from './BodyLayout.module.scss'
 import clsx from "clsx"
 import { Footer, FooterProps } from "./Footer"
+import { LocalizedMedia } from "../types/language"
 
 // TODO - placeholder theme - this should be pulled from payload globals
 const forestGreen: MantineColorsTuple = [
@@ -52,13 +53,14 @@ export const theme = createTheme({
 })
 
 export type BodyLayoutProps = {
+  logo?: LocalizedMedia
   hero?: React.ReactNode
   navItems: NavItem[]
   children: React.ReactNode
   footer: FooterProps
 }
 
-export function BodyLayout({ hero, navItems, children, footer }: BodyLayoutProps) {
+export function BodyLayout({ logo, hero, navItems, children, footer }: BodyLayoutProps) {
   return (
     <body className={clsx(classes.body)}>
       <MantineProvider
@@ -66,7 +68,7 @@ export function BodyLayout({ hero, navItems, children, footer }: BodyLayoutProps
       >
         <div className={clsx(classes.bodyInner)}>
           {hero && hero}
-          <Nav pages={navItems}/>
+          <Nav logo={logo} pages={navItems}/>
           <main className={clsx(classes.main)}>
             {children}
           </main>

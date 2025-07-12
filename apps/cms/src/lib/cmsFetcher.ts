@@ -2,7 +2,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Fetcher, FetchOptions } from '@common/fetchers/fetcher'
 import { NavItem } from '@common/types/nav'
-import { Footer, Page } from '@common/types/payload-types'
+import { Page } from '@common/types/payload-types'
 
 export class CmsFetcher<T> extends Fetcher<T> {
   constructor(private collection: string) {
@@ -31,9 +31,9 @@ export class CmsFetcher<T> extends Fetcher<T> {
     return this.mapPagesToNavItems(await this.getAllOfType<Page>())
   }
   
-  async getFooterData(): Promise<Footer> {
+  async getGlobalData<U>(slug: string): Promise<U> {
     const payload = await this.getPayloadInstance()
-    return await payload.findGlobal({ slug: 'footer' }) as Footer
+    return await payload.findGlobal({ slug }) as U
   }
 
   private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {
