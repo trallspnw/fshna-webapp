@@ -5,7 +5,7 @@ import { LocalizedText } from '../types/language'
 import { getLocalizedValue } from '../lib/translation'
 import { useLanguage } from '../hooks/useLanguage'
 
-type LinkButtonProps = {
+export type LinkButtonProps = {
   label: LocalizedText
   href: string
 }

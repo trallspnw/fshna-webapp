@@ -352,6 +352,13 @@ export interface EventCardGrid {
     en?: string | null;
     es?: string | null;
   };
+  link?: {
+    href?: string | null;
+    label?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
   filter: 'upcoming' | 'past';
   id?: string | null;
   blockName?: string | null;
@@ -599,6 +606,17 @@ export interface EventCardGridSelect<T extends boolean = true> {
     | {
         en?: T;
         es?: T;
+      };
+  link?:
+    | T
+    | {
+        href?: T;
+        label?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
       };
   filter?: T;
   id?: T;

@@ -3,7 +3,7 @@ import { LocalizedTextField } from '../fields/localizedTextField'
 
 export const FooterGlobal: GlobalConfig = {
   slug: 'footer',
-  label: 'Footer Configuration',
+  label: 'Footer',
   access: {
     read: () => true,
   },

@@ -10,6 +10,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import { getLocalizedValue } from '../lib/translation'
 import { Media } from '../types/payload-types'
 import clsx from 'clsx'
+import { LinkButton, LinkButtonProps } from './LinkButton'
 
 type EventDetails = {
   name: LocalizedText
@@ -23,9 +24,10 @@ type EventCardGridProps = {
   events: EventDetails[]
   rows: number
   showMoreLabel?: LocalizedText
+  link?: LinkButtonProps
 }
 
-export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCardGridProps) {
+export function EventCardGrid({ heading, events, rows, showMoreLabel, link }: EventCardGridProps) {
   const [language] = useLanguage()
   
   const isLg = useMediaQuery('(min-width: 1200px)')
@@ -38,6 +40,8 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCar
 
   const visibleEvents = events.slice(0, visibleCount)
   const allEventsVisible = visibleCount >= events.length
+  const renderShowMore = showMoreLabel && !allEventsVisible
+  const renderButtons = renderShowMore || link
 
   return (
     <>
@@ -61,14 +65,19 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCar
           ))}
         </div>
 
-        {showMoreLabel && !allEventsVisible && (
+        {renderButtons && (
           <div className={classes.buttonContainer}>
-            <Button 
+            {renderShowMore && (
+              <Button 
               variant='subtle'
               onClick={() => setVisibleRows((r) => r + 2)}
             >
               {getLocalizedValue(showMoreLabel, language)}
             </Button>
+            )}
+            {link && (
+              <LinkButton {...link}/>
+            )}
           </div>
         )}
       </div>

@@ -20,6 +20,19 @@ export const EventCardGrid: Block = {
     },
     LocalizedTextField('showMoreLabel', 'Show More Button Label'),
     {
+      type: 'group',
+      name: 'link',
+      label: 'Optional Link',
+      fields: [
+        {
+          name: 'href',
+          type: 'text',
+          label: 'Link URL',
+        },
+        LocalizedTextField('label', 'Button Label'),
+      ],
+    },
+    {
       name: 'filter',
       type: 'radio',
       label: 'Which Events to Show',

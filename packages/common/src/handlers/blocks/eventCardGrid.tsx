@@ -3,6 +3,7 @@ import { Fetcher, Fetchers } from '@common/fetchers/fetcher'
 import { Event } from '@common/types/payload-types'
 import { EventCardGrid } from '@common/components/EventCardGrid'
 import { JSX } from 'react'
+import { LinkButtonProps } from '../../components/LinkButton'
 
 export async function render(block: EventCardGridType, index: number, fetchers: Fetchers): Promise<JSX.Element> {
   const eventFetcher = fetchers.event as Fetcher<Event>
@@ -30,6 +31,10 @@ export async function render(block: EventCardGridType, index: number, fetchers: 
     dateTime: new Date(event.dateTime),
   }))
 
+  const link = (block.link && block.link.href && block.link.label)
+    ? block.link as LinkButtonProps 
+    : undefined
+
   if (eventDetails.length === 0) return <></>
 
   return (
@@ -38,6 +43,7 @@ export async function render(block: EventCardGridType, index: number, fetchers: 
       events={eventDetails}
       rows={block.rowsToShow}
       showMoreLabel={block.showMoreLabel}
+      link={link}
     />
   )
 }
