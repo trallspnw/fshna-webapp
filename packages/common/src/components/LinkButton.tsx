@@ -7,15 +7,17 @@ import { useLanguage } from '../hooks/useLanguage'
 
 export type LinkButtonProps = {
   label: LocalizedText
+  variant?: string
   href: string
 }
 
-export function LinkButton({ label, href }: LinkButtonProps) {
+export function LinkButton({ label, variant, href }: LinkButtonProps) {
   const [language] = useLanguage()
 
   return (
     <Button
       component='a'
+      variant={variant}
       href={href}
     >
       {getLocalizedValue(label, language)}

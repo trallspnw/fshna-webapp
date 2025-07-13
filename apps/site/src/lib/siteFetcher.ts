@@ -14,11 +14,11 @@ export class SiteFetcher<T> extends Fetcher<T> {
   }
 
   async getAll(options: FetchOptions = {}): Promise<T[]> {
-    return this.getAllOfType<T>(options);
+    return this.getAllOfType<T>(this.collection, options);
   }
 
   async getNavItems(): Promise<NavItem[]> {
-    return this.mapPagesToNavItems(await this.getAllOfType<Page>())
+    return this.mapPagesToNavItems(await this.getAllOfType<Page>('pages'))
   }
 
   async getGlobalData<U>(slug: string): Promise<U> {
@@ -27,8 +27,8 @@ export class SiteFetcher<T> extends Fetcher<T> {
     return data as U
   }
 
-  private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {
-    const url = new URL(`${process.env.CMS_URL}/api/${this.collection}`)
+  private async getAllOfType<U>(collection: string, options: FetchOptions = {}): Promise<U[]> {
+    const url = new URL(`${process.env.CMS_URL}/api/${collection}`)
     url.searchParams.set('limit', String(options.limit ?? 100))
 
     if (options.sortOptions) {

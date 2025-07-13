@@ -38,9 +38,9 @@ export const Events: CollectionConfig = {
       unique: true,
     },
     LocalizedTextField(
-      'pageTitle', 
+      'pageTitle',   // TODO - this is used for event title - this should be required and name/desc updated
       'Page Title', 
-      true, 
+      true,
       'Shows up in the browser tab and search results',
     ),
     {

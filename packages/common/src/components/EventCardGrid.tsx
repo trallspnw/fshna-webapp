@@ -5,7 +5,7 @@ import { Button, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { EventCard } from './EventCard'
 import classes from './EventCardGrid.module.scss'
-import { LocalizedMedia, LocalizedText } from '../types/language'
+import { DEFAULT_LANGUAGE, LocalizedMedia, LocalizedText } from '../types/language'
 import { useLanguage } from '../hooks/useLanguage'
 import { getLocalizedValue } from '../lib/translation'
 import { Media } from '../types/payload-types'
@@ -40,7 +40,7 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel, link }: Ev
 
   const visibleEvents = events.slice(0, visibleCount)
   const allEventsVisible = visibleCount >= events.length
-  const renderShowMore = showMoreLabel && !allEventsVisible
+  const renderShowMore = showMoreLabel && showMoreLabel[DEFAULT_LANGUAGE] && !allEventsVisible
   const renderButtons = renderShowMore || link
 
   return (
@@ -76,7 +76,7 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel, link }: Ev
             </Button>
             )}
             {link && (
-              <LinkButton {...link}/>
+              <LinkButton variant='subtle' {...link}/>
             )}
           </div>
         )}

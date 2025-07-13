@@ -24,11 +24,11 @@ export class CmsFetcher<T> extends Fetcher<T> {
   }
 
   async getAll(options: FetchOptions = {}): Promise<T[]> {
-    return this.getAllOfType<T>(options);
+    return this.getAllOfType<T>(this.collection, options);
   }
 
   async getNavItems(): Promise<NavItem[]> {
-    return this.mapPagesToNavItems(await this.getAllOfType<Page>())
+    return this.mapPagesToNavItems(await this.getAllOfType<Page>('pages'))
   }
   
   async getGlobalData<U>(slug: string): Promise<U> {
@@ -36,7 +36,7 @@ export class CmsFetcher<T> extends Fetcher<T> {
     return await payload.findGlobal({ slug }) as U
   }
 
-  private async getAllOfType<U>(options: FetchOptions = {}): Promise<U[]> {
+  private async getAllOfType<U>(collection: string, options: FetchOptions = {}): Promise<U[]> {
     const payload = await this.getPayloadInstance()
     const { limit = 100, sortOptions } = options
 
@@ -45,7 +45,7 @@ export class CmsFetcher<T> extends Fetcher<T> {
       : undefined
 
     const result = await payload.find({
-      collection: this.collection,
+      collection,
       limit,
       ...(sort && { sort }),
     })
