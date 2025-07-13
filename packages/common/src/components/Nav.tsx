@@ -1,6 +1,6 @@
 'use client'
 
-import { Burger, Container, Group, Button } from '@mantine/core'
+import { Burger, Container, Group, Button, Drawer, Stack } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { getLocalizedValue } from '@common/lib/translation'
 import { useLanguage } from '../hooks/useLanguage'
@@ -20,7 +20,7 @@ export type NavProps = {
 export function Nav({ logo, pages }: NavProps) {
   const [language] = useLanguage()
   const pathname = usePathname()
-  const [opened, { toggle }] = useDisclosure(false)
+  const [opened, { close, toggle }] = useDisclosure(false)
 
   const links = pages.map(({ href, label }, index) => (
     <Button 
@@ -40,28 +40,43 @@ export function Nav({ logo, pages }: NavProps) {
   ))
 
   return (
-    <header className={classes.nav}>
-      <Container size="xl" className={classes.inner}>
-        {logo && <Logo 
-          media={logo} 
-        />}
+    <>
+      <header className={classes.nav}>
+        <Container size="xl" className={classes.inner}>
+          {logo && <Logo 
+            media={logo} 
+          />}
 
-        <Group className={classes.inner_right} gap="sm">
-          <Group gap={5} visibleFrom="xs">
-            {links}
+          <Group className={classes.inner_right} gap="sm">
+            <Group gap={5} visibleFrom="xs">
+              {links}
+            </Group>
+
+            <LanguageSelector />
+
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="xs"
+              size="sm"
+              aria-label="Toggle navigation"
+            />
           </Group>
+        </Container>
+      </header>
 
-          <LanguageSelector />
-
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            hiddenFrom="xs"
-            size="sm"
-            aria-label="Toggle navigation"
-          />
-        </Group>
-      </Container>
-    </header>
+      <Drawer
+        opened={opened}
+        onClose={close}
+        padding="md"
+        size="xs"
+        position="right"
+        hiddenFrom="xs"
+      >
+        <Stack>
+          {links}
+        </Stack>
+      </Drawer>
+    </>
   )
 }
