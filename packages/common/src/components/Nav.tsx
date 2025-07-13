@@ -11,6 +11,7 @@ import classes from './Nav.module.scss'
 import clsx from 'clsx'
 import { LocalizedMedia } from '../types/language'
 import { Logo } from './Logo'
+import { useEffect, useRef, useState } from 'react'
 
 export type NavProps = {
   logo?: LocalizedMedia
@@ -21,6 +22,21 @@ export function Nav({ logo, pages }: NavProps) {
   const [language] = useLanguage()
   const pathname = usePathname()
   const [opened, { close, toggle }] = useDisclosure(false)
+  const desktopRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const update = () => {
+      if (!desktopRef.current) return
+      const desktopNavWidth = desktopRef.current.scrollWidth
+      const windowWidth = window.innerWidth
+      setIsMobile(desktopNavWidth > windowWidth)
+    }
+
+    window.addEventListener('resize', update)
+    update()
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   const links = pages.map(({ href, label }, index) => (
     <Button 
@@ -42,27 +58,69 @@ export function Nav({ logo, pages }: NavProps) {
   return (
     <>
       <header className={classes.nav}>
-        <Container size="xl" className={classes.inner}>
-          {logo && <Logo 
-            media={logo} 
-          />}
+        <div className=
+          {clsx(
+            classes.surfaceWrapper,
+            {
+              [classes.hidden]: !isMobile,
+            }
+          )
+        }>
+          <Container 
+            size="xl" 
+            className={clsx(
+              classes.inner, 
+            )}
+          >
+            {logo && <Logo 
+              className={clsx(classes.logo)}
+              media={logo} 
+            />}
 
-          <Group className={classes.inner_right} gap="sm">
-            <Group gap={5} visibleFrom="xs">
-              {links}
+            <Group className={classes.inner_right} gap="sm" wrap='nowrap'>
+
+              <LanguageSelector />
+
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                size="sm"
+                aria-label="Toggle navigation"
+              />
+
             </Group>
+          </Container>
+        </div>
+        <div className=
+          {clsx(
+            classes.surfaceWrapper,
+            {
+              [classes.hidden]: isMobile,
+            }
+          )
+        }>
+          <Container 
+            size="xl" 
+            className={clsx(
+              classes.inner,
+            )}
+            ref={desktopRef}
+          >
+            {logo && <Logo 
+              className={clsx(classes.logo)}
+              media={logo} 
+            />}
 
-            <LanguageSelector />
+            <Group className={classes.inner_right} gap="sm" wrap='nowrap'>
+              <Group gap={5} wrap='nowrap'>
+                {links}
+              </Group>
 
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="xs"
-              size="sm"
-              aria-label="Toggle navigation"
-            />
-          </Group>
-        </Container>
+              <LanguageSelector />
+
+            </Group>
+          </Container>
+        </div>
       </header>
 
       <Drawer
@@ -71,7 +129,6 @@ export function Nav({ logo, pages }: NavProps) {
         padding="md"
         size="xs"
         position="right"
-        hiddenFrom="xs"
       >
         <Stack>
           {links}

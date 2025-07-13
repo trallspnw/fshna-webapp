@@ -10,6 +10,15 @@
   z-index: 10;
 }
 
+.surfaceWrapper {
+  position: absolute;
+  width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
 .inner {
   max-width: $max-width;
   padding: 0 var(--mantine-spacing-md);
@@ -17,6 +26,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  flex-shrink: 0;
 }
 
 .inner_right {

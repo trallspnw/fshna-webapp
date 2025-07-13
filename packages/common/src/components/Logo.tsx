@@ -14,9 +14,10 @@ type LogoProps = {
   link?: string
   height?: number
   width?: number
+  className?: string
 }
 
-export function Logo({ media, link = '/', height = 40, width }: LogoProps) {
+export function Logo({ media, link = '/', height = 40, width, className }: LogoProps) {
   const [language] = useLanguage()
   const localMedia = getLocalizedValue(media, language)
 
@@ -33,7 +34,7 @@ export function Logo({ media, link = '/', height = 40, width }: LogoProps) {
     <Anchor 
       component={NextLink} 
       href={link} 
-      className={clsx(classes.link)}
+      className={clsx(classes.link, className)}
       style={styles}
     >
       <Media
