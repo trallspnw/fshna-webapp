@@ -1,21 +1,14 @@
 import { CollectionConfig } from 'payload'
-import { Hero } from '@cms/blocks/Hero'
-import { Paragraph } from '@cms/blocks/Paragraph'
-import { Section } from '@cms/blocks/Section'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
-import { LinkButton } from '../blocks/LinkButton'
-import { EventCardGrid } from '../blocks/EventCardGrid'
+import { allBlocks } from '../lib/allBlocks'
+import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 
 const hideFromNav = ['home', 'not-found']
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: [
-      'name', 
-      'slug', 
-    ],
+    useAsTitle: 'titleText',
   },
   access: {
     read: () => true,
@@ -32,27 +25,31 @@ export const Pages: CollectionConfig = {
       unique: true,
     },
     {
-      name: 'name',
+      name: 'titleText',
       type: 'text',
-      label: 'Internal Name',
       admin: {
-        description: 'Used to identify this page in a list of pages'
+        readOnly: true,
+        hidden: true,
       },
-      required: true,
-      unique: true,
+      hooks: {
+        beforeValidate: [
+          ({ siblingData }) => {
+            return siblingData?.title?.[DEFAULT_LANGUAGE] ?? ''
+          },
+        ],
+      },
     },
     LocalizedTextField(
-      'pageTitle', 
+      'title', 
       'Page Title', 
-      false, 
-      'Shows up in the browser tab and search results',
+      true,
     ),
     {
       name: 'showInNav',
       type: 'checkbox',
       label: 'Show Page in Primary Navigation',
       admin: {
-        condition: (data, siblingData) => {
+        condition: (_, siblingData) => {
           return !(hideFromNav.includes(siblingData?.slug))
         },
       },
@@ -62,7 +59,7 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'Navigation Options',
       admin: {
-        condition: (data, siblingData) => {
+        condition: (_, siblingData) => {
           return siblingData?.showInNav === true;
         },
         description: 'Pages with lower values will be listed first'
@@ -77,7 +74,6 @@ export const Pages: CollectionConfig = {
           'navLabel', 
           'Navigation Label',
           true,
-          'Navigation link label'
         )
       ]
     },
@@ -85,13 +81,7 @@ export const Pages: CollectionConfig = {
       name: 'blocks',
       type: 'blocks',
       label: 'Page Content',
-      blocks: [
-        Hero,
-        EventCardGrid,
-        Section,
-        Paragraph,
-        LinkButton,
-      ],
+      blocks: allBlocks,
     },
   ],
 }

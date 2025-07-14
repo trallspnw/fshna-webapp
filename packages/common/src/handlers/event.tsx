@@ -1,14 +1,15 @@
 import type { JSX } from 'react'
-import { Event } from '@common/types/payload-types'
+import { Event, General } from '@common/types/payload-types'
 import { notFound } from 'next/navigation'
 import { BaseContentHandler, RouteContext } from '@common/handlers/baseContent'
 import { EventDetails } from '../components/EventDetails'
 import { SUPPORTED_LANGUAGES } from '../types/language'
+import { normalizeMedia } from '../lib/mediaUtil'
 
 export abstract class BaseEventHandler extends BaseContentHandler<Event> {
   protected readonly COLLECTION = 'events'
 
-  protected override renderBeforeBody(context: RouteContext, event: Event): JSX.Element | null {
+  protected override renderBeforeBody(context: RouteContext, event: Event, general: General): JSX.Element | null {
   const date = new Date(event.dateTime)
 
   const dateFormatOptions: Intl.DateTimeFormatOptions = {
@@ -38,11 +39,14 @@ export abstract class BaseEventHandler extends BaseContentHandler<Event> {
   )
 
     return <EventDetails
-      heading={event.pageTitle}
+      heading={event.title}
       date={formattedDate}
       time={formattedTime}
       location={event.location}
-      media={event.media}
+      media={normalizeMedia(event.media)}
+      dateLabel={general.eventLabels?.dateLabel}
+      timeLabel={general.eventLabels?.timeLabel}
+      locationLabel={general.eventLabels?.locationLabel}
     />
   }
 

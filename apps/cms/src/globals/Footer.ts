@@ -9,10 +9,9 @@ export const FooterGlobal: GlobalConfig = {
   },
   fields: [
     LocalizedTextField(
-      'description', 
-      'Website description', 
-      false, 
-      'Shows below the logo',
+      'slogan', 
+      'Slogan', 
+      false,
     ),
     {
       name: 'linkGroups',
@@ -29,15 +28,18 @@ export const FooterGlobal: GlobalConfig = {
           type: 'array',
           fields: [
             { 
-              name: 'href', 
-              type: 'text', 
+              name: 'url',
+              type: 'text',
+              label: 'URL',
+              admin: {
+                description: '/example or https://example.com',
+              },
               required: true,
             },
             LocalizedTextField(
               'label', 
               'Link Label', 
-              true, 
-              'Clickable link text',
+              true,
             ),
           ],
         },
@@ -45,27 +47,17 @@ export const FooterGlobal: GlobalConfig = {
     },
     {
       name: 'socialLinks',
-      type: 'group',
+      type: 'array',
+      label: 'Social Links',
       fields: [
-        { 
-          name: 'facebook', 
-          type: 'text' 
-        },
-        { 
-          name: 'instagram', 
-          type: 'text' 
-        },
-        { 
-          name: 'x', 
-          type: 'text' 
-        },
-        { 
-          name: 'youtube', 
-          type: 'text' 
-        },
-        { 
-          name: 'bluesky', 
-          type: 'text' 
+        {
+          name: 'url',
+          type: 'text',
+          label: 'Profile URL',
+          required: true,
+          admin: {
+            description: 'https://facebook.com/handle',
+          },
         },
       ],
     },

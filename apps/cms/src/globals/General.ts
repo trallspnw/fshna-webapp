@@ -1,5 +1,5 @@
 import { GlobalConfig } from 'payload'
-import { LocalizedMediaField } from '../fields/localizedMediaField'
+import { LocalizedTextField } from '../fields/localizedTextField'
 
 export const GeneralGlobal: GlobalConfig = {
   slug: 'general',
@@ -8,6 +8,22 @@ export const GeneralGlobal: GlobalConfig = {
     read: () => true,
   },
   fields: [
-    LocalizedMediaField('logo', 'Logo Image'),
+    {
+      name: 'logo',
+      type: 'relationship',
+      relationTo: 'media',
+      label: 'Logo Image',
+      required: true,
+    },
+    {
+      type: 'group',
+      name: 'eventLabels',
+      label: 'Event Labels',
+      fields: [
+        LocalizedTextField('dateLabel', 'Date Label'),
+        LocalizedTextField('timeLabel', 'Time Label'),
+        LocalizedTextField('locationLabel', 'Location Label'),
+      ],
+    },
   ],
 }

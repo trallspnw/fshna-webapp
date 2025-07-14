@@ -5,7 +5,9 @@ import { useLanguage } from "../hooks/useLanguage"
 import { getLocalizedValue } from "../lib/translation"
 import clsx from "clsx"
 import classes from './EventDetails.module.scss'
-import { Section } from "./Section"
+import { Heading } from "./Heading"
+import { TwoColumns } from "./TwoColumns"
+import { Media } from "./Media"
 
 type EventDetailsProps = {
   heading: LocalizedText
@@ -13,33 +15,52 @@ type EventDetailsProps = {
   time: LocalizedText
   location: LocalizedText
   media: LocalizedMedia
+  dateLabel?: LocalizedText
+  timeLabel?: LocalizedText
+  locationLabel?: LocalizedText
 }
 
 export function EventDetails(props: EventDetailsProps) {
   const [language] = useLanguage()
 
-  // TODO - Translate list labels
+  const leftColumn = (
+    <ul key='left-details' className={clsx(classes.detailsList)}>
+      <li>
+        <span className={clsx(classes.listLabel)}>
+          {getLocalizedValue(props.dateLabel, language, 'Date')}:{'\u00A0'}
+        </span>
+        {getLocalizedValue(props.date, language)}
+      </li>
+      <li>
+        <span className={clsx(classes.listLabel)}>
+          {getLocalizedValue(props.timeLabel, language, 'Time')}:{'\u00A0'}
+        </span>
+        {getLocalizedValue(props.time, language)}
+      </li>
+      <li>
+        <span className={clsx(classes.listLabel)}>
+          {getLocalizedValue(props.locationLabel, language, 'Location')}:{'\u00A0'}
+        </span>
+        {getLocalizedValue(props.location, language)}
+      </li>
+    </ul>
+  )
+
+  const rightColumn = (
+    <Media key='right-media' media={props.media} radius />
+  )
+
   return (
     <>
-      <Section
-        title={props.heading}
-        media={props.media}
-      >
-        <ul>
-          <li>
-            <span className={clsx(classes.listLabel)}>Date: </span>
-            {getLocalizedValue(props.date, language)}
-          </li>
-          <li>
-            <span className={clsx(classes.listLabel)}>Time: </span>
-            {getLocalizedValue(props.time, language)}
-          </li>
-          <li>
-            <span className={clsx(classes.listLabel)}>Location: </span>
-            {getLocalizedValue(props.location, language)}
-          </li>
-        </ul>
-      </Section>
+      <Heading 
+        text={props.heading} 
+        level='2'
+      />
+      <TwoColumns
+        left={[leftColumn]}
+        right={[rightColumn]}
+        columnRatio='40-60'
+      />
     </>
   )
 }

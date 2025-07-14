@@ -11,7 +11,7 @@ export const LocalizedTextField = (name = 'text', label = 'Localized Text', requ
   fields: Object.values(LANGUAGES).map((language) => ({
     name: language,
     type: 'textarea',
-    label: `${label} (${LANGUAGE_LABELS[language]})`,
+    label: `${LANGUAGE_LABELS[language]}`,
     required: required && language === DEFAULT_LANGUAGE,
   })),
 })

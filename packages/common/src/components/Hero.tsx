@@ -6,33 +6,30 @@ import { useLanguage } from '@common/hooks/useLanguage'
 import { getLocalizedValue } from '@common/lib/translation'
 import { LocalizedMedia, LocalizedText } from '@common/types/language'
 import clsx from 'clsx'
-import { Overlay, Title, Text, Container, Button } from '@mantine/core'
+import { Overlay, Title, Text, Container } from '@mantine/core'
 import classes from './Hero.module.scss';
 import { rewriteMediaUrl } from '@common/lib/mediaUtil'
+import { Action } from './Action'
+import { Action as ActionType } from '@common/types/payload-types'
 
 type HeroProps = {
   heading: LocalizedText
   subheading?: LocalizedText
   media: LocalizedMedia
-  ctas?: {
-    label: LocalizedText
-    href: string
-  }[]
+  actions?: ActionType[]
   className?: string
 }
 
-export function Hero({ heading, subheading, media, ctas, className }: HeroProps) {
+export function Hero({ heading, subheading, media, actions = [], className }: HeroProps) {
   const [language] = useLanguage()
-
-  const mediaForLanguage = getLocalizedValue(media, language)
-  const imageUrl = typeof mediaForLanguage === 'object' ? mediaForLanguage?.url ?? '' : ''
+  const localizedMedia = getLocalizedValue(media, language)!
 
   return (
     <div className={classes.container}>
       <div
         className={clsx(classes.wrapper, className)}
         style={{
-          backgroundImage: imageUrl ? `url(${rewriteMediaUrl(imageUrl)})` : undefined,
+          backgroundImage: `url(${rewriteMediaUrl(localizedMedia.url)})`
         }}
       >
         <Overlay color="#000" opacity={0.65} zIndex={1} />
@@ -49,19 +46,14 @@ export function Hero({ heading, subheading, media, ctas, className }: HeroProps)
           </Container>
 
           
-          {ctas && ctas?.length > 0 && (
+          {actions.length > 0 && (
             <div className={classes.controls}>
-              {ctas.map((cta, index) => (
-                <Button
+              {actions.map((action, index) => (
+                <Action 
                   key={index}
-                  component='a'
-                  href={cta.href}
                   size='lg'
-                  variant={index === 0 ? 'filled' : 'light'}
-                  className={clsx(classes.button)}
-                >
-                  {getLocalizedValue(cta.label, language)}
-                </Button>
+                  {... action}
+                />
               ))}
             </div>
           )}

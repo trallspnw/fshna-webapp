@@ -1,32 +1,47 @@
-import { Hero, Section, Paragraph, LinkButton, EventCardGrid } from "@common/types/payload-types";
+import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align } from "@common/types/payload-types";
+import { render as renderAction } from '@common/handlers/blocks/action'
+import { render as renderAlign } from '@common/handlers/blocks/align'
+import { render as renderHeading } from '@common/handlers/blocks/heading'
 import { render as renderHero } from '@common/handlers/blocks/hero'
-import { render as renderSection } from '@common/handlers/blocks/section'
+import { render as renderMedia } from '@common/handlers/blocks/media'
 import { render as renderParagraph } from '@common/handlers/blocks/paragraph'
-import { render as renderLinkButton } from '@common/handlers/blocks/linkButton'
 import { render as renderEventCardGrid } from '@common/handlers/blocks/eventCardGrid'
+import { render as renderTwoColumns } from '@common/handlers/blocks/twoColumns'
 import { JSX } from "react";
 import { Fetcher, Fetchers, FetcherTypes } from "../fetchers/fetcher";
 
 export const blockRegistry = {
+  action: {
+    render: renderAction,
+    type: {} as Action,
+  },
+  align: {
+    render: renderAlign,
+    type: {} as Align,
+  },
+  eventCardGrid: {
+    render: renderEventCardGrid,
+    type: {} as EventCardGrid,
+  },
+  heading: {
+    render: renderHeading,
+    type: {} as Heading,
+  },
   hero: {
     render: renderHero,
     type: {} as Hero,
+  },
+  media: {
+    render: renderMedia,
+    type: {} as MediaBlock,
   },
   paragraph: {
     render: renderParagraph,
     type: {} as Paragraph,
   },
-  section: {
-    render: renderSection,
-    type: {} as Section,
-  },
-  linkButton: {
-    render: renderLinkButton,
-    type: {} as LinkButton,
-  },
-  eventCardGrid: {
-    render: renderEventCardGrid,
-    type: {} as EventCardGrid,
+  twoColumns: {
+    render: renderTwoColumns,
+    type: {} as TwoColumns,
   },
 }
 
@@ -45,7 +60,6 @@ export function renderBlocks(blocks: BaseBlock[], fetchers: Fetchers) : JSX.Elem
     blocks?.map((block, index) => {
       const blockType = block.blockType
 
-      // Narrow the block type correctly
       const render = blockRegistry[blockType].render as (
         block: Extract<BaseBlock, { blockType: typeof blockType }>,
         index: number,

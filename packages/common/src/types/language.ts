@@ -1,4 +1,4 @@
-import { Media } from "./payload-types";
+import { MediaFile } from "./payload-types";
 
 export const LANGUAGES = {
   EN: 'en',
@@ -17,8 +17,10 @@ export const DEFAULT_LANGUAGE: Language = LANGUAGES.EN;
 export type Language = (typeof LANGUAGES)[keyof typeof LANGUAGES];
 
 export type LocalizedText = Partial<Record<Language, string | null>>
-export type LocalizedMedia = {
-  [key in Language]?: number | Media | null
-} & {
-  altText?: LocalizedText
+
+type MediaFileWithAlt = {
+  file: MediaFile
+  url: string
+  alt?: string
 }
+export type LocalizedMedia = Partial<Record<Language, MediaFileWithAlt | null>>

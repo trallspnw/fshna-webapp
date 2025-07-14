@@ -66,14 +66,19 @@ export interface Config {
     admins: AdminAuthOperations;
   };
   blocks: {
+    eventCardGrid: EventCardGrid;
+    heading: Heading;
     hero: Hero;
-    section: Section;
+    paragraph: Paragraph;
+    media: MediaBlock;
+    twoColumns: TwoColumns;
   };
   collections: {
     admins: Admin;
-    pages: Page;
     events: Event;
     media: Media;
+    mediaFiles: MediaFile;
+    pages: Page;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,9 +86,10 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     admins: AdminsSelect<false> | AdminsSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    mediaFiles: MediaFilesSelect<false> | MediaFilesSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -128,6 +134,45 @@ export interface AdminAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardGrid".
+ */
+export interface EventCardGrid {
+  heading?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  rowsToShow: number;
+  filter: 'upcoming' | 'past';
+  /**
+   * Enables a "Show more" button
+   */
+  showMoreLabel?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventCardGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Heading".
+ */
+export interface Heading {
+  text: {
+    en: string;
+    es?: string | null;
+  };
+  /**
+   * Choose the heading level (smaller is bigger)
+   */
+  level: '1' | '2' | '3' | '4' | '5' | '6';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heading';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "hero".
  */
 export interface Hero {
@@ -139,24 +184,11 @@ export interface Hero {
     en?: string | null;
     es?: string | null;
   };
-  backgroundMedia?: {
-    en?: (number | null) | Media;
-    es?: (number | null) | Media;
-    altText?: {
-      en?: string | null;
-      es?: string | null;
-    };
-  };
-  ctas?:
-    | {
-        label: {
-          en: string;
-          es?: string | null;
-        };
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
+  backgroundMedia: number | Media;
+  /**
+   * Actions rendered in reverse order (first item displays on right or bottom)
+   */
+  actions?: Action[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -167,7 +199,27 @@ export interface Hero {
  */
 export interface Media {
   id: number;
-  title?: string | null;
+  /**
+   * Internal name of media
+   */
+  title: string;
+  media?: {
+    en?: (number | null) | MediaFile;
+    es?: (number | null) | MediaFile;
+  };
+  altText?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mediaFiles".
+ */
+export interface MediaFile {
+  id: number;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -182,25 +234,23 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "section".
+ * via the `definition` "Action".
  */
-export interface Section {
-  heading: {
+export interface Action {
+  label: {
     en: string;
     es?: string | null;
   };
-  blocks?: (Paragraph | LinkButton)[] | null;
-  media?: {
-    en?: (number | null) | Media;
-    es?: (number | null) | Media;
-    altText?: {
-      en?: string | null;
-      es?: string | null;
-    };
-  };
+  style: 'primary' | 'secondary' | 'subtle' | 'link';
+  actionType: 'navigate' | 'custom';
+  /**
+   * /example or https://example.com
+   */
+  url?: string | null;
+  customActionKey?: ('showMoreEvents' | 'checkMembershipStatus') | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'section';
+  blockType: 'action';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -217,17 +267,116 @@ export interface Paragraph {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LinkButton".
+ * via the `definition` "MediaBlock".
  */
-export interface LinkButton {
-  label: {
-    en: string;
-    es?: string | null;
-  };
-  url: string;
+export interface MediaBlock {
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'linkButton';
+  blockType: 'media';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "twoColumns".
+ */
+export interface TwoColumns {
+  columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
+  leftColumn?:
+    | (
+        | EventCardGrid
+        | Heading
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            subheading?: {
+              en?: string | null;
+              es?: string | null;
+            };
+            backgroundMedia: number | Media;
+            /**
+             * Actions rendered in reverse order (first item displays on right or bottom)
+             */
+            actions?: Action[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Action
+        | Paragraph
+        | MediaBlock
+        | Align
+      )[]
+    | null;
+  rightColumn?:
+    | (
+        | EventCardGrid
+        | Heading
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            subheading?: {
+              en?: string | null;
+              es?: string | null;
+            };
+            backgroundMedia: number | Media;
+            /**
+             * Actions rendered in reverse order (first item displays on right or bottom)
+             */
+            actions?: Action[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Action
+        | Paragraph
+        | MediaBlock
+        | Align
+      )[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'twoColumns';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Align".
+ */
+export interface Align {
+  align: 'left' | 'center' | 'right';
+  blocks?:
+    | (
+        | EventCardGrid
+        | Heading
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            subheading?: {
+              en?: string | null;
+              es?: string | null;
+            };
+            backgroundMedia: number | Media;
+            /**
+             * Actions rendered in reverse order (first item displays on right or bottom)
+             */
+            actions?: Action[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Action
+        | Paragraph
+        | MediaBlock
+      )[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'align';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -248,41 +397,29 @@ export interface Admin {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
+ * via the `definition` "events".
  */
-export interface Page {
+export interface Event {
   id: number;
   /**
-   * Part of the URL which routes to this page
+   * Part of the URL which routes to this event
    */
   slug: string;
-  /**
-   * Used to identify this page in a list of pages
-   */
-  name: string;
-  /**
-   * Shows up in the browser tab and search results
-   */
-  pageTitle?: {
-    en?: string | null;
+  titleText?: string | null;
+  title: {
+    en: string;
     es?: string | null;
   };
-  showInNav?: boolean | null;
-  /**
-   * Pages with lower values will be listed first
-   */
-  navigationOptions?: {
-    navOrder?: number | null;
-    /**
-     * Navigation link label
-     */
-    navLabel: {
-      en: string;
-      es?: string | null;
-    };
+  location: {
+    en: string;
+    es?: string | null;
   };
+  dateTime: string;
+  media: number | Media;
   blocks?:
     | (
+        | EventCardGrid
+        | Heading
         | {
             heading: {
               en: string;
@@ -292,49 +429,81 @@ export interface Page {
               en?: string | null;
               es?: string | null;
             };
-            backgroundMedia?: {
-              en?: (number | null) | Media;
-              es?: (number | null) | Media;
-              altText?: {
-                en?: string | null;
-                es?: string | null;
-              };
-            };
-            ctas?:
-              | {
-                  label: {
-                    en: string;
-                    es?: string | null;
-                  };
-                  url: string;
-                  id?: string | null;
-                }[]
-              | null;
+            backgroundMedia: number | Media;
+            /**
+             * Actions rendered in reverse order (first item displays on right or bottom)
+             */
+            actions?: Action[] | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
           }
-        | EventCardGrid
+        | Action
+        | Paragraph
+        | MediaBlock
         | {
-            heading: {
-              en: string;
-              es?: string | null;
-            };
-            blocks?: (Paragraph | LinkButton)[] | null;
-            media?: {
-              en?: (number | null) | Media;
-              es?: (number | null) | Media;
-              altText?: {
-                en?: string | null;
-                es?: string | null;
-              };
-            };
+            columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
+            leftColumn?:
+              | (
+                  | EventCardGrid
+                  | Heading
+                  | {
+                      heading: {
+                        en: string;
+                        es?: string | null;
+                      };
+                      subheading?: {
+                        en?: string | null;
+                        es?: string | null;
+                      };
+                      backgroundMedia: number | Media;
+                      /**
+                       * Actions rendered in reverse order (first item displays on right or bottom)
+                       */
+                      actions?: Action[] | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'hero';
+                    }
+                  | Action
+                  | Paragraph
+                  | MediaBlock
+                  | Align
+                )[]
+              | null;
+            rightColumn?:
+              | (
+                  | EventCardGrid
+                  | Heading
+                  | {
+                      heading: {
+                        en: string;
+                        es?: string | null;
+                      };
+                      subheading?: {
+                        en?: string | null;
+                        es?: string | null;
+                      };
+                      backgroundMedia: number | Media;
+                      /**
+                       * Actions rendered in reverse order (first item displays on right or bottom)
+                       */
+                      actions?: Action[] | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'hero';
+                    }
+                  | Action
+                  | Paragraph
+                  | MediaBlock
+                  | Align
+                )[]
+              | null;
             id?: string | null;
             blockName?: string | null;
-            blockType: 'section';
+            blockType: 'twoColumns';
           }
-        | Paragraph
-        | LinkButton
+        | Align
       )[]
     | null;
   updatedAt: string;
@@ -342,65 +511,120 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventCardGrid".
+ * via the `definition` "pages".
  */
-export interface EventCardGrid {
-  heading: {
-    en: string;
-    es?: string | null;
-  };
-  rowsToShow: number;
-  showMoreLabel?: {
-    en?: string | null;
-    es?: string | null;
-  };
-  link?: {
-    href?: string | null;
-    label?: {
-      en?: string | null;
-      es?: string | null;
-    };
-  };
-  filter: 'upcoming' | 'past';
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'eventCardGrid';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
+export interface Page {
   id: number;
   /**
-   * Part of the URL which routes to this event
+   * Part of the URL which routes to this page
    */
   slug: string;
-  /**
-   * Used to identify this page in a list of events
-   */
-  name: string;
-  /**
-   * Shows up in the browser tab and search results
-   */
-  pageTitle: {
+  titleText?: string | null;
+  title: {
     en: string;
     es?: string | null;
   };
-  dateTime: string;
-  location: {
-    en: string;
-    es?: string | null;
-  };
-  media: {
-    en: number | Media;
-    es?: (number | null) | Media;
-    altText: {
+  showInNav?: boolean | null;
+  /**
+   * Pages with lower values will be listed first
+   */
+  navigationOptions?: {
+    navOrder?: number | null;
+    navLabel: {
       en: string;
       es?: string | null;
     };
   };
-  blocks?: (Paragraph | LinkButton)[] | null;
+  blocks?:
+    | (
+        | EventCardGrid
+        | Heading
+        | {
+            heading: {
+              en: string;
+              es?: string | null;
+            };
+            subheading?: {
+              en?: string | null;
+              es?: string | null;
+            };
+            backgroundMedia: number | Media;
+            /**
+             * Actions rendered in reverse order (first item displays on right or bottom)
+             */
+            actions?: Action[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | Action
+        | Paragraph
+        | MediaBlock
+        | {
+            columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
+            leftColumn?:
+              | (
+                  | EventCardGrid
+                  | Heading
+                  | {
+                      heading: {
+                        en: string;
+                        es?: string | null;
+                      };
+                      subheading?: {
+                        en?: string | null;
+                        es?: string | null;
+                      };
+                      backgroundMedia: number | Media;
+                      /**
+                       * Actions rendered in reverse order (first item displays on right or bottom)
+                       */
+                      actions?: Action[] | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'hero';
+                    }
+                  | Action
+                  | Paragraph
+                  | MediaBlock
+                  | Align
+                )[]
+              | null;
+            rightColumn?:
+              | (
+                  | EventCardGrid
+                  | Heading
+                  | {
+                      heading: {
+                        en: string;
+                        es?: string | null;
+                      };
+                      subheading?: {
+                        en?: string | null;
+                        es?: string | null;
+                      };
+                      backgroundMedia: number | Media;
+                      /**
+                       * Actions rendered in reverse order (first item displays on right or bottom)
+                       */
+                      actions?: Action[] | null;
+                      id?: string | null;
+                      blockName?: string | null;
+                      blockType: 'hero';
+                    }
+                  | Action
+                  | Paragraph
+                  | MediaBlock
+                  | Align
+                )[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'twoColumns';
+          }
+        | Align
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -416,16 +640,20 @@ export interface PayloadLockedDocument {
         value: number | Admin;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: number | Page;
-      } | null)
-    | ({
         relationTo: 'events';
         value: number | Event;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'mediaFiles';
+        value: number | MediaFile;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -486,12 +714,303 @@ export interface AdminsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  slug?: T;
+  titleText?: T;
+  title?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  location?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  dateTime?: T;
+  media?: T;
+  blocks?:
+    | T
+    | {
+        eventCardGrid?: T | EventCardGridSelect<T>;
+        heading?: T | HeadingSelect<T>;
+        hero?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              subheading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              backgroundMedia?: T;
+              actions?:
+                | T
+                | {
+                    action?: T | ActionSelect<T>;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        action?: T | ActionSelect<T>;
+        paragraph?: T | ParagraphSelect<T>;
+        media?: T | MediaBlockSelect<T>;
+        twoColumns?:
+          | T
+          | {
+              columnRatio?: T;
+              leftColumn?:
+                | T
+                | {
+                    eventCardGrid?: T | EventCardGridSelect<T>;
+                    heading?: T | HeadingSelect<T>;
+                    hero?:
+                      | T
+                      | {
+                          heading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          subheading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          backgroundMedia?: T;
+                          actions?:
+                            | T
+                            | {
+                                action?: T | ActionSelect<T>;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                    action?: T | ActionSelect<T>;
+                    paragraph?: T | ParagraphSelect<T>;
+                    media?: T | MediaBlockSelect<T>;
+                    align?: T | AlignSelect<T>;
+                  };
+              rightColumn?:
+                | T
+                | {
+                    eventCardGrid?: T | EventCardGridSelect<T>;
+                    heading?: T | HeadingSelect<T>;
+                    hero?:
+                      | T
+                      | {
+                          heading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          subheading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          backgroundMedia?: T;
+                          actions?:
+                            | T
+                            | {
+                                action?: T | ActionSelect<T>;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                    action?: T | ActionSelect<T>;
+                    paragraph?: T | ParagraphSelect<T>;
+                    media?: T | MediaBlockSelect<T>;
+                    align?: T | AlignSelect<T>;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        align?: T | AlignSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCardGrid_select".
+ */
+export interface EventCardGridSelect<T extends boolean = true> {
+  heading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  rowsToShow?: T;
+  filter?: T;
+  showMoreLabel?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Heading_select".
+ */
+export interface HeadingSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  level?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Action_select".
+ */
+export interface ActionSelect<T extends boolean = true> {
+  label?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  style?: T;
+  actionType?: T;
+  url?: T;
+  customActionKey?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Paragraph_select".
+ */
+export interface ParagraphSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  media?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Align_select".
+ */
+export interface AlignSelect<T extends boolean = true> {
+  align?: T;
+  blocks?:
+    | T
+    | {
+        eventCardGrid?: T | EventCardGridSelect<T>;
+        heading?: T | HeadingSelect<T>;
+        hero?:
+          | T
+          | {
+              heading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              subheading?:
+                | T
+                | {
+                    en?: T;
+                    es?: T;
+                  };
+              backgroundMedia?: T;
+              actions?:
+                | T
+                | {
+                    action?: T | ActionSelect<T>;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        action?: T | ActionSelect<T>;
+        paragraph?: T | ParagraphSelect<T>;
+        media?: T | MediaBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  title?: T;
+  media?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  altText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mediaFiles_select".
+ */
+export interface MediaFilesSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
-  name?: T;
-  pageTitle?:
+  titleText?: T;
+  title?:
     | T
     | {
         en?: T;
@@ -512,6 +1031,8 @@ export interface PagesSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
+        eventCardGrid?: T | EventCardGridSelect<T>;
+        heading?: T | HeadingSelect<T>;
         hero?:
           | T
           | {
@@ -527,190 +1048,97 @@ export interface PagesSelect<T extends boolean = true> {
                     en?: T;
                     es?: T;
                   };
-              backgroundMedia?:
+              backgroundMedia?: T;
+              actions?:
                 | T
                 | {
-                    en?: T;
-                    es?: T;
-                    altText?:
-                      | T
-                      | {
-                          en?: T;
-                          es?: T;
-                        };
-                  };
-              ctas?:
-                | T
-                | {
-                    label?:
-                      | T
-                      | {
-                          en?: T;
-                          es?: T;
-                        };
-                    url?: T;
-                    id?: T;
+                    action?: T | ActionSelect<T>;
                   };
               id?: T;
               blockName?: T;
             };
-        eventCardGrid?: T | EventCardGridSelect<T>;
-        section?:
+        action?: T | ActionSelect<T>;
+        paragraph?: T | ParagraphSelect<T>;
+        media?: T | MediaBlockSelect<T>;
+        twoColumns?:
           | T
           | {
-              heading?:
+              columnRatio?: T;
+              leftColumn?:
                 | T
                 | {
-                    en?: T;
-                    es?: T;
-                  };
-              blocks?:
-                | T
-                | {
+                    eventCardGrid?: T | EventCardGridSelect<T>;
+                    heading?: T | HeadingSelect<T>;
+                    hero?:
+                      | T
+                      | {
+                          heading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          subheading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          backgroundMedia?: T;
+                          actions?:
+                            | T
+                            | {
+                                action?: T | ActionSelect<T>;
+                              };
+                          id?: T;
+                          blockName?: T;
+                        };
+                    action?: T | ActionSelect<T>;
                     paragraph?: T | ParagraphSelect<T>;
-                    linkButton?: T | LinkButtonSelect<T>;
+                    media?: T | MediaBlockSelect<T>;
+                    align?: T | AlignSelect<T>;
                   };
-              media?:
+              rightColumn?:
                 | T
                 | {
-                    en?: T;
-                    es?: T;
-                    altText?:
+                    eventCardGrid?: T | EventCardGridSelect<T>;
+                    heading?: T | HeadingSelect<T>;
+                    hero?:
                       | T
                       | {
-                          en?: T;
-                          es?: T;
+                          heading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          subheading?:
+                            | T
+                            | {
+                                en?: T;
+                                es?: T;
+                              };
+                          backgroundMedia?: T;
+                          actions?:
+                            | T
+                            | {
+                                action?: T | ActionSelect<T>;
+                              };
+                          id?: T;
+                          blockName?: T;
                         };
+                    action?: T | ActionSelect<T>;
+                    paragraph?: T | ParagraphSelect<T>;
+                    media?: T | MediaBlockSelect<T>;
+                    align?: T | AlignSelect<T>;
                   };
               id?: T;
               blockName?: T;
             };
-        paragraph?: T | ParagraphSelect<T>;
-        linkButton?: T | LinkButtonSelect<T>;
+        align?: T | AlignSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EventCardGrid_select".
- */
-export interface EventCardGridSelect<T extends boolean = true> {
-  heading?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  rowsToShow?: T;
-  showMoreLabel?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  link?:
-    | T
-    | {
-        href?: T;
-        label?:
-          | T
-          | {
-              en?: T;
-              es?: T;
-            };
-      };
-  filter?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Paragraph_select".
- */
-export interface ParagraphSelect<T extends boolean = true> {
-  text?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LinkButton_select".
- */
-export interface LinkButtonSelect<T extends boolean = true> {
-  label?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  url?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events_select".
- */
-export interface EventsSelect<T extends boolean = true> {
-  slug?: T;
-  name?: T;
-  pageTitle?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  dateTime?: T;
-  location?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-      };
-  media?:
-    | T
-    | {
-        en?: T;
-        es?: T;
-        altText?:
-          | T
-          | {
-              en?: T;
-              es?: T;
-            };
-      };
-  blocks?:
-    | T
-    | {
-        paragraph?: T | ParagraphSelect<T>;
-        linkButton?: T | LinkButtonSelect<T>;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -750,10 +1178,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Footer {
   id: number;
-  /**
-   * Shows below the logo
-   */
-  description?: {
+  slogan?: {
     en?: string | null;
     es?: string | null;
   };
@@ -768,10 +1193,10 @@ export interface Footer {
         };
         links?:
           | {
-              href: string;
               /**
-               * Clickable link text
+               * /example or https://example.com
                */
+              url: string;
               label: {
                 en: string;
                 es?: string | null;
@@ -782,13 +1207,15 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  socialLinks?: {
-    facebook?: string | null;
-    instagram?: string | null;
-    x?: string | null;
-    youtube?: string | null;
-    bluesky?: string | null;
-  };
+  socialLinks?:
+    | {
+        /**
+         * https://facebook.com/handle
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -798,10 +1225,17 @@ export interface Footer {
  */
 export interface General {
   id: number;
-  logo?: {
-    en?: (number | null) | Media;
-    es?: (number | null) | Media;
-    altText?: {
+  logo: number | Media;
+  eventLabels?: {
+    dateLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    timeLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    locationLabel?: {
       en?: string | null;
       es?: string | null;
     };
@@ -814,7 +1248,7 @@ export interface General {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  description?:
+  slogan?:
     | T
     | {
         en?: T;
@@ -832,7 +1266,7 @@ export interface FooterSelect<T extends boolean = true> {
         links?:
           | T
           | {
-              href?: T;
+              url?: T;
               label?:
                 | T
                 | {
@@ -846,11 +1280,8 @@ export interface FooterSelect<T extends boolean = true> {
   socialLinks?:
     | T
     | {
-        facebook?: T;
-        instagram?: T;
-        x?: T;
-        youtube?: T;
-        bluesky?: T;
+        url?: T;
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -861,12 +1292,23 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
-  logo?:
+  logo?: T;
+  eventLabels?:
     | T
     | {
-        en?: T;
-        es?: T;
-        altText?:
+        dateLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        timeLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        locationLabel?:
           | T
           | {
               en?: T;

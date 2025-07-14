@@ -7,7 +7,8 @@ import { BodyLayout } from '@common/components/BodyLayout'
 import { LocalizedMedia, LocalizedText } from '@common/types/language'
 import { getLocalizedValue } from '@common/lib/translation'
 import { Footer, General } from '../types/payload-types'
-import { FooterProps, SocialChannel } from '../components/Footer'
+import { FooterProps } from '../components/Footer'
+import { normalizeMedia } from '../lib/mediaUtil'
 
 export type RouteParams = { 
   slug: string,
@@ -27,7 +28,7 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   protected abstract fetcher: Fetcher<T>
   protected abstract allFetchers: Fetchers
 
-  protected renderBeforeBody(context: RouteContext, content: T): JSX.Element | null {
+  protected renderBeforeBody(context: RouteContext, content: T, general: General): JSX.Element | null {
     return null
   }
 
@@ -43,15 +44,16 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     const isHero = firstBlock?.blockType === 'hero'
     const heroBlock = isHero ? firstBlock : null
     const bodyBlocks = isHero ? remainingBlocks : blocks
+    const logo = normalizeMedia(general.logo)
 
     return (
       <BodyLayout
-        logo={general.logo}
+        logo={logo}
         navItems={navItems}
         hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers) : undefined}
-        footer={mapFooterToProps(footer, general.logo)}
+        footer={mapFooterToProps(footer, logo)}
       >
-        {this.renderBeforeBody(context, content)}
+        {this.renderBeforeBody(context, content, general)}
         {renderBlocks(bodyBlocks, this.allFetchers)}
       </BodyLayout>
     )
@@ -67,21 +69,15 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
 function mapFooterToProps(footer: Footer, logo?: LocalizedMedia): FooterProps {
   return {
     logo: logo,
-    description: footer.description,
+    slogan: footer.slogan,
     linkGroups: (footer.linkGroups ?? []).map(group => ({
       title: group.groupName,
       links: (group.links ?? []).map(link => ({
-        href: link.href,
+        href: link.url,
         label: link.label,
       })),
     })),
-    socialLinks: Object.entries(footer.socialLinks ?? {}).reduce(
-      (acc, [key, value]) => {
-        if (value != null) acc[key as keyof typeof acc] = value
-        return acc
-      },
-      {} as Partial<Record<SocialChannel, string>>
-    ),
+    socialLinks: footer.socialLinks?.map(link => link.url) ?? [],
   }
 }
 

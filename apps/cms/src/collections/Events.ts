@@ -1,17 +1,12 @@
 import { CollectionConfig } from 'payload'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
-import { LocalizedMediaField } from '../fields/localizedMediaField'
-import { Paragraph } from '../blocks/Paragraph'
-import { LinkButton } from '../blocks/LinkButton'
+import { allBlocks } from '../lib/allBlocks'
+import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 
 export const Events: CollectionConfig = {
   slug: 'events',
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: [
-      'name', 
-      'slug', 
-    ],
+    useAsTitle: 'titleText',
   },
   access: {
     read: () => true,
@@ -28,20 +23,29 @@ export const Events: CollectionConfig = {
       unique: true,
     },
     {
-      name: 'name',
+      name: 'titleText',
       type: 'text',
-      label: 'Internal Name',
       admin: {
-        description: 'Used to identify this page in a list of events'
+        readOnly: true,
+        hidden: true,
       },
-      required: true,
-      unique: true,
+      hooks: {
+        beforeValidate: [
+          ({ siblingData }) => {
+            return siblingData?.title?.[DEFAULT_LANGUAGE] ?? ''
+          },
+        ],
+      },
     },
     LocalizedTextField(
-      'pageTitle',   // TODO - this is used for event title - this should be required and name/desc updated
-      'Page Title', 
+      'title',
+      'Event Title', 
       true,
-      'Shows up in the browser tab and search results',
+    ),
+    LocalizedTextField(
+      'location', 
+      'Location', 
+      true,
     ),
     {
       name: 'dateTime',
@@ -55,24 +59,18 @@ export const Events: CollectionConfig = {
         position: 'sidebar',
       },
     },
-    LocalizedTextField(
-      'location', 
-      'Location', 
-      true,
-    ),
-    LocalizedMediaField(
-      'media', 
-      'Event Image',
-      true,
-    ),
+    {
+      name: 'media',
+      type: 'relationship',
+      label: 'Event Media',
+      relationTo: 'media',
+      required: true,
+    },
     {
       name: 'blocks',
       type: 'blocks',
       label: 'Section Content',
-      blocks: [
-        Paragraph,
-        LinkButton
-      ]
+      blocks: allBlocks,
     },
   ],
 }

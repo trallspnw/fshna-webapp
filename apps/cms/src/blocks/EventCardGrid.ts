@@ -1,5 +1,5 @@
 import { Block } from 'payload'
-import { LocalizedTextField } from '@cms/fields/localizedTextField'
+import { LocalizedTextField } from '../fields/localizedTextField'
 
 export const EventCardGrid: Block = {
   slug: 'eventCardGrid',
@@ -9,7 +9,11 @@ export const EventCardGrid: Block = {
     plural: 'Event Card Grids',
   },
   fields: [
-    LocalizedTextField('heading', 'Section Heading', true),
+    LocalizedTextField(
+      'heading', 
+      'Heading Text', 
+      false,
+    ),
     {
       name: 'rowsToShow',
       type: 'number',
@@ -17,20 +21,6 @@ export const EventCardGrid: Block = {
       required: true,
       defaultValue: 2,
       min: 1,
-    },
-    LocalizedTextField('showMoreLabel', 'Show More Button Label'),
-    {
-      type: 'group',
-      name: 'link',
-      label: 'Optional Link',
-      fields: [
-        {
-          name: 'href',
-          type: 'text',
-          label: 'Link URL',
-        },
-        LocalizedTextField('label', 'Button Label'),
-      ],
     },
     {
       name: 'filter',
@@ -49,5 +39,11 @@ export const EventCardGrid: Block = {
         },
       ],
     },
+    LocalizedTextField(
+      'showMoreLabel', 
+      'Show More Label', 
+      false,
+      'Enables a "Show more" button'
+    )
   ],
 }

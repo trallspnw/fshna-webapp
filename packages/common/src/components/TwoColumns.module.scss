@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--mantine-spacing-xl);
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    flex-direction: row;
+    gap: var(--mantine-spacing-xl);
+  }
+}
+
+.column {
+  @media (min-width: $mantine-breakpoint-sm) {
+    margin-bottom: var(--mantine-spacing-xl);
+  }
+}

@@ -8,12 +8,11 @@ import sharp from 'sharp'
 import { Admins } from './collections/Admins'
 import { Events } from './collections/Events'
 import { Pages } from './collections/Pages'
-import { Hero } from './blocks/Hero'
 import { Media } from './collections/Media'
-import { Paragraph } from './blocks/Paragraph'
-import { Section } from './blocks/Section'
 import { FooterGlobal } from './globals/Footer'
 import { GeneralGlobal } from './globals/General'
+import { MediaFiles } from './collections/MediaFiles'
+import { allBlocks } from './lib/allBlocks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,9 +26,10 @@ export default buildConfig({
   },
   collections: [
     Admins, 
-    Pages, 
     Events,
     Media,
+    MediaFiles,
+    Pages, 
   ],
   globals: [
     FooterGlobal,
@@ -49,9 +49,5 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
-  blocks: [
-    Hero,
-    Section,
-    Paragraph,
-  ],
+  blocks: allBlocks,
 })

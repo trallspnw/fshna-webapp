@@ -8,6 +8,7 @@ import {
   IconBrandX,
   IconBrandYoutube,
   IconBrandBluesky,
+  IconWorld,
 } from '@tabler/icons-react';
 import { ActionIcon, Container, Group, Text } from '@mantine/core';
 import classes from './Footer.module.scss';
@@ -31,8 +32,8 @@ type LinkGroup = {
 export type FooterProps = {
   logo?: LocalizedMedia
   linkGroups: LinkGroup[]
-  description?: LocalizedText
-  socialLinks?: Partial<Record<SocialChannel, string>>
+  slogan?: LocalizedText
+  socialLinks: string[]
   className?: string
 };
 
@@ -41,15 +42,17 @@ const iconProps = {
   stroke: 1.5,
 }
 
-const iconMap: Record<SocialChannel, JSX.Element> = {
-  facebook: <IconBrandFacebook {... iconProps} />,
-  instagram: <IconBrandInstagram  {... iconProps} />,
-  x: <IconBrandX {... iconProps} />,
-  youtube: <IconBrandYoutube {... iconProps} />,
-  bluesky: <IconBrandBluesky {... iconProps} />,
-};
+const iconMap: Record<SocialChannel | 'generic', JSX.Element> = {
+  facebook: <IconBrandFacebook {...iconProps} />,
+  instagram: <IconBrandInstagram {...iconProps} />,
+  x: <IconBrandX {...iconProps} />,
+  youtube: <IconBrandYoutube {...iconProps} />,
+  bluesky: <IconBrandBluesky {...iconProps} />,
+  generic: <IconWorld {...iconProps} />,
+}
 
-export function Footer({ logo, linkGroups, description, socialLinks = {}, className }: FooterProps) {
+
+export function Footer({ logo, linkGroups, slogan, socialLinks, className }: FooterProps) {
   const [language] = useLanguage();
 
   const groups = linkGroups.map((group, lgIndex) => (
@@ -76,7 +79,7 @@ export function Footer({ logo, linkGroups, description, socialLinks = {}, classN
             media={logo} 
           />}
           <Text size="xs" c="dimmed" className={classes.description}>
-            {getLocalizedValue(description, language)}
+            {getLocalizedValue(slogan, language)}
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
@@ -99,7 +102,7 @@ export function Footer({ logo, linkGroups, description, socialLinks = {}, classN
                   rel="noopener noreferrer"
                   aria-label={channel}
                 >
-                  {iconMap[channel as SocialChannel]}
+                  {iconMap[getPlatform(href)]}
                 </ActionIcon>
               );
             })}
@@ -108,4 +111,20 @@ export function Footer({ logo, linkGroups, description, socialLinks = {}, classN
       )}
     </footer>
   );
+}
+
+function getPlatform(url: string): SocialChannel | 'generic' {
+  try {
+    const hostname = new URL(url).hostname.toLowerCase()
+
+    if (hostname.includes('facebook.com')) return 'facebook'
+    if (hostname.includes('instagram.com')) return 'instagram'
+    if (hostname.includes('x.com') || hostname.includes('twitter.com')) return 'x'
+    if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) return 'youtube'
+    if (hostname.includes('bsky.app'))return 'bluesky'
+
+    return 'generic'
+  } catch {
+    return 'generic'
+  }
 }

@@ -1,0 +1,8 @@
+.heading {
+  margin-bottom: var(--mantine-spacing-lg);
+  text-align: center;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    text-align: left;
+  }
+}
