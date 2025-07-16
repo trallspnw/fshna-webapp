@@ -1,4 +1,6 @@
 .image {
   width: 100%;
+  max-width: 800px;
   height: auto;
+  margin: auto auto var(--mantine-spacing-xl) auto;
 }

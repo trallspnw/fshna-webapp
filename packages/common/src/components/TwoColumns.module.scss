@@ -8,9 +8,3 @@
     gap: var(--mantine-spacing-xl);
   }
 }
-
-.column {
-  @media (min-width: $mantine-breakpoint-sm) {
-    margin-bottom: var(--mantine-spacing-xl);
-  }
-}
