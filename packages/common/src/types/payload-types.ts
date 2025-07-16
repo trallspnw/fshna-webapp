@@ -72,6 +72,7 @@ export interface Config {
     paragraph: Paragraph;
     media: MediaBlock;
     twoColumns: TwoColumns;
+    accordion: Accordion;
   };
   collections: {
     admins: Admin;
@@ -380,6 +381,49 @@ export interface Align {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Accordion".
+ */
+export interface Accordion {
+  items: {
+    title: {
+      en: string;
+      es?: string | null;
+    };
+    content?:
+      | (
+          | EventCardGrid
+          | Heading
+          | {
+              heading: {
+                en: string;
+                es?: string | null;
+              };
+              subheading?: {
+                en?: string | null;
+                es?: string | null;
+              };
+              backgroundMedia: number | Media;
+              /**
+               * Actions rendered in reverse order (first item displays on right or bottom)
+               */
+              actions?: Action[] | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'hero';
+            }
+          | Action
+          | Paragraph
+          | MediaBlock
+        )[]
+      | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'accordion';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admins".
  */
 export interface Admin {
@@ -504,6 +548,7 @@ export interface Event {
             blockType: 'twoColumns';
           }
         | Align
+        | Accordion
       )[]
     | null;
   updatedAt: string;
@@ -623,6 +668,7 @@ export interface Page {
             blockType: 'twoColumns';
           }
         | Align
+        | Accordion
       )[]
     | null;
   updatedAt: string;
@@ -841,6 +887,7 @@ export interface EventsSelect<T extends boolean = true> {
               blockName?: T;
             };
         align?: T | AlignSelect<T>;
+        accordion?: T | AccordionSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -961,6 +1008,58 @@ export interface AlignSelect<T extends boolean = true> {
         action?: T | ActionSelect<T>;
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Accordion_select".
+ */
+export interface AccordionSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        title?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        content?:
+          | T
+          | {
+              eventCardGrid?: T | EventCardGridSelect<T>;
+              heading?: T | HeadingSelect<T>;
+              hero?:
+                | T
+                | {
+                    heading?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
+                    subheading?:
+                      | T
+                      | {
+                          en?: T;
+                          es?: T;
+                        };
+                    backgroundMedia?: T;
+                    actions?:
+                      | T
+                      | {
+                          action?: T | ActionSelect<T>;
+                        };
+                    id?: T;
+                    blockName?: T;
+                  };
+              action?: T | ActionSelect<T>;
+              paragraph?: T | ParagraphSelect<T>;
+              media?: T | MediaBlockSelect<T>;
+            };
+        id?: T;
       };
   id?: T;
   blockName?: T;
@@ -1136,6 +1235,7 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         align?: T | AlignSelect<T>;
+        accordion?: T | AccordionSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;

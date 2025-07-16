@@ -1,4 +1,5 @@
-import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align } from "@common/types/payload-types";
+import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion } from "@common/types/payload-types";
+import { render as renderAccordion } from '@common/handlers/blocks/accordion'
 import { render as renderAction } from '@common/handlers/blocks/action'
 import { render as renderAlign } from '@common/handlers/blocks/align'
 import { render as renderHeading } from '@common/handlers/blocks/heading'
@@ -11,6 +12,10 @@ import { JSX } from "react";
 import { Fetcher, Fetchers, FetcherTypes } from "../fetchers/fetcher";
 
 export const blockRegistry = {
+  accordion: {
+    render: renderAccordion,
+    type: {} as Accordion,
+  },
   action: {
     render: renderAction,
     type: {} as Action,
