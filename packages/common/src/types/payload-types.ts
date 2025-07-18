@@ -71,6 +71,7 @@ export interface Config {
     hero: Hero;
     paragraph: Paragraph;
     media: MediaBlock;
+    membershipStatusForm: MembershipStatusForm;
     twoColumns: TwoColumns;
     accordion: Accordion;
   };
@@ -278,6 +279,35 @@ export interface MediaBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipStatusForm".
+ */
+export interface MembershipStatusForm {
+  submitButtonText: {
+    en: string;
+    es?: string | null;
+  };
+  successHeading: {
+    en: string;
+    es?: string | null;
+  };
+  successMessage: {
+    en: string;
+    es?: string | null;
+  };
+  failureHeading: {
+    en: string;
+    es?: string | null;
+  };
+  failureMessage: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'membershipStatusForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "twoColumns".
  */
 export interface TwoColumns {
@@ -307,6 +337,7 @@ export interface TwoColumns {
         | Action
         | Paragraph
         | MediaBlock
+        | MembershipStatusForm
         | Align
       )[]
     | null;
@@ -335,6 +366,7 @@ export interface TwoColumns {
         | Action
         | Paragraph
         | MediaBlock
+        | MembershipStatusForm
         | Align
       )[]
     | null;
@@ -373,6 +405,7 @@ export interface Align {
         | Action
         | Paragraph
         | MediaBlock
+        | MembershipStatusForm
       )[]
     | null;
   id?: string | null;
@@ -414,6 +447,7 @@ export interface Accordion {
           | Action
           | Paragraph
           | MediaBlock
+          | MembershipStatusForm
         )[]
       | null;
     id?: string | null;
@@ -485,6 +519,7 @@ export interface Event {
         | Action
         | Paragraph
         | MediaBlock
+        | MembershipStatusForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -512,6 +547,7 @@ export interface Event {
                   | Action
                   | Paragraph
                   | MediaBlock
+                  | MembershipStatusForm
                   | Align
                 )[]
               | null;
@@ -540,6 +576,7 @@ export interface Event {
                   | Action
                   | Paragraph
                   | MediaBlock
+                  | MembershipStatusForm
                   | Align
                 )[]
               | null;
@@ -605,6 +642,7 @@ export interface Page {
         | Action
         | Paragraph
         | MediaBlock
+        | MembershipStatusForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -632,6 +670,7 @@ export interface Page {
                   | Action
                   | Paragraph
                   | MediaBlock
+                  | MembershipStatusForm
                   | Align
                 )[]
               | null;
@@ -660,6 +699,7 @@ export interface Page {
                   | Action
                   | Paragraph
                   | MediaBlock
+                  | MembershipStatusForm
                   | Align
                 )[]
               | null;
@@ -811,6 +851,7 @@ export interface EventsSelect<T extends boolean = true> {
         action?: T | ActionSelect<T>;
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
+        membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -847,6 +888,7 @@ export interface EventsSelect<T extends boolean = true> {
                     action?: T | ActionSelect<T>;
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
+                    membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -881,6 +923,7 @@ export interface EventsSelect<T extends boolean = true> {
                     action?: T | ActionSelect<T>;
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
+                    membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -972,6 +1015,44 @@ export interface MediaBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipStatusForm_select".
+ */
+export interface MembershipStatusFormSelect<T extends boolean = true> {
+  submitButtonText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  successHeading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  successMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  failureHeading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  failureMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Align_select".
  */
 export interface AlignSelect<T extends boolean = true> {
@@ -1008,6 +1089,7 @@ export interface AlignSelect<T extends boolean = true> {
         action?: T | ActionSelect<T>;
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
+        membershipStatusForm?: T | MembershipStatusFormSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1058,6 +1140,7 @@ export interface AccordionSelect<T extends boolean = true> {
               action?: T | ActionSelect<T>;
               paragraph?: T | ParagraphSelect<T>;
               media?: T | MediaBlockSelect<T>;
+              membershipStatusForm?: T | MembershipStatusFormSelect<T>;
             };
         id?: T;
       };
@@ -1159,6 +1242,7 @@ export interface PagesSelect<T extends boolean = true> {
         action?: T | ActionSelect<T>;
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
+        membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -1195,6 +1279,7 @@ export interface PagesSelect<T extends boolean = true> {
                     action?: T | ActionSelect<T>;
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
+                    membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -1229,6 +1314,7 @@ export interface PagesSelect<T extends boolean = true> {
                     action?: T | ActionSelect<T>;
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
+                    membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1340,6 +1426,20 @@ export interface General {
       es?: string | null;
     };
   };
+  email?: {
+    emailLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    emailPlaceholder?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    emailValidationError?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1409,6 +1509,28 @@ export interface GeneralSelect<T extends boolean = true> {
               es?: T;
             };
         locationLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+      };
+  email?:
+    | T
+    | {
+        emailLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        emailPlaceholder?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        emailValidationError?:
           | T
           | {
               en?: T;

@@ -1,10 +1,11 @@
-import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion } from "@common/types/payload-types";
+import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion, MembershipStatusForm, General } from "@common/types/payload-types";
 import { render as renderAccordion } from '@common/handlers/blocks/accordion'
 import { render as renderAction } from '@common/handlers/blocks/action'
 import { render as renderAlign } from '@common/handlers/blocks/align'
 import { render as renderHeading } from '@common/handlers/blocks/heading'
 import { render as renderHero } from '@common/handlers/blocks/hero'
 import { render as renderMedia } from '@common/handlers/blocks/media'
+import { render as renderMembershipStatusForm } from '@common/handlers/blocks/membershipStatusForm'
 import { render as renderParagraph } from '@common/handlers/blocks/paragraph'
 import { render as renderEventCardGrid } from '@common/handlers/blocks/eventCardGrid'
 import { render as renderTwoColumns } from '@common/handlers/blocks/twoColumns'
@@ -40,6 +41,10 @@ export const blockRegistry = {
     render: renderMedia,
     type: {} as MediaBlock,
   },
+  membershipStatusForm: {
+    render: renderMembershipStatusForm,
+    type: {} as MembershipStatusForm,
+  },
   paragraph: {
     render: renderParagraph,
     type: {} as Paragraph,
@@ -60,7 +65,7 @@ export type BlockMap = {
 
 export type BaseBlock = BlockMap[BlockType]
 
-export function renderBlocks(blocks: BaseBlock[], fetchers: Fetchers) : JSX.Element[] {
+export function renderBlocks(blocks: BaseBlock[], fetchers: Fetchers, generalGlobals: General) : JSX.Element[] {
   return (
     blocks?.map((block, index) => {
       const blockType = block.blockType
@@ -69,9 +74,10 @@ export function renderBlocks(blocks: BaseBlock[], fetchers: Fetchers) : JSX.Elem
         block: Extract<BaseBlock, { blockType: typeof blockType }>,
         index: number,
         fetchers: Record<FetcherTypes, Fetcher<any>>,
+        generalGlobals: General,
       ) => JSX.Element
 
-      return render(block, index, fetchers)
+      return render(block, index, fetchers, generalGlobals)
     })?.filter(Boolean) ?? []
   )
 }

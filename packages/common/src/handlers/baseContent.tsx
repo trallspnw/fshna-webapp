@@ -50,11 +50,11 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
       <BodyLayout
         logo={logo}
         navItems={navItems}
-        hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers) : undefined}
+        hero={heroBlock ? renderBlocks([heroBlock], this.allFetchers, general) : undefined}
         footer={mapFooterToProps(footer, logo)}
       >
         {this.renderBeforeBody(context, content, general)}
-        {renderBlocks(bodyBlocks, this.allFetchers)}
+        {renderBlocks(bodyBlocks, this.allFetchers, general)}
       </BodyLayout>
     )
   }

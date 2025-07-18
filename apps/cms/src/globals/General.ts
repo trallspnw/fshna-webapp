@@ -25,5 +25,15 @@ export const GeneralGlobal: GlobalConfig = {
         LocalizedTextField('locationLabel', 'Location Label'),
       ],
     },
+    {
+      type: 'group',
+      name: 'email',
+      label: 'Email Input',
+      fields: [
+        LocalizedTextField('emailLabel', 'Email Label'),
+        LocalizedTextField('emailPlaceholder', 'Email Placeholder'),
+        LocalizedTextField('emailValidationError', 'Email Input Error'),
+      ],
+    },
   ],
 }

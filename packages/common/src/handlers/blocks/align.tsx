@@ -1,10 +1,10 @@
-import { Align } from '@common/types/payload-types'
+import { Align, General } from '@common/types/payload-types'
 import { renderBlocks } from '../../lib/blockUtil'
 import { Flex } from '@mantine/core'
 import type { JSX } from 'react'
 import { Fetchers } from '../../fetchers/fetcher'
 
-export function render(block: Align, index: number, fetchers: Fetchers): JSX.Element {
+export function render(block: Align, index: number, fetchers: Fetchers, generalGlobals: General): JSX.Element {
   const justifyMap = {
     left: 'flex-start',
     center: 'center',
@@ -18,7 +18,7 @@ export function render(block: Align, index: number, fetchers: Fetchers): JSX.Ele
       w='100%'
       mb='lg'
     >
-      {renderBlocks(block.blocks ?? [], fetchers)}
+      {renderBlocks(block.blocks ?? [], fetchers, generalGlobals)}
     </Flex>
   )
 }
