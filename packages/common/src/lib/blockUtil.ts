@@ -1,4 +1,19 @@
-import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion, MembershipStatusForm, General, SubscriptionForm, DonationForm } from "@common/types/payload-types";
+import { 
+  Hero, 
+  Paragraph, 
+  EventCardGrid, 
+  Heading, 
+  Action, 
+  MediaBlock, 
+  TwoColumns, 
+  Align, 
+  Accordion, 
+  MembershipStatusForm, 
+  General, 
+  SubscriptionForm, 
+  DonationForm, 
+  MembershipDuesForm,
+} from "@common/types/payload-types";
 import { render as renderAccordion } from '@common/handlers/blocks/accordion'
 import { render as renderAction } from '@common/handlers/blocks/action'
 import { render as renderAlign } from '@common/handlers/blocks/align'
@@ -6,6 +21,7 @@ import { render as renderDonationForm } from '@common/handlers/blocks/donationFo
 import { render as renderHeading } from '@common/handlers/blocks/heading'
 import { render as renderHero } from '@common/handlers/blocks/hero'
 import { render as renderMedia } from '@common/handlers/blocks/media'
+import { render as renderMembershipDuesForm } from '@common/handlers/blocks/membershipDuesForm'
 import { render as renderMembershipStatusForm } from '@common/handlers/blocks/membershipStatusForm'
 import { render as renderParagraph } from '@common/handlers/blocks/paragraph'
 import { render as renderEventCardGrid } from '@common/handlers/blocks/eventCardGrid'
@@ -46,6 +62,10 @@ export const blockRegistry = {
   media: {
     render: renderMedia,
     type: {} as MediaBlock,
+  },
+  membershipDuesForm: {
+    render: renderMembershipDuesForm,
+    type: {} as MembershipDuesForm,
   },
   membershipStatusForm: {
     render: renderMembershipStatusForm,

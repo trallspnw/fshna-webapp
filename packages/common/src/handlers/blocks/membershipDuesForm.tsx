@@ -1,0 +1,29 @@
+import { JSX } from 'react'
+import { General, MembershipDuesForm as MembershipDuesFormType } from '@common/types/payload-types'
+import { MembershipDuesForm } from '../../components/MembershipDuesForm'
+
+export function render(
+  block: MembershipDuesFormType,
+  index: number,
+  fetchers: any,
+  generalGlobals: General,
+): JSX.Element {
+
+  return (
+    <MembershipDuesForm
+      key={index}
+      emailLabel={generalGlobals.email?.emailLabel}
+      emailPlaceholder={generalGlobals.email?.emailPlaceholder}
+      emailValidationError={generalGlobals.email?.emailValidationError}
+      phoneLabel={generalGlobals.phone?.phoneLabel}
+      phonePlaceholder={generalGlobals.phone?.phonePlaceholder}
+      phoneValidationError={generalGlobals.phone?.phoneValidationError}
+      addressLabel={generalGlobals.address?.addressLabel}
+      addressPlaceholder={generalGlobals.address?.addressPlaceholder}
+      addressValidationError={generalGlobals.address?.addressValidationError}
+      submitButtonText={block.submitButtonText}
+      priceLabel={block.priceLabel}
+      membershipPrice={generalGlobals.membershipPrice}
+    />
+  )
+}

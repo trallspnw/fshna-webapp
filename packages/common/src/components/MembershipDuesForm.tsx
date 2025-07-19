@@ -2,16 +2,13 @@
 
 import { useState } from "react"
 import { useLanguage } from "../hooks/useLanguage"
-import { LANGUAGES, LocalizedText } from "../types/language"
-import { Button, Group, Textarea, TextInput } from "@mantine/core"
+import { LocalizedText } from "../types/language"
+import { Button, Group, Text, Textarea, TextInput } from "@mantine/core"
 import { getLocalizedValue } from "../lib/translation"
-import classes from './DonationForm.module.scss'
-import { isValidEmail, isValidUsdAmount, isValidUsPhone } from "../lib/validation"
+import classes from './MembershipDuesForm.module.scss'
+import { isValidEmail, isValidUsPhone } from "../lib/validation"
 
 type DonationFormProps = {
-  amountLabel?: LocalizedText
-  amountPlaceholder?: LocalizedText
-  amountValidationError?: LocalizedText
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
@@ -22,17 +19,17 @@ type DonationFormProps = {
   addressPlaceholder?: LocalizedText
   addressValidationError?: LocalizedText
   submitButtonText: LocalizedText
+  priceLabel: LocalizedText
+  membershipPrice: number
 }
 
-export function DonationForm(props: DonationFormProps) {
+export function MembershipDuesForm(props: DonationFormProps) {
   const [language] = useLanguage()
-  const [amount, setAmount] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [phoneNormalized, setPhoneNormalized] = useState('')
   const [address, setAddress] = useState('')
 
-  const [amountError, setAmountError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
   const [addressError, setAddressError] = useState<string | null>(null)
@@ -41,13 +38,6 @@ export function DonationForm(props: DonationFormProps) {
     e.preventDefault()
 
     let isValid = true
-
-    if (!isValidUsdAmount(amount)) {
-      setAmountError(getLocalizedValue(props.amountValidationError, language, 'Invalid amount'))
-      isValid = false
-    } else {
-      setAmountError(null)
-    }
 
     if (!isValidEmail(email)) {
       setEmailError(getLocalizedValue(props.emailValidationError, language, 'Invalid email'))
@@ -74,21 +64,6 @@ export function DonationForm(props: DonationFormProps) {
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
       <Group gap="xs" wrap="wrap" align="end" justify="flex-end">
-        <TextInput
-          label={getLocalizedValue(props.amountLabel, language, 'Amount')}
-          placeholder={getLocalizedValue(props.amountPlaceholder, language) ?? undefined}
-          leftSection={language === LANGUAGES.EN ? '$' : undefined}
-          rightSection={language === LANGUAGES.ES ? '$' : undefined}
-          value={amount}
-          onChange={(e) => {
-            setAmount(e.currentTarget.value)
-            setAmountError(null)
-          }}
-          error={amountError}
-          required
-          className={classes.input}
-        />
-
         <TextInput
           label={getLocalizedValue(props.emailLabel, language, 'Email')}
           placeholder={getLocalizedValue(props.emailPlaceholder, language) ?? undefined}
@@ -128,10 +103,19 @@ export function DonationForm(props: DonationFormProps) {
           error={addressError}
           className={classes.input}
         />
-
-        <Button type="submit" variant="filled" className={classes.button}>
-          {getLocalizedValue(props.submitButtonText, language)}
-        </Button>
+        
+        <span className={classes.checkoutRow}>
+          <Text fw="700">
+            {getLocalizedValue(props.priceLabel, language)}:{'\u00A0'}
+            {new Intl.NumberFormat(language, {
+              style: 'currency',
+              currency: 'USD',
+            }).format(10)}
+          </Text>
+          <Button type="submit" variant="filled" className={classes.button}>
+            {getLocalizedValue(props.submitButtonText, language)}
+          </Button>
+        </span>
       </Group>
     </form>
   )

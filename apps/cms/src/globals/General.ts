@@ -16,6 +16,12 @@ export const GeneralGlobal: GlobalConfig = {
       required: true,
     },
     {
+      name: 'membershipPrice',
+      type: 'number',
+      label: 'Membership Price',
+      required: true,
+    },
+    {
       type: 'group',
       name: 'eventLabels',
       label: 'Event Labels',

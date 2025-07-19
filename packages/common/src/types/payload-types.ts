@@ -74,6 +74,7 @@ export interface Config {
     membershipStatusForm: MembershipStatusForm;
     subscriptionForm: SubscriptionForm;
     donationForm: DonationForm;
+    membershipDuesForm: MembershipDuesForm;
     twoColumns: TwoColumns;
     accordion: Accordion;
   };
@@ -364,6 +365,23 @@ export interface DonationForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipDuesForm".
+ */
+export interface MembershipDuesForm {
+  submitButtonText: {
+    en: string;
+    es?: string | null;
+  };
+  priceLabel: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'membershipDuesForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "twoColumns".
  */
 export interface TwoColumns {
@@ -396,6 +414,7 @@ export interface TwoColumns {
         | MembershipStatusForm
         | SubscriptionForm
         | DonationForm
+        | MembershipDuesForm
         | Align
       )[]
     | null;
@@ -427,6 +446,7 @@ export interface TwoColumns {
         | MembershipStatusForm
         | SubscriptionForm
         | DonationForm
+        | MembershipDuesForm
         | Align
       )[]
     | null;
@@ -468,6 +488,7 @@ export interface Align {
         | MembershipStatusForm
         | SubscriptionForm
         | DonationForm
+        | MembershipDuesForm
       )[]
     | null;
   id?: string | null;
@@ -512,6 +533,7 @@ export interface Accordion {
           | MembershipStatusForm
           | SubscriptionForm
           | DonationForm
+          | MembershipDuesForm
         )[]
       | null;
     id?: string | null;
@@ -586,6 +608,7 @@ export interface Event {
         | MembershipStatusForm
         | SubscriptionForm
         | DonationForm
+        | MembershipDuesForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -616,6 +639,7 @@ export interface Event {
                   | MembershipStatusForm
                   | SubscriptionForm
                   | DonationForm
+                  | MembershipDuesForm
                   | Align
                 )[]
               | null;
@@ -647,6 +671,7 @@ export interface Event {
                   | MembershipStatusForm
                   | SubscriptionForm
                   | DonationForm
+                  | MembershipDuesForm
                   | Align
                 )[]
               | null;
@@ -715,6 +740,7 @@ export interface Page {
         | MembershipStatusForm
         | SubscriptionForm
         | DonationForm
+        | MembershipDuesForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -745,6 +771,7 @@ export interface Page {
                   | MembershipStatusForm
                   | SubscriptionForm
                   | DonationForm
+                  | MembershipDuesForm
                   | Align
                 )[]
               | null;
@@ -776,6 +803,7 @@ export interface Page {
                   | MembershipStatusForm
                   | SubscriptionForm
                   | DonationForm
+                  | MembershipDuesForm
                   | Align
                 )[]
               | null;
@@ -930,6 +958,7 @@ export interface EventsSelect<T extends boolean = true> {
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
         donationForm?: T | DonationFormSelect<T>;
+        membershipDuesForm?: T | MembershipDuesFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -969,6 +998,7 @@ export interface EventsSelect<T extends boolean = true> {
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
                     donationForm?: T | DonationFormSelect<T>;
+                    membershipDuesForm?: T | MembershipDuesFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -1006,6 +1036,7 @@ export interface EventsSelect<T extends boolean = true> {
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
                     donationForm?: T | DonationFormSelect<T>;
+                    membershipDuesForm?: T | MembershipDuesFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1205,6 +1236,26 @@ export interface DonationFormSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipDuesForm_select".
+ */
+export interface MembershipDuesFormSelect<T extends boolean = true> {
+  submitButtonText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  priceLabel?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Align_select".
  */
 export interface AlignSelect<T extends boolean = true> {
@@ -1244,6 +1295,7 @@ export interface AlignSelect<T extends boolean = true> {
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
         donationForm?: T | DonationFormSelect<T>;
+        membershipDuesForm?: T | MembershipDuesFormSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1297,6 +1349,7 @@ export interface AccordionSelect<T extends boolean = true> {
               membershipStatusForm?: T | MembershipStatusFormSelect<T>;
               subscriptionForm?: T | SubscriptionFormSelect<T>;
               donationForm?: T | DonationFormSelect<T>;
+              membershipDuesForm?: T | MembershipDuesFormSelect<T>;
             };
         id?: T;
       };
@@ -1401,6 +1454,7 @@ export interface PagesSelect<T extends boolean = true> {
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
         donationForm?: T | DonationFormSelect<T>;
+        membershipDuesForm?: T | MembershipDuesFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -1440,6 +1494,7 @@ export interface PagesSelect<T extends boolean = true> {
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
                     donationForm?: T | DonationFormSelect<T>;
+                    membershipDuesForm?: T | MembershipDuesFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -1477,6 +1532,7 @@ export interface PagesSelect<T extends boolean = true> {
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
                     donationForm?: T | DonationFormSelect<T>;
+                    membershipDuesForm?: T | MembershipDuesFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1574,6 +1630,7 @@ export interface Footer {
 export interface General {
   id: number;
   logo: number | Media;
+  membershipPrice: number;
   eventLabels?: {
     dateLabel?: {
       en?: string | null;
@@ -1683,6 +1740,7 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface GeneralSelect<T extends boolean = true> {
   logo?: T;
+  membershipPrice?: T;
   eventLabels?:
     | T
     | {

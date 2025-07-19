@@ -1,0 +1,15 @@
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.input {
+  width: 100%;
+}
+
+.checkoutRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
