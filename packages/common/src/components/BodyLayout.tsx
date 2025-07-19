@@ -8,38 +8,24 @@ import clsx from "clsx"
 import { Footer, FooterProps } from "./Footer"
 import { LocalizedMedia } from "../types/language"
 
-// TODO - placeholder theme - this should be pulled from payload globals
-const forestGreen: MantineColorsTuple = [
+// TODO - move theme to configuration before launch
+const primaryColor: MantineColorsTuple = [
   '#e6f1ea',
   '#c8ddcd',
   '#a7c9b0',
   '#83b591',
   '#64a279',
   '#4e9369',
-  '#408b5f', // primary shade
+  '#408b5f', // main
   '#367b53',
   '#2f6d49',
   '#235b3b',
 ]
 
-const cedarBark: MantineColorsTuple = [
-  '#fef3e6',
-  '#fce0c3',
-  '#facc9c',
-  '#f8b671',
-  '#f6a24d',
-  '#f59433',
-  '#f58824', // secondary shade
-  '#db751b',
-  '#bf6515',
-  '#a3530f',
-]
-
 export const theme = createTheme({
-  primaryColor: 'forest',
+  primaryColor: 'primaryColor',
   colors: {
-    forest: forestGreen,
-    cedar: cedarBark,
+    primaryColor: primaryColor,
   },
   fontFamily: 'system-ui, sans-serif',
   headings: {
