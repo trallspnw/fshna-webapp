@@ -72,6 +72,7 @@ export interface Config {
     paragraph: Paragraph;
     media: MediaBlock;
     membershipStatusForm: MembershipStatusForm;
+    subscriptionForm: SubscriptionForm;
     twoColumns: TwoColumns;
     accordion: Accordion;
   };
@@ -308,6 +309,35 @@ export interface MembershipStatusForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionForm".
+ */
+export interface SubscriptionForm {
+  submitButtonText: {
+    en: string;
+    es?: string | null;
+  };
+  successHeading: {
+    en: string;
+    es?: string | null;
+  };
+  successMessage: {
+    en: string;
+    es?: string | null;
+  };
+  failureHeading: {
+    en: string;
+    es?: string | null;
+  };
+  failureMessage: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'subscriptionForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "twoColumns".
  */
 export interface TwoColumns {
@@ -338,6 +368,7 @@ export interface TwoColumns {
         | Paragraph
         | MediaBlock
         | MembershipStatusForm
+        | SubscriptionForm
         | Align
       )[]
     | null;
@@ -367,6 +398,7 @@ export interface TwoColumns {
         | Paragraph
         | MediaBlock
         | MembershipStatusForm
+        | SubscriptionForm
         | Align
       )[]
     | null;
@@ -406,6 +438,7 @@ export interface Align {
         | Paragraph
         | MediaBlock
         | MembershipStatusForm
+        | SubscriptionForm
       )[]
     | null;
   id?: string | null;
@@ -448,6 +481,7 @@ export interface Accordion {
           | Paragraph
           | MediaBlock
           | MembershipStatusForm
+          | SubscriptionForm
         )[]
       | null;
     id?: string | null;
@@ -520,6 +554,7 @@ export interface Event {
         | Paragraph
         | MediaBlock
         | MembershipStatusForm
+        | SubscriptionForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -548,6 +583,7 @@ export interface Event {
                   | Paragraph
                   | MediaBlock
                   | MembershipStatusForm
+                  | SubscriptionForm
                   | Align
                 )[]
               | null;
@@ -577,6 +613,7 @@ export interface Event {
                   | Paragraph
                   | MediaBlock
                   | MembershipStatusForm
+                  | SubscriptionForm
                   | Align
                 )[]
               | null;
@@ -643,6 +680,7 @@ export interface Page {
         | Paragraph
         | MediaBlock
         | MembershipStatusForm
+        | SubscriptionForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -671,6 +709,7 @@ export interface Page {
                   | Paragraph
                   | MediaBlock
                   | MembershipStatusForm
+                  | SubscriptionForm
                   | Align
                 )[]
               | null;
@@ -700,6 +739,7 @@ export interface Page {
                   | Paragraph
                   | MediaBlock
                   | MembershipStatusForm
+                  | SubscriptionForm
                   | Align
                 )[]
               | null;
@@ -852,6 +892,7 @@ export interface EventsSelect<T extends boolean = true> {
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+        subscriptionForm?: T | SubscriptionFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -889,6 +930,7 @@ export interface EventsSelect<T extends boolean = true> {
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+                    subscriptionForm?: T | SubscriptionFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -924,6 +966,7 @@ export interface EventsSelect<T extends boolean = true> {
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+                    subscriptionForm?: T | SubscriptionFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1053,6 +1096,44 @@ export interface MembershipStatusFormSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubscriptionForm_select".
+ */
+export interface SubscriptionFormSelect<T extends boolean = true> {
+  submitButtonText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  successHeading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  successMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  failureHeading?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  failureMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Align_select".
  */
 export interface AlignSelect<T extends boolean = true> {
@@ -1090,6 +1171,7 @@ export interface AlignSelect<T extends boolean = true> {
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+        subscriptionForm?: T | SubscriptionFormSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1141,6 +1223,7 @@ export interface AccordionSelect<T extends boolean = true> {
               paragraph?: T | ParagraphSelect<T>;
               media?: T | MediaBlockSelect<T>;
               membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+              subscriptionForm?: T | SubscriptionFormSelect<T>;
             };
         id?: T;
       };
@@ -1243,6 +1326,7 @@ export interface PagesSelect<T extends boolean = true> {
         paragraph?: T | ParagraphSelect<T>;
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+        subscriptionForm?: T | SubscriptionFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -1280,6 +1364,7 @@ export interface PagesSelect<T extends boolean = true> {
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+                    subscriptionForm?: T | SubscriptionFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -1315,6 +1400,7 @@ export interface PagesSelect<T extends boolean = true> {
                     paragraph?: T | ParagraphSelect<T>;
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
+                    subscriptionForm?: T | SubscriptionFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;

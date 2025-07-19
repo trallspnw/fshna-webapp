@@ -8,3 +8,9 @@
     gap: var(--mantine-spacing-xl);
   }
 }
+
+.column:first-child {
+  @media (max-width: $mantine-breakpoint-sm) {
+    margin-bottom: var(--mantine-spacing-xl);
+  }
+}

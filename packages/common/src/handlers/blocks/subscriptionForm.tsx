@@ -1,6 +1,6 @@
 import { JSX } from 'react'
-import { General, MembershipStatusForm as MembershipStatusFormType } from '@common/types/payload-types'
-import { MembershipStatusForm } from '../../components/MembershipStatusForm'
+import { General, SubscriptionForm as MembershipStatusFormType } from '@common/types/payload-types'
+import { SubscriptionForm } from '../../components/SubscriptionForm'
 
 export function render(
   block: MembershipStatusFormType,
@@ -10,7 +10,7 @@ export function render(
 ): JSX.Element {
 
   return (
-    <MembershipStatusForm
+    <SubscriptionForm
       key={index}
       emailLabel={generalGlobals.email?.emailLabel}
       emailPlaceholder={generalGlobals.email?.emailPlaceholder}

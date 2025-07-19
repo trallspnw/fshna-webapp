@@ -3,7 +3,7 @@
 import { LocalizedText } from '../types/language'
 import { EmailForm } from './EmailForm'
 
-type MembershipStatusFormProps = {
+type SubscriptionFormProps = {
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
@@ -14,12 +14,12 @@ type MembershipStatusFormProps = {
   failureMessage: LocalizedText
 }
 
-export function MembershipStatusForm(props: MembershipStatusFormProps) {
+export function SubscriptionForm(props: SubscriptionFormProps) {
 
   const handleSubmit = async (email: string): Promise<boolean> => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log('RAN: Membership Status Handler')
+        console.log('RAN: Subscription Form Handler')
         resolve(!email.includes('failure')) // mock failure for test
       }, 3000)
     })

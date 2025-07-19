@@ -6,6 +6,7 @@ import { Paragraph } from '../blocks/Paragraph'
 import { Media } from '../blocks/Media'
 import { EventCardGrid } from '../blocks/EventCardGrid'
 import { MembershipStatusForm } from '../blocks/MembershipStatusForm'
+import { SubscriptionForm } from '../blocks/SubscriptionForm'
 
 export const commonBlocks = [
   EventCardGrid,
@@ -15,4 +16,5 @@ export const commonBlocks = [
   Paragraph,
   Media,
   MembershipStatusForm,
+  SubscriptionForm,
 ]
