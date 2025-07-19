@@ -15,6 +15,7 @@ export const GeneralGlobal: GlobalConfig = {
       label: 'Logo Image',
       required: true,
     },
+    LocalizedTextField('baseTitle', 'Base Title', true),
     {
       name: 'membershipPrice',
       type: 'number',

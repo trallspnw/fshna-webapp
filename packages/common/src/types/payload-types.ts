@@ -1630,6 +1630,10 @@ export interface Footer {
 export interface General {
   id: number;
   logo: number | Media;
+  baseTitle: {
+    en: string;
+    es?: string | null;
+  };
   membershipPrice: number;
   eventLabels?: {
     dateLabel?: {
@@ -1740,6 +1744,12 @@ export interface FooterSelect<T extends boolean = true> {
  */
 export interface GeneralSelect<T extends boolean = true> {
   logo?: T;
+  baseTitle?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
   membershipPrice?: T;
   eventLabels?:
     | T

@@ -4,7 +4,7 @@ import type { JSX } from 'react'
 import { notFound } from 'next/navigation'
 import { BaseBlock, renderBlocks } from '@common/lib/blockUtil'
 import { BodyLayout } from '@common/components/BodyLayout'
-import { LocalizedMedia, LocalizedText } from '@common/types/language'
+import { DEFAULT_LANGUAGE, LocalizedMedia, LocalizedText } from '@common/types/language'
 import { getLocalizedValue } from '@common/lib/translation'
 import { Footer, General } from '../types/payload-types'
 import { FooterProps } from '../components/Footer'
@@ -20,7 +20,7 @@ export type RouteContext = {
 
 type ContentWithBlocks = {
   slug: string
-  pageTitle?: LocalizedText
+  title?: LocalizedText
   blocks?: BaseBlock[] | null
 }
 
@@ -61,8 +61,11 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
 
   async generateMetadata(context: RouteContext): Promise<Metadata> {
     const content = await this.fetcher.get((await context.params).slug)
-    // TODO - genereate for en/es
-    return content ? { title: getLocalizedValue(content.pageTitle, 'en') } : {}
+    const general = await this.fetcher.getGlobalData<General>('general')
+    const titlePref = content && content.title && content.slug !== 'home' ? `${getLocalizedValue(content.title, DEFAULT_LANGUAGE)} | ` : ''
+    return { 
+      title: `${titlePref}${getLocalizedValue(general.baseTitle, DEFAULT_LANGUAGE)}`
+    }
   }
 }
 
