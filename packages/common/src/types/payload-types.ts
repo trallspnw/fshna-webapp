@@ -1629,11 +1629,12 @@ export interface Footer {
  */
 export interface General {
   id: number;
-  logo: number | Media;
   baseTitle: {
     en: string;
     es?: string | null;
   };
+  logo: number | Media;
+  icon?: (number | null) | Media;
   membershipPrice: number;
   eventLabels?: {
     dateLabel?: {
@@ -1743,13 +1744,14 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "general_select".
  */
 export interface GeneralSelect<T extends boolean = true> {
-  logo?: T;
   baseTitle?:
     | T
     | {
         en?: T;
         es?: T;
       };
+  logo?: T;
+  icon?: T;
   membershipPrice?: T;
   eventLabels?:
     | T

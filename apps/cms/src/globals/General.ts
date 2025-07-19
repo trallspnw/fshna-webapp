@@ -8,6 +8,7 @@ export const GeneralGlobal: GlobalConfig = {
     read: () => true,
   },
   fields: [
+    LocalizedTextField('baseTitle', 'Base Title', true),
     {
       name: 'logo',
       type: 'relationship',
@@ -15,7 +16,12 @@ export const GeneralGlobal: GlobalConfig = {
       label: 'Logo Image',
       required: true,
     },
-    LocalizedTextField('baseTitle', 'Base Title', true),
+    {
+      name: 'icon',
+      type: 'relationship',
+      relationTo: 'media',
+      label: 'Icon',
+    },
     {
       name: 'membershipPrice',
       type: 'number',

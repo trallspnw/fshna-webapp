@@ -8,7 +8,7 @@ import { DEFAULT_LANGUAGE, LocalizedMedia, LocalizedText } from '@common/types/l
 import { getLocalizedValue } from '@common/lib/translation'
 import { Footer, General } from '../types/payload-types'
 import { FooterProps } from '../components/Footer'
-import { normalizeMedia } from '../lib/mediaUtil'
+import { normalizeMedia, rewriteMediaUrl } from '../lib/mediaUtil'
 
 export type RouteParams = { 
   slug: string,
@@ -62,9 +62,15 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
   async generateMetadata(context: RouteContext): Promise<Metadata> {
     const content = await this.fetcher.get((await context.params).slug)
     const general = await this.fetcher.getGlobalData<General>('general')
+
     const titlePref = content && content.title && content.slug !== 'home' ? `${getLocalizedValue(content.title, DEFAULT_LANGUAGE)} | ` : ''
+    const favicon = getLocalizedValue(normalizeMedia(general.icon), DEFAULT_LANGUAGE) ?? undefined
+
     return { 
       title: `${titlePref}${getLocalizedValue(general.baseTitle, DEFAULT_LANGUAGE)}`,
+      icons: {
+        icon: favicon ? rewriteMediaUrl(favicon.url) : undefined,
+      },
       // TODO - pull from config when ready to launch
       robots: {
         index: false,
