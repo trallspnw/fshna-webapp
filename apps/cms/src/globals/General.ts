@@ -35,5 +35,25 @@ export const GeneralGlobal: GlobalConfig = {
         LocalizedTextField('emailValidationError', 'Email Input Error'),
       ],
     },
+    {
+      type: 'group',
+      name: 'phone',
+      label: 'Phone Input',
+      fields: [
+        LocalizedTextField('phoneLabel', 'Phone Label'),
+        LocalizedTextField('phonePlaceholder', 'Phone Placeholder'),
+        LocalizedTextField('phoneValidationError', 'Phone Input Error'),
+      ],
+    },
+    {
+      type: 'group',
+      name: 'address',
+      label: 'Address Input',
+      fields: [
+        LocalizedTextField('addressLabel', 'Address Label'),
+        LocalizedTextField('addressPlaceholder', 'Address Placeholder'),
+        LocalizedTextField('addressValidationError', 'Address Input Error'),
+      ],
+    },
   ],
 }

@@ -73,6 +73,7 @@ export interface Config {
     media: MediaBlock;
     membershipStatusForm: MembershipStatusForm;
     subscriptionForm: SubscriptionForm;
+    donationForm: DonationForm;
     twoColumns: TwoColumns;
     accordion: Accordion;
   };
@@ -338,6 +339,31 @@ export interface SubscriptionForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonationForm".
+ */
+export interface DonationForm {
+  submitButtonText: {
+    en: string;
+    es?: string | null;
+  };
+  amountLabel?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  amountPlaceholder?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  amountValidationError?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'donationForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "twoColumns".
  */
 export interface TwoColumns {
@@ -369,6 +395,7 @@ export interface TwoColumns {
         | MediaBlock
         | MembershipStatusForm
         | SubscriptionForm
+        | DonationForm
         | Align
       )[]
     | null;
@@ -399,6 +426,7 @@ export interface TwoColumns {
         | MediaBlock
         | MembershipStatusForm
         | SubscriptionForm
+        | DonationForm
         | Align
       )[]
     | null;
@@ -439,6 +467,7 @@ export interface Align {
         | MediaBlock
         | MembershipStatusForm
         | SubscriptionForm
+        | DonationForm
       )[]
     | null;
   id?: string | null;
@@ -482,6 +511,7 @@ export interface Accordion {
           | MediaBlock
           | MembershipStatusForm
           | SubscriptionForm
+          | DonationForm
         )[]
       | null;
     id?: string | null;
@@ -555,6 +585,7 @@ export interface Event {
         | MediaBlock
         | MembershipStatusForm
         | SubscriptionForm
+        | DonationForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -584,6 +615,7 @@ export interface Event {
                   | MediaBlock
                   | MembershipStatusForm
                   | SubscriptionForm
+                  | DonationForm
                   | Align
                 )[]
               | null;
@@ -614,6 +646,7 @@ export interface Event {
                   | MediaBlock
                   | MembershipStatusForm
                   | SubscriptionForm
+                  | DonationForm
                   | Align
                 )[]
               | null;
@@ -681,6 +714,7 @@ export interface Page {
         | MediaBlock
         | MembershipStatusForm
         | SubscriptionForm
+        | DonationForm
         | {
             columnRatio?: ('70-30' | '60-40' | '50-50' | '40-60' | '30-70') | null;
             leftColumn?:
@@ -710,6 +744,7 @@ export interface Page {
                   | MediaBlock
                   | MembershipStatusForm
                   | SubscriptionForm
+                  | DonationForm
                   | Align
                 )[]
               | null;
@@ -740,6 +775,7 @@ export interface Page {
                   | MediaBlock
                   | MembershipStatusForm
                   | SubscriptionForm
+                  | DonationForm
                   | Align
                 )[]
               | null;
@@ -893,6 +929,7 @@ export interface EventsSelect<T extends boolean = true> {
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
+        donationForm?: T | DonationFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -931,6 +968,7 @@ export interface EventsSelect<T extends boolean = true> {
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
+                    donationForm?: T | DonationFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -967,6 +1005,7 @@ export interface EventsSelect<T extends boolean = true> {
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
+                    donationForm?: T | DonationFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1134,6 +1173,38 @@ export interface SubscriptionFormSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonationForm_select".
+ */
+export interface DonationFormSelect<T extends boolean = true> {
+  submitButtonText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  amountLabel?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  amountPlaceholder?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  amountValidationError?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "Align_select".
  */
 export interface AlignSelect<T extends boolean = true> {
@@ -1172,6 +1243,7 @@ export interface AlignSelect<T extends boolean = true> {
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
+        donationForm?: T | DonationFormSelect<T>;
       };
   id?: T;
   blockName?: T;
@@ -1224,6 +1296,7 @@ export interface AccordionSelect<T extends boolean = true> {
               media?: T | MediaBlockSelect<T>;
               membershipStatusForm?: T | MembershipStatusFormSelect<T>;
               subscriptionForm?: T | SubscriptionFormSelect<T>;
+              donationForm?: T | DonationFormSelect<T>;
             };
         id?: T;
       };
@@ -1327,6 +1400,7 @@ export interface PagesSelect<T extends boolean = true> {
         media?: T | MediaBlockSelect<T>;
         membershipStatusForm?: T | MembershipStatusFormSelect<T>;
         subscriptionForm?: T | SubscriptionFormSelect<T>;
+        donationForm?: T | DonationFormSelect<T>;
         twoColumns?:
           | T
           | {
@@ -1365,6 +1439,7 @@ export interface PagesSelect<T extends boolean = true> {
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
+                    donationForm?: T | DonationFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               rightColumn?:
@@ -1401,6 +1476,7 @@ export interface PagesSelect<T extends boolean = true> {
                     media?: T | MediaBlockSelect<T>;
                     membershipStatusForm?: T | MembershipStatusFormSelect<T>;
                     subscriptionForm?: T | SubscriptionFormSelect<T>;
+                    donationForm?: T | DonationFormSelect<T>;
                     align?: T | AlignSelect<T>;
                   };
               id?: T;
@@ -1526,6 +1602,34 @@ export interface General {
       es?: string | null;
     };
   };
+  phone?: {
+    phoneLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    phonePlaceholder?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    phoneValidationError?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
+  address?: {
+    addressLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    addressPlaceholder?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    addressValidationError?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1617,6 +1721,50 @@ export interface GeneralSelect<T extends boolean = true> {
               es?: T;
             };
         emailValidationError?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+      };
+  phone?:
+    | T
+    | {
+        phoneLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        phonePlaceholder?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        phoneValidationError?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+      };
+  address?:
+    | T
+    | {
+        addressLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        addressPlaceholder?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        addressValidationError?:
           | T
           | {
               en?: T;

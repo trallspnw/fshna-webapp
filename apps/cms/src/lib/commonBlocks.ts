@@ -7,6 +7,7 @@ import { Media } from '../blocks/Media'
 import { EventCardGrid } from '../blocks/EventCardGrid'
 import { MembershipStatusForm } from '../blocks/MembershipStatusForm'
 import { SubscriptionForm } from '../blocks/SubscriptionForm'
+import { DonationForm } from '../blocks/DonationForm'
 
 export const commonBlocks = [
   EventCardGrid,
@@ -17,4 +18,5 @@ export const commonBlocks = [
   Media,
   MembershipStatusForm,
   SubscriptionForm,
+  DonationForm,
 ]

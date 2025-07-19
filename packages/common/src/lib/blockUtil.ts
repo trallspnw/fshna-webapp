@@ -1,7 +1,8 @@
-import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion, MembershipStatusForm, General, SubscriptionForm } from "@common/types/payload-types";
+import { Hero, Paragraph, EventCardGrid, Heading, Action, MediaBlock, TwoColumns, Align, Accordion, MembershipStatusForm, General, SubscriptionForm, DonationForm } from "@common/types/payload-types";
 import { render as renderAccordion } from '@common/handlers/blocks/accordion'
 import { render as renderAction } from '@common/handlers/blocks/action'
 import { render as renderAlign } from '@common/handlers/blocks/align'
+import { render as renderDonationForm } from '@common/handlers/blocks/donationForm'
 import { render as renderHeading } from '@common/handlers/blocks/heading'
 import { render as renderHero } from '@common/handlers/blocks/hero'
 import { render as renderMedia } from '@common/handlers/blocks/media'
@@ -25,6 +26,10 @@ export const blockRegistry = {
   align: {
     render: renderAlign,
     type: {} as Align,
+  },
+  donationForm: {
+    render: renderDonationForm,
+    type: {} as DonationForm,
   },
   eventCardGrid: {
     render: renderEventCardGrid,
