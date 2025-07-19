@@ -23,14 +23,18 @@ export function Nav({ logo, pages }: NavProps) {
   const pathname = usePathname()
   const [opened, { close, toggle }] = useDisclosure(false)
   const desktopRef = useRef<HTMLDivElement>(null)
+  // Both should be false until we calculate
   const [isMobile, setIsMobile] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
     const update = () => {
       if (!desktopRef.current) return
       const desktopNavWidth = desktopRef.current.scrollWidth
       const windowWidth = window.innerWidth
-      setIsMobile(desktopNavWidth > windowWidth)
+      const isMobile = desktopNavWidth > windowWidth;
+      setIsMobile(isMobile)
+      setIsDesktop(!isMobile)
     }
 
     window.addEventListener('resize', update)
@@ -43,7 +47,7 @@ export function Nav({ logo, pages }: NavProps) {
       key={index}
       component='a'
       href={href}
-      variant='subtle'
+      variant={pathname === href ? 'light' : 'subtle'}
       className={clsx(
         classes.link,
         {
@@ -62,7 +66,7 @@ export function Nav({ logo, pages }: NavProps) {
           {clsx(
             classes.surfaceWrapper,
             {
-              [classes.hidden]: !isMobile,
+              [classes.show]: isMobile,
             }
           )
         }>
@@ -95,7 +99,7 @@ export function Nav({ logo, pages }: NavProps) {
           {clsx(
             classes.surfaceWrapper,
             {
-              [classes.hidden]: isMobile,
+              [classes.show]: isDesktop,
             }
           )
         }>

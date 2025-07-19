@@ -64,7 +64,18 @@ export abstract class BaseContentHandler<T extends ContentWithBlocks> {
     const general = await this.fetcher.getGlobalData<General>('general')
     const titlePref = content && content.title && content.slug !== 'home' ? `${getLocalizedValue(content.title, DEFAULT_LANGUAGE)} | ` : ''
     return { 
-      title: `${titlePref}${getLocalizedValue(general.baseTitle, DEFAULT_LANGUAGE)}`
+      title: `${titlePref}${getLocalizedValue(general.baseTitle, DEFAULT_LANGUAGE)}`,
+      // TODO - pull from config when ready to launch
+      robots: {
+        index: false,
+        follow: false,
+        nocache: true,
+        googleBot: {
+          index: false,
+          follow: false,
+          noimageindex: true,
+        },
+      },
     }
   }
 }

@@ -11,12 +11,22 @@
 }
 
 .surfaceWrapper {
-  position: absolute;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  height: 0; // Prevents space rendering on mobile
+  overflow: hidden;
+  visibility: hidden;
 }
 
-.hidden {
-  visibility: hidden;
+.show {
+  position: static;
+  pointer-events: auto;
+  height: auto;
+  overflow: visible;
+  visibility: visible;
 }
 
 .inner {
@@ -35,8 +45,4 @@
 .inner_right {
   display: flex;
   flex-direction: row;
-}
-
-.active {
-  color: red;
 }
