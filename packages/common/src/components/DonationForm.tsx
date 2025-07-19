@@ -15,6 +15,9 @@ type DonationFormProps = {
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
+  nameLabel?: LocalizedText
+  namePlaceholder?: LocalizedText
+  nameValidationError?: LocalizedText
   phoneLabel?: LocalizedText
   phonePlaceholder?: LocalizedText
   phoneValidationError?: LocalizedText
@@ -27,6 +30,7 @@ type DonationFormProps = {
 export function DonationForm(props: DonationFormProps) {
   const [language] = useLanguage()
   const [amount, setAmount] = useState('')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [phoneNormalized, setPhoneNormalized] = useState('')
@@ -35,7 +39,6 @@ export function DonationForm(props: DonationFormProps) {
   const [amountError, setAmountError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
-  const [addressError, setAddressError] = useState<string | null>(null)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -103,6 +106,16 @@ export function DonationForm(props: DonationFormProps) {
         />
 
         <TextInput
+          label={getLocalizedValue(props.nameLabel, language, 'Name')}
+          placeholder={getLocalizedValue(props.namePlaceholder, language) ?? undefined}
+          value={name}
+          onChange={(e) => {
+            setName(e.currentTarget.value)
+          }}
+          className={classes.input}
+        />
+
+        <TextInput
           label={getLocalizedValue(props.phoneLabel, language, 'Phone')}
           placeholder={getLocalizedValue(props.phonePlaceholder, language) ?? undefined}
           value={phone}
@@ -123,9 +136,7 @@ export function DonationForm(props: DonationFormProps) {
           value={address}
           onChange={(e) => {
             setAddress(e.currentTarget.value)
-            setAddressError(null)
           }}
-          error={addressError}
           className={classes.input}
         />
 

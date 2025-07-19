@@ -40,6 +40,16 @@ export const GeneralGlobal: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'name',
+      label: 'Name Input',
+      fields: [
+        LocalizedTextField('nameLabel', 'Name Label'),
+        LocalizedTextField('namePlaceholder', 'Name Placeholder'),
+        LocalizedTextField('nameValidationError', 'Name Input Error'),
+      ],
+    },
+    {
+      type: 'group',
       name: 'email',
       label: 'Email Input',
       fields: [

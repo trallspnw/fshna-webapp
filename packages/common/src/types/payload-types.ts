@@ -1650,6 +1650,20 @@ export interface General {
       es?: string | null;
     };
   };
+  name?: {
+    nameLabel?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    namePlaceholder?: {
+      en?: string | null;
+      es?: string | null;
+    };
+    nameValidationError?: {
+      en?: string | null;
+      es?: string | null;
+    };
+  };
   email?: {
     emailLabel?: {
       en?: string | null;
@@ -1769,6 +1783,28 @@ export interface GeneralSelect<T extends boolean = true> {
               es?: T;
             };
         locationLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+      };
+  name?:
+    | T
+    | {
+        nameLabel?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        namePlaceholder?:
+          | T
+          | {
+              en?: T;
+              es?: T;
+            };
+        nameValidationError?:
           | T
           | {
               en?: T;

@@ -15,6 +15,9 @@ export function render(
       amountLabel={block.amountLabel}
       amountPlaceholder={block.amountPlaceholder}
       amountValidationError={block.amountValidationError}
+      nameLabel={generalGlobals.name?.nameLabel}
+      namePlaceholder={generalGlobals.name?.namePlaceholder}
+      nameValidationError={generalGlobals.name?.nameValidationError}
       emailLabel={generalGlobals.email?.emailLabel}
       emailPlaceholder={generalGlobals.email?.emailPlaceholder}
       emailValidationError={generalGlobals.email?.emailValidationError}

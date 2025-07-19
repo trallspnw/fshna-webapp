@@ -15,6 +15,9 @@ export function render(
       emailLabel={generalGlobals.email?.emailLabel}
       emailPlaceholder={generalGlobals.email?.emailPlaceholder}
       emailValidationError={generalGlobals.email?.emailValidationError}
+      nameLabel={generalGlobals.name?.nameLabel}
+      namePlaceholder={generalGlobals.name?.namePlaceholder}
+      nameValidationError={generalGlobals.name?.nameValidationError}
       phoneLabel={generalGlobals.phone?.phoneLabel}
       phonePlaceholder={generalGlobals.phone?.phonePlaceholder}
       phoneValidationError={generalGlobals.phone?.phoneValidationError}
