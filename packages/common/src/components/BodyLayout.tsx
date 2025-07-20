@@ -7,6 +7,7 @@ import classes from './BodyLayout.module.scss'
 import clsx from "clsx"
 import { Footer, FooterProps } from "./Footer"
 import { LocalizedMedia } from "../types/language"
+import { useEffect } from "react"
 
 // TODO - move theme to configuration before launch
 const primaryColor: MantineColorsTuple = [
@@ -47,6 +48,12 @@ export type BodyLayoutProps = {
 }
 
 export function BodyLayout({ logo, hero, navItems, children, footer }: BodyLayoutProps) {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const ref = params.get('ref')
+    if (ref) sessionStorage.setItem('ref', ref)
+  }, [])
+
   return (
     <body className={clsx(classes.body)}>
       <MantineProvider

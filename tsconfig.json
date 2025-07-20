@@ -28,6 +28,7 @@
       "@/*": ["./*"],
       "@cms/*": ["apps/cms/src/*"],
       "@site/*": ["apps/site/src/*"],
+      "@prisma": ["apps/cms/generated/prisma"],
       "@payload-config": ["apps/cms/src/payload.config.ts"],
       "@common/*": ["packages/common/src/*"],
       "@common": ["packages/common/src/index.ts"],

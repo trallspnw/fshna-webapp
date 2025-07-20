@@ -1,5 +1,6 @@
 'use client'
 
+import { useLanguage } from '../hooks/useLanguage'
 import { LocalizedText } from '../types/language'
 import { EmailForm } from './EmailForm'
 
@@ -15,14 +16,23 @@ type SubscriptionFormProps = {
 }
 
 export function SubscriptionForm(props: SubscriptionFormProps) {
+  const [language] = useLanguage()
 
   const handleSubmit = async (email: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('RAN: Subscription Form Handler')
-        resolve(!email.includes('failure')) // mock failure for test
-      }, 3000)
-    })
+    const ref = sessionStorage.getItem('ref') || undefined
+
+    try {
+      const result = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, language, ref }),
+      })
+
+      return result.ok
+    } catch (err) {
+      console.error(err)
+      return false
+    }
   }
 
   return (

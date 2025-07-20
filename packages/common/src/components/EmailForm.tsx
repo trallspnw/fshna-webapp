@@ -81,11 +81,13 @@ export function EmailForm({
             error={emailError}
             required
             className={classes.input}
+            disabled={loading}
           />
           <Button 
             type="submit"
             variant="filled"
             className={classes.button}
+            loading={loading}
           >
             {getLocalizedValue(submitButtonText, language)}
           </Button>
