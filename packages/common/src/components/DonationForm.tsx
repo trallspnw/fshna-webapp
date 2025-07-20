@@ -81,7 +81,16 @@ export function DonationForm(props: DonationFormProps) {
         body: JSON.stringify({ amount, email, name, phone, address, language, ref }),
       })
 
-      return result.ok
+      if (!result.ok) throw new Error('Failed to initiate donation')
+
+      const data = await result.json()
+
+    if (data.paymentUrl) {
+      window.location.href = data.paymentUrl
+    } else {
+      throw new Error('Missing Stripe Checkout URL')
+    }
+
     } catch (err) {
       console.error(err)
       return false

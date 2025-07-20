@@ -11,13 +11,12 @@ export async function initDonation(
   ref: string,
 ) {
   return await prisma.$transaction(async (client) => {
-
-    const person = await client.person.findUnique({
+    let person = await client.person.findUnique({
       where: { email },
     })
 
     if (!person) {
-      await client.person.create({
+      person = await client.person.create({
         data: {
           email,
           name,
@@ -28,7 +27,7 @@ export async function initDonation(
         },
       })
     } else {
-      await client.person.update({
+      person = await client.person.update({
         where: { email },
         data: {
           ...(name !== undefined ? { name } : {}),
@@ -39,6 +38,9 @@ export async function initDonation(
       })
     }
 
-    return { success: true }
+    return { 
+      success: true,
+      personId: person.id,
+    }
   })
 }

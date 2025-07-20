@@ -8,7 +8,7 @@ export class SiteFetcher<T> extends Fetcher<T> {
   }
 
   async get(slug: string): Promise<T | null> {
-    const result = await fetch(`${process.env.CMS_URL}/api/${this.collection}?where[slug][equals]=${slug}`)
+    const result = await fetch(`${process.env.BASE_URL}/api/${this.collection}?where[slug][equals]=${slug}`)
     const data = await result.json()
     return (data.docs[0] as T) ?? null
   }
@@ -22,13 +22,13 @@ export class SiteFetcher<T> extends Fetcher<T> {
   }
 
   async getGlobalData<U>(slug: string): Promise<U> {
-    const result = await fetch(`${process.env.CMS_URL}/api/globals/${slug}`)
+    const result = await fetch(`${process.env.BASE_URL}/api/globals/${slug}`)
     const data = await result.json()
     return data as U
   }
 
   private async getAllOfType<U>(collection: string, options: FetchOptions = {}): Promise<U[]> {
-    const url = new URL(`${process.env.CMS_URL}/api/${collection}`)
+    const url = new URL(`${process.env.BASE_URL}/api/${collection}`)
     url.searchParams.set('limit', String(options.limit ?? 100))
 
     if (options.sortOptions) {
