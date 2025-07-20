@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount, itemName, email, name, phone, address, language, ref } = await request.json()
+    const { amount, itemName, email, name, phone, address, entryUrl, language, ref } = await request.json()
 
     const cleaned = {
       amount: clean(amount),
@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
       name: clean(name),
       phone: clean(phone),
       address: clean(address),
+      entryUrl: clean(entryUrl),
     }
 
     if (!cleaned.amount || !isValidUsdAmount(cleaned.amount)) {
@@ -70,13 +71,14 @@ export async function POST(request: NextRequest) {
         }
       ],
       email: cleaned.email,
-      success_url: `${process.env.BASE_URL}/orderSuccess?result=success&sessionId={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL}/orderFailed?result=cancel&sessionId={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.BASE_URL}/orderSuccess?sessionId={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.BASE_URL}/orderFailed?sessionId={CHECKOUT_SESSION_ID}`,
       language: language,
       metadata: {
         personId: result.personId ?? '',
         email: cleaned.email,
         itemName: cleaned.itemName ?? 'Donation',
+        entryUrl: cleaned.entryUrl ?? '',
         ref: ref ?? '',
       },
     });

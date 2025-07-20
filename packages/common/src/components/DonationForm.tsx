@@ -86,6 +86,7 @@ export function DonationForm(props: DonationFormProps) {
           name, 
           phone, 
           address,
+          entryUrl: window.location.href,
           language,
           ref
         }),
