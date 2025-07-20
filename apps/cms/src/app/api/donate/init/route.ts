@@ -1,15 +1,15 @@
 import { initDonation } from "@/apps/cms/src/dao/donationDao";
 import { createSession } from "@/apps/cms/src/lib/stripe";
 import { isValidEmail, isValidUsdAmount, isValidUsPhone } from "@/packages/common/src/lib/validation";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/packages/common/src/types/language";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { amount, email, name, phone, address, language, ref } = await request.json()
+    const { amount, itemName, email, name, phone, address, language, ref } = await request.json()
 
     const cleaned = {
       amount: clean(amount),
+      itemName: clean(itemName),
       email: clean(email),
       name: clean(name),
       phone: clean(phone),
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Donation',
+              name: cleaned.itemName ?? 'Donation',
             },
             unit_amount: Math.round(parseFloat(cleaned.amount) * 100),
           },
@@ -70,12 +70,13 @@ export async function POST(request: NextRequest) {
         }
       ],
       email: cleaned.email,
-      success_url: `${process.env.BASE_URL}/orderResult?result=success&sessionId={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL}/orderResult?result=cancel&sessionId={CHECKOUT_SESSION_ID}`,
-      locale: language in SUPPORTED_LANGUAGES ? language : DEFAULT_LANGUAGE,
+      success_url: `${process.env.BASE_URL}/orderSuccess?result=success&sessionId={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.BASE_URL}/orderFailed?result=cancel&sessionId={CHECKOUT_SESSION_ID}`,
+      language: language,
       metadata: {
         personId: result.personId ?? '',
         email: cleaned.email,
+        itemName: cleaned.itemName ?? 'Donation',
         ref: ref ?? '',
       },
     });

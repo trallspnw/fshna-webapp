@@ -28,6 +28,7 @@ export function render(
       addressPlaceholder={generalGlobals.address?.addressPlaceholder}
       addressValidationError={generalGlobals.address?.addressValidationError}
       submitButtonText={block.submitButtonText}
+      itemName={block.itemName}
     />
   )
 }

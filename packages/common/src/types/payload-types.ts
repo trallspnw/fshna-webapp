@@ -359,6 +359,10 @@ export interface DonationForm {
     en?: string | null;
     es?: string | null;
   };
+  itemName?: {
+    en?: string | null;
+    es?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'donationForm';
@@ -1226,6 +1230,12 @@ export interface DonationFormSelect<T extends boolean = true> {
         es?: T;
       };
   amountValidationError?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  itemName?:
     | T
     | {
         en?: T;

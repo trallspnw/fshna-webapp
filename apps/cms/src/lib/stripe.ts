@@ -1,4 +1,3 @@
-import { Language } from '@/packages/common/src/types/language';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -10,14 +9,14 @@ export async function createSession({
   email,
   success_url,
   cancel_url,
-  locale,
+  language,
   metadata = {},
 }: {
   line_items: Stripe.Checkout.SessionCreateParams.LineItem[],
   email: string,
   success_url: string,
   cancel_url: string,
-  locale: Language,
+  language: string,
   metadata?: Record<string, string>
 }) {
 
@@ -28,7 +27,7 @@ export async function createSession({
     customer_email: email,
     success_url,
     cancel_url,
-    locale,
+    locale: language as Stripe.Checkout.SessionCreateParams.Locale,
     metadata,
   });
 }

@@ -25,6 +25,7 @@ type DonationFormProps = {
   addressPlaceholder?: LocalizedText
   addressValidationError?: LocalizedText
   submitButtonText: LocalizedText
+  itemName?: LocalizedText
 }
 
 export function DonationForm(props: DonationFormProps) {
@@ -78,7 +79,16 @@ export function DonationForm(props: DonationFormProps) {
       const result = await fetch('/api/donate/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount, email, name, phone, address, language, ref }),
+        body: JSON.stringify({ 
+          amount,
+          itemName: getLocalizedValue(props.itemName, language),
+          email, 
+          name, 
+          phone, 
+          address,
+          language,
+          ref
+        }),
       })
 
       if (!result.ok) throw new Error('Failed to initiate donation')
