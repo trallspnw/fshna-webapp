@@ -35,13 +35,16 @@ export function DonationForm(props: DonationFormProps) {
   const [phone, setPhone] = useState('')
   const [phoneNormalized, setPhoneNormalized] = useState('')
   const [address, setAddress] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const [amountError, setAmountError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    const ref = sessionStorage.getItem('ref') || undefined
 
     let isValid = true
 
@@ -66,12 +69,25 @@ export function DonationForm(props: DonationFormProps) {
       setPhoneError(null)
     }
 
-    if (!isValid) return
+    if (!isValid) {
+      setLoading(false)
+      return
+    }
 
-    // TODO - Link to Stripe
-    const stripeUrl = 'https://stripe.com'
-    //window.location.href = stripeUrl
-    console.log('Mock payment redirect: ' + stripeUrl)
+    try {
+      const result = await fetch('/api/donate/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, email, name, phone, address, language, ref }),
+      })
+
+      return result.ok
+    } catch (err) {
+      console.error(err)
+      return false
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -90,6 +106,7 @@ export function DonationForm(props: DonationFormProps) {
           error={amountError}
           required
           className={classes.input}
+          disabled={loading}
         />
 
         <TextInput
@@ -103,6 +120,7 @@ export function DonationForm(props: DonationFormProps) {
           error={emailError}
           required
           className={classes.input}
+          disabled={loading}
         />
 
         <TextInput
@@ -113,6 +131,7 @@ export function DonationForm(props: DonationFormProps) {
             setName(e.currentTarget.value)
           }}
           className={classes.input}
+          disabled={loading}
         />
 
         <TextInput
@@ -126,6 +145,7 @@ export function DonationForm(props: DonationFormProps) {
           }}
           error={phoneError}
           className={classes.input}
+          disabled={loading}
         />
 
         <Textarea
@@ -138,9 +158,15 @@ export function DonationForm(props: DonationFormProps) {
             setAddress(e.currentTarget.value)
           }}
           className={classes.input}
+          disabled={loading}
         />
 
-        <Button type="submit" variant="filled" className={classes.button}>
+        <Button 
+          type="submit" 
+          variant="filled" 
+          className={classes.button}
+          loading={loading}
+        >
           {getLocalizedValue(props.submitButtonText, language)}
         </Button>
       </Group>

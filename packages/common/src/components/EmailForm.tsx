@@ -38,14 +38,15 @@ export function EmailForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault()
+      setLoading(true)
       
       if (!isValidEmail(email)) {
         setEmailError(getLocalizedValue(emailValidationError, language, 'Invalid email'))
+        setLoading(false)
         return
       }
   
       setEmailError(null)
-      setLoading(true)
       setModalOpen(true)
   
       try {
