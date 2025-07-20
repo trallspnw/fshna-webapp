@@ -9,6 +9,7 @@ import { MembershipStatusForm } from '../blocks/MembershipStatusForm'
 import { SubscriptionForm } from '../blocks/SubscriptionForm'
 import { DonationForm } from '../blocks/DonationForm'
 import { MembershipDuesForm } from '../blocks/MembershipDuesForm'
+import { OrderSummary } from '../blocks/OrderSummary'
 
 export const commonBlocks = [
   EventCardGrid,
@@ -21,4 +22,5 @@ export const commonBlocks = [
   SubscriptionForm,
   DonationForm,
   MembershipDuesForm,
+  OrderSummary,
 ]

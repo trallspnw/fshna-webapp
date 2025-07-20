@@ -13,6 +13,7 @@ import {
   SubscriptionForm, 
   DonationForm, 
   MembershipDuesForm,
+  OrderSummary,
 } from "@common/types/payload-types";
 import { render as renderAccordion } from '@common/handlers/blocks/accordion'
 import { render as renderAction } from '@common/handlers/blocks/action'
@@ -23,6 +24,7 @@ import { render as renderHero } from '@common/handlers/blocks/hero'
 import { render as renderMedia } from '@common/handlers/blocks/media'
 import { render as renderMembershipDuesForm } from '@common/handlers/blocks/membershipDuesForm'
 import { render as renderMembershipStatusForm } from '@common/handlers/blocks/membershipStatusForm'
+import { render as renderOrderSummary } from '@common/handlers/blocks/orderSummary'
 import { render as renderParagraph } from '@common/handlers/blocks/paragraph'
 import { render as renderEventCardGrid } from '@common/handlers/blocks/eventCardGrid'
 import { render as renderSubscriptionForm } from '@common/handlers/blocks/subscriptionForm'
@@ -70,6 +72,10 @@ export const blockRegistry = {
   membershipStatusForm: {
     render: renderMembershipStatusForm,
     type: {} as MembershipStatusForm,
+  },
+  orderSummary: {
+    render: renderOrderSummary,
+    type: {} as OrderSummary,
   },
   paragraph: {
     render: renderParagraph,
