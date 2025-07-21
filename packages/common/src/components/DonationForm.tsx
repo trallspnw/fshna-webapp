@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useLanguage } from "../hooks/useLanguage"
 import { LANGUAGES, LocalizedText } from "../types/language"
-import { Button, Group, Textarea, TextInput } from "@mantine/core"
+import { Button, Group, Modal, Textarea, TextInput } from "@mantine/core"
 import { getLocalizedValue } from "../lib/translation"
 import classes from './DonationForm.module.scss'
 import { isValidEmail, isValidUsdAmount, isValidUsPhone } from "../lib/validation"
@@ -26,6 +26,7 @@ type DonationFormProps = {
   addressValidationError?: LocalizedText
   submitButtonText: LocalizedText
   itemName?: LocalizedText
+  serverFailureMessage?: LocalizedText,
 }
 
 export function DonationForm(props: DonationFormProps) {
@@ -41,6 +42,9 @@ export function DonationForm(props: DonationFormProps) {
   const [amountError, setAmountError] = useState<string | null>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
+
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -92,9 +96,13 @@ export function DonationForm(props: DonationFormProps) {
         }),
       })
 
-      if (!result.ok) throw new Error('Failed to initiate donation')
-
       const data = await result.json()
+
+      if (!result.ok) {
+        setModalMessage(getLocalizedValue(props.serverFailureMessage, language) ?? 'Server error')
+        setModalOpen(true)
+        return
+      }
 
     if (data.paymentUrl) {
       window.location.href = data.paymentUrl
@@ -111,85 +119,98 @@ export function DonationForm(props: DonationFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <Group gap="xs" wrap="wrap" align="end" justify="flex-end">
-        <TextInput
-          label={getLocalizedValue(props.amountLabel, language, 'Amount')}
-          placeholder={getLocalizedValue(props.amountPlaceholder, language) ?? undefined}
-          leftSection={language === LANGUAGES.EN ? '$' : undefined}
-          rightSection={language === LANGUAGES.ES ? '$' : undefined}
-          value={amount}
-          onChange={(e) => {
-            setAmount(e.currentTarget.value)
-            setAmountError(null)
-          }}
-          error={amountError}
-          required
-          className={classes.input}
-          disabled={loading}
-        />
+    <>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <Group gap="xs" wrap="wrap" align="end" justify="flex-end">
+          <TextInput
+            label={getLocalizedValue(props.amountLabel, language, 'Amount')}
+            placeholder={getLocalizedValue(props.amountPlaceholder, language) ?? undefined}
+            leftSection={language === LANGUAGES.EN ? '$' : undefined}
+            rightSection={language === LANGUAGES.ES ? '$' : undefined}
+            value={amount}
+            onChange={(e) => {
+              setAmount(e.currentTarget.value)
+              setAmountError(null)
+            }}
+            error={amountError}
+            required
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <TextInput
-          label={getLocalizedValue(props.emailLabel, language, 'Email')}
-          placeholder={getLocalizedValue(props.emailPlaceholder, language) ?? undefined}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.currentTarget.value)
-            setEmailError(null)
-          }}
-          error={emailError}
-          required
-          className={classes.input}
-          disabled={loading}
-        />
+          <TextInput
+            label={getLocalizedValue(props.emailLabel, language, 'Email')}
+            placeholder={getLocalizedValue(props.emailPlaceholder, language) ?? undefined}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.currentTarget.value)
+              setEmailError(null)
+            }}
+            error={emailError}
+            required
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <TextInput
-          label={getLocalizedValue(props.nameLabel, language, 'Name')}
-          placeholder={getLocalizedValue(props.namePlaceholder, language) ?? undefined}
-          value={name}
-          onChange={(e) => {
-            setName(e.currentTarget.value)
-          }}
-          className={classes.input}
-          disabled={loading}
-        />
+          <TextInput
+            label={getLocalizedValue(props.nameLabel, language, 'Name')}
+            placeholder={getLocalizedValue(props.namePlaceholder, language) ?? undefined}
+            value={name}
+            onChange={(e) => {
+              setName(e.currentTarget.value)
+            }}
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <TextInput
-          label={getLocalizedValue(props.phoneLabel, language, 'Phone')}
-          placeholder={getLocalizedValue(props.phonePlaceholder, language) ?? undefined}
-          value={phone}
-          onChange={(e) => {
-            setPhone(e.currentTarget.value)
-            setPhoneNormalized(e.currentTarget.value.replace(/\D/g, ''))
-            setPhoneError(null)
-          }}
-          error={phoneError}
-          className={classes.input}
-          disabled={loading}
-        />
+          <TextInput
+            label={getLocalizedValue(props.phoneLabel, language, 'Phone')}
+            placeholder={getLocalizedValue(props.phonePlaceholder, language) ?? undefined}
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.currentTarget.value)
+              setPhoneNormalized(e.currentTarget.value.replace(/\D/g, ''))
+              setPhoneError(null)
+            }}
+            error={phoneError}
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <Textarea
-          label={getLocalizedValue(props.addressLabel, language, 'Address')}
-          placeholder={getLocalizedValue(props.addressPlaceholder, language) ?? undefined}
-          autosize={true}
-          minRows={3}
-          value={address}
-          onChange={(e) => {
-            setAddress(e.currentTarget.value)
-          }}
-          className={classes.input}
-          disabled={loading}
-        />
+          <Textarea
+            label={getLocalizedValue(props.addressLabel, language, 'Address')}
+            placeholder={getLocalizedValue(props.addressPlaceholder, language) ?? undefined}
+            autosize={true}
+            minRows={3}
+            value={address}
+            onChange={(e) => {
+              setAddress(e.currentTarget.value)
+            }}
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <Button 
-          type="submit" 
-          variant="filled" 
-          className={classes.button}
-          loading={loading}
-        >
-          {getLocalizedValue(props.submitButtonText, language)}
-        </Button>
-      </Group>
-    </form>
+          <Button 
+            type="submit" 
+            variant="filled" 
+            className={classes.button}
+            loading={loading}
+          >
+            {getLocalizedValue(props.submitButtonText, language)}
+          </Button>
+        </Group>
+      </form>
+
+      <Modal
+        opened={modalOpen}
+        onClose={() => {
+          setModalOpen(false)
+          setLoading(false)
+        }}
+        centered
+      >
+        {modalMessage}
+      </Modal>
+    </>
   )
 }

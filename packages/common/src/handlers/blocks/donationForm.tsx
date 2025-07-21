@@ -29,6 +29,7 @@ export function render(
       addressValidationError={generalGlobals.address?.addressValidationError}
       submitButtonText={block.submitButtonText}
       itemName={block.itemName}
+      serverFailureMessage={block.serverFailureMessage}
     />
   )
 }

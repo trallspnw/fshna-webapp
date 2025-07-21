@@ -364,6 +364,10 @@ export interface DonationForm {
     en?: string | null;
     es?: string | null;
   };
+  serverFailureMessage?: {
+    en?: string | null;
+    es?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'donationForm';
@@ -382,6 +386,14 @@ export interface MembershipDuesForm {
     es?: string | null;
   };
   itemName?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  existingMembershipMessage?: {
+    en?: string | null;
+    es?: string | null;
+  };
+  serverFailureMessage?: {
     en?: string | null;
     es?: string | null;
   };
@@ -1300,6 +1312,12 @@ export interface DonationFormSelect<T extends boolean = true> {
         en?: T;
         es?: T;
       };
+  serverFailureMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1321,6 +1339,18 @@ export interface MembershipDuesFormSelect<T extends boolean = true> {
         es?: T;
       };
   itemName?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  existingMembershipMessage?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  serverFailureMessage?:
     | T
     | {
         en?: T;

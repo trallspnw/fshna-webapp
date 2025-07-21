@@ -12,5 +12,7 @@ export const MembershipDuesForm: Block = {
     LocalizedTextField('submitButtonText', 'Submit Button Text', true),
     LocalizedTextField('priceLabel', 'Price Label', true),
     LocalizedTextField('itemName', 'Item Name'),
+    LocalizedTextField('existingMembershipMessage', 'Existing Membership Message'),
+    LocalizedTextField('serverFailureMessage', 'Server Failure Message'),
   ],
 }

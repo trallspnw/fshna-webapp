@@ -14,5 +14,6 @@ export const DonationForm: Block = {
     LocalizedTextField('amountPlaceholder', 'Amount Placeholder'),
     LocalizedTextField('amountValidationError', 'Amount Input Error'),
     LocalizedTextField('itemName', 'Item Name'),
+    LocalizedTextField('serverFailureMessage', 'Server Failure Message'),
   ],
 }

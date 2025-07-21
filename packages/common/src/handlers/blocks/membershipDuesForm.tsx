@@ -28,6 +28,8 @@ export function render(
       priceLabel={block.priceLabel}
       membershipPrice={generalGlobals.membershipPrice}
       itemName={block.itemName}
+      existingMembershipMessage={block.existingMembershipMessage}
+      serverFailureMessage={block.serverFailureMessage}
     />
   )
 }

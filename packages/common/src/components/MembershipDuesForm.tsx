@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useLanguage } from "../hooks/useLanguage"
 import { LocalizedText } from "../types/language"
-import { Button, Group, Text, Textarea, TextInput } from "@mantine/core"
+import { Button, Group, Modal, Text, Textarea, TextInput } from "@mantine/core"
 import { getLocalizedValue } from "../lib/translation"
 import classes from './MembershipDuesForm.module.scss'
 import { isValidEmail, isValidUsPhone } from "../lib/validation"
@@ -24,7 +24,9 @@ type DonationFormProps = {
   submitButtonText: LocalizedText
   priceLabel: LocalizedText
   membershipPrice: number
-  itemName?: LocalizedText
+  itemName?: LocalizedText,
+  existingMembershipMessage?: LocalizedText,
+  serverFailureMessage?: LocalizedText,
 }
 
 export function MembershipDuesForm(props: DonationFormProps) {
@@ -38,6 +40,9 @@ export function MembershipDuesForm(props: DonationFormProps) {
 
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
+
+  const [modalOpen, setModalOpen] = useState(false)
+  const [modalMessage, setModalMessage] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -81,15 +86,24 @@ export function MembershipDuesForm(props: DonationFormProps) {
         }),
       })
 
-      if (!result.ok) throw new Error('Failed to initiate donation')
-
       const data = await result.json()
 
-    if (data.paymentUrl) {
-      window.location.href = data.paymentUrl
-    } else {
-      throw new Error('Missing Stripe Checkout URL')
-    }
+      if (!result.ok) {
+        if (data.error === 'ACTIVE_MEMBERSHIP') {
+          setModalMessage(getLocalizedValue(props.existingMembershipMessage, language) ?? 'Active membership')
+        } else {
+          setModalMessage(getLocalizedValue(props.serverFailureMessage, language) ?? 'Server error')
+        }
+
+        setModalOpen(true)
+        return
+      }
+
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl
+      } else {
+        throw new Error('Missing Stripe Checkout URL')
+      }
 
     } catch (err) {
       console.error(err)
@@ -100,79 +114,92 @@ export function MembershipDuesForm(props: DonationFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <Group gap="xs" wrap="wrap" align="end" justify="flex-end">
-        <TextInput
-          label={getLocalizedValue(props.nameLabel, language, 'Name')}
-          placeholder={getLocalizedValue(props.namePlaceholder, language) ?? undefined}
-          value={name}
-          onChange={(e) => {
-            setName(e.currentTarget.value)
-          }}
-          required
-          className={classes.input}
-          disabled={loading}
-        />
+    <>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <Group gap="xs" wrap="wrap" align="end" justify="flex-end">
+          <TextInput
+            label={getLocalizedValue(props.nameLabel, language, 'Name')}
+            placeholder={getLocalizedValue(props.namePlaceholder, language) ?? undefined}
+            value={name}
+            onChange={(e) => {
+              setName(e.currentTarget.value)
+            }}
+            required
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <TextInput
-          label={getLocalizedValue(props.emailLabel, language, 'Email')}
-          placeholder={getLocalizedValue(props.emailPlaceholder, language) ?? undefined}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.currentTarget.value)
-            setEmailError(null)
-          }}
-          error={emailError}
-          required
-          className={classes.input}
-          disabled={loading}
-        />
+          <TextInput
+            label={getLocalizedValue(props.emailLabel, language, 'Email')}
+            placeholder={getLocalizedValue(props.emailPlaceholder, language) ?? undefined}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.currentTarget.value)
+              setEmailError(null)
+            }}
+            error={emailError}
+            required
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <TextInput
-          label={getLocalizedValue(props.phoneLabel, language, 'Phone')}
-          placeholder={getLocalizedValue(props.phonePlaceholder, language) ?? undefined}
-          value={phone}
-          onChange={(e) => {
-            setPhone(e.currentTarget.value)
-            setPhoneNormalized(e.currentTarget.value.replace(/\D/g, ''))
-            setPhoneError(null)
-          }}
-          error={phoneError}
-          className={classes.input}
-          disabled={loading}
-        />
+          <TextInput
+            label={getLocalizedValue(props.phoneLabel, language, 'Phone')}
+            placeholder={getLocalizedValue(props.phonePlaceholder, language) ?? undefined}
+            value={phone}
+            onChange={(e) => {
+              setPhone(e.currentTarget.value)
+              setPhoneNormalized(e.currentTarget.value.replace(/\D/g, ''))
+              setPhoneError(null)
+            }}
+            error={phoneError}
+            className={classes.input}
+            disabled={loading}
+          />
 
-        <Textarea
-          label={getLocalizedValue(props.addressLabel, language, 'Address')}
-          placeholder={getLocalizedValue(props.addressPlaceholder, language) ?? undefined}
-          autosize={true}
-          minRows={3}
-          value={address}
-          onChange={(e) => {
-            setAddress(e.currentTarget.value)
-          }}
-          className={classes.input}
-          disabled={loading}
-        />
-        
-        <span className={classes.checkoutRow}>
-          <Text fw="700">
-            {getLocalizedValue(props.priceLabel, language)}:{'\u00A0'}
-            {new Intl.NumberFormat(language, {
-              style: 'currency',
-              currency: 'USD',
-            }).format(props.membershipPrice)}
-          </Text>
-          <Button 
-            type="submit" 
-            variant="filled" 
-            className={classes.button}
-            loading={loading}
-          >
-            {getLocalizedValue(props.submitButtonText, language)}
-          </Button>
-        </span>
-      </Group>
-    </form>
+          <Textarea
+            label={getLocalizedValue(props.addressLabel, language, 'Address')}
+            placeholder={getLocalizedValue(props.addressPlaceholder, language) ?? undefined}
+            autosize={true}
+            minRows={3}
+            value={address}
+            onChange={(e) => {
+              setAddress(e.currentTarget.value)
+            }}
+            className={classes.input}
+            disabled={loading}
+          />
+          
+          <span className={classes.checkoutRow}>
+            <Text fw="700">
+              {getLocalizedValue(props.priceLabel, language)}:{'\u00A0'}
+              {new Intl.NumberFormat(language, {
+                style: 'currency',
+                currency: 'USD',
+              }).format(props.membershipPrice)}
+            </Text>
+            <Button 
+              type="submit" 
+              variant="filled" 
+              className={classes.button}
+              loading={loading}
+            >
+              {getLocalizedValue(props.submitButtonText, language)}
+            </Button>
+          </span>
+        </Group>
+      </form>
+
+      <Modal
+        opened={modalOpen}
+        onClose={() => {
+          setModalOpen(false)
+          setLoading(false)
+        }}
+        centered
+      >
+        {modalMessage}
+      </Modal>
+    </>
   )
 }
