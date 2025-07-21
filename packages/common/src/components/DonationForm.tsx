@@ -96,19 +96,19 @@ export function DonationForm(props: DonationFormProps) {
         }),
       })
 
-      const data = await result.json()
-
       if (!result.ok) {
         setModalMessage(getLocalizedValue(props.serverFailureMessage, language) ?? 'Server error')
         setModalOpen(true)
         return
       }
 
-    if (data.paymentUrl) {
-      window.location.href = data.paymentUrl
-    } else {
-      throw new Error('Missing Stripe Checkout URL')
-    }
+      const data = await result.json()
+
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl
+      } else {
+        throw new Error('Missing Stripe Checkout URL')
+      }
 
     } catch (err) {
       console.error(err)

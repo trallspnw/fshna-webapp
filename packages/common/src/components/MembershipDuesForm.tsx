@@ -86,7 +86,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
         }),
       })
 
-      const data = await result.json()
+      const data = result.headers.get('content-type')?.includes('application/json') ? await result.json() : {}
 
       if (!result.ok) {
         if (data.error === 'ACTIVE_MEMBERSHIP') {
