@@ -15,7 +15,8 @@
     "clean:site": "rm -rf apps/site/.next apps/site/out",
     "types": "pnpm --filter cms generate:types",
     "prisma:generate": "pnpm prisma generate --schema apps/cms/prisma/schema.prisma",
-    "prisma:push": "pnpm prisma db push --schema apps/cms/prisma/schema.prisma"
+    "prisma:push": "pnpm prisma db push --schema apps/cms/prisma/schema.prisma",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
   },
   "dependencies": {
     "@mantine/core": "^8.1.2",

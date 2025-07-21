@@ -63,6 +63,13 @@ export async function POST(request: NextRequest) {
     )
 
     if (!result.success) {
+      if (result.reason === 'ACTIVE_MEMBERSHIP') {
+        return NextResponse.json(
+          { error: result.reason },
+          { status: 400 }
+        );
+      }
+
       console.error('Failed to initialize a membership: ', result);
       return NextResponse.json(
         { error: 'Internal Server Error' },
@@ -91,6 +98,7 @@ export async function POST(request: NextRequest) {
         personId: result.personId ?? '',
         email: cleaned.email,
         itemName: cleaned.itemName ?? 'Membership',
+        itemType: 'MEMBERSHIP',
         entryUrl: cleaned.entryUrl ?? '',
         ref: ref ?? '',
       },
