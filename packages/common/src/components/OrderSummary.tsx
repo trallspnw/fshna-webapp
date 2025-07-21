@@ -41,11 +41,17 @@ export function OrderSummary({
   retryButtonText,
 }: OrderSummaryProps) {
   const [language] = useLanguage()
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [session, setSession] = useState<StripeSession | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const searchParams = useSearchParams()
-  const sessionId = searchParams.get('sessionId')
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const id = params.get('sessionId')
+      setSessionId(id)
+    }
+  }, [])
 
   useEffect(() => {
     if (!sessionId) {
