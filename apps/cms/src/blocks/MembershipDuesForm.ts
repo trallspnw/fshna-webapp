@@ -11,5 +11,6 @@ export const MembershipDuesForm: Block = {
   fields: [
     LocalizedTextField('submitButtonText', 'Submit Button Text', true),
     LocalizedTextField('priceLabel', 'Price Label', true),
+    LocalizedTextField('itemName', 'Item Name'),
   ],
 }

@@ -381,6 +381,10 @@ export interface MembershipDuesForm {
     en: string;
     es?: string | null;
   };
+  itemName?: {
+    en?: string | null;
+    es?: string | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'membershipDuesForm';
@@ -1311,6 +1315,12 @@ export interface MembershipDuesFormSelect<T extends boolean = true> {
         es?: T;
       };
   priceLabel?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  itemName?:
     | T
     | {
         en?: T;

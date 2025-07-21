@@ -27,6 +27,7 @@ export function render(
       submitButtonText={block.submitButtonText}
       priceLabel={block.priceLabel}
       membershipPrice={generalGlobals.membershipPrice}
+      itemName={block.itemName}
     />
   )
 }

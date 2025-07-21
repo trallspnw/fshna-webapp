@@ -24,6 +24,7 @@ type DonationFormProps = {
   submitButtonText: LocalizedText
   priceLabel: LocalizedText
   membershipPrice: number
+  itemName?: LocalizedText
 }
 
 export function MembershipDuesForm(props: DonationFormProps) {
@@ -33,12 +34,15 @@ export function MembershipDuesForm(props: DonationFormProps) {
   const [phone, setPhone] = useState('')
   const [phoneNormalized, setPhoneNormalized] = useState('')
   const [address, setAddress] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const [emailError, setEmailError] = useState<string | null>(null)
   const [phoneError, setPhoneError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    const ref = sessionStorage.getItem('ref') || undefined
 
     let isValid = true
 
@@ -56,12 +60,43 @@ export function MembershipDuesForm(props: DonationFormProps) {
       setPhoneError(null)
     }
 
-    if (!isValid) return
+    if (!isValid) {
+      setLoading(false)
+      return
+    }
 
-    // TODO - Link to Stripe
-    const stripeUrl = 'https://stripe.com'
-    //window.location.href = stripeUrl
-    console.log('Mock payment redirect: ' + stripeUrl)
+    try {
+      const result = await fetch('/api/membership/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          itemName: getLocalizedValue(props.itemName, language),
+          email, 
+          name, 
+          phone, 
+          address,
+          entryUrl: window.location.href,
+          language,
+          ref
+        }),
+      })
+
+      if (!result.ok) throw new Error('Failed to initiate donation')
+
+      const data = await result.json()
+
+    if (data.paymentUrl) {
+      window.location.href = data.paymentUrl
+    } else {
+      throw new Error('Missing Stripe Checkout URL')
+    }
+
+    } catch (err) {
+      console.error(err)
+      return false
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -76,6 +111,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
           }}
           required
           className={classes.input}
+          disabled={loading}
         />
 
         <TextInput
@@ -89,6 +125,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
           error={emailError}
           required
           className={classes.input}
+          disabled={loading}
         />
 
         <TextInput
@@ -102,6 +139,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
           }}
           error={phoneError}
           className={classes.input}
+          disabled={loading}
         />
 
         <Textarea
@@ -114,6 +152,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
             setAddress(e.currentTarget.value)
           }}
           className={classes.input}
+          disabled={loading}
         />
         
         <span className={classes.checkoutRow}>
@@ -122,9 +161,14 @@ export function MembershipDuesForm(props: DonationFormProps) {
             {new Intl.NumberFormat(language, {
               style: 'currency',
               currency: 'USD',
-            }).format(10)}
+            }).format(props.membershipPrice)}
           </Text>
-          <Button type="submit" variant="filled" className={classes.button}>
+          <Button 
+            type="submit" 
+            variant="filled" 
+            className={classes.button}
+            loading={loading}
+          >
             {getLocalizedValue(props.submitButtonText, language)}
           </Button>
         </span>
