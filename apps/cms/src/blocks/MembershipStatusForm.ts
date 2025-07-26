@@ -14,7 +14,10 @@ export const MembershipStatusForm: Block = {
       type: 'row',
       fields: [
         LocalizedTextField('successHeading', 'Success Heading', true),
-        LocalizedTextField('successMessage', 'Success Message', true),
+        LocalizedTextField('membershipStatus', 'Membership Status', true),
+        LocalizedTextField('active', 'Active', true),
+        LocalizedTextField('inactive', 'Inactive', true),
+        LocalizedTextField('expires', 'Expires', true),
       ],
     },
     {

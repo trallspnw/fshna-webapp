@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useLanguage } from "../hooks/useLanguage"
 import { LocalizedText } from "../types/language"
 import { getLocalizedValue } from "../lib/translation"
-import { Button, Group, Loader, Modal, Stack, TextInput } from "@mantine/core"
+import { Button, Group, Loader, Modal, Stack, TextInput, Text } from "@mantine/core"
 import classes from './EmailForm.module.scss'
 import { isValidEmail } from "../lib/validation"
 
@@ -110,7 +110,9 @@ export function EmailForm({
             <Loader />
           </Stack>
         ) : (
-          message
+          <Text style={{ whiteSpace: 'pre-line' }}>
+            {message}
+          </Text>
         )}
       </Modal>
     </>

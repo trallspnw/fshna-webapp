@@ -294,7 +294,19 @@ export interface MembershipStatusForm {
     en: string;
     es?: string | null;
   };
-  successMessage: {
+  membershipStatus: {
+    en: string;
+    es?: string | null;
+  };
+  active: {
+    en: string;
+    es?: string | null;
+  };
+  inactive: {
+    en: string;
+    es?: string | null;
+  };
+  expires: {
     en: string;
     es?: string | null;
   };
@@ -1218,7 +1230,25 @@ export interface MembershipStatusFormSelect<T extends boolean = true> {
         en?: T;
         es?: T;
       };
-  successMessage?:
+  membershipStatus?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  active?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  inactive?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  expires?:
     | T
     | {
         en?: T;

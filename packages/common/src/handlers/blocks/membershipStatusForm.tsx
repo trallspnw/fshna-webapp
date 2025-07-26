@@ -17,7 +17,10 @@ export function render(
       emailValidationError={generalGlobals.email?.emailValidationError}
       submitButtonText={block.submitButtonText}
       successHeading={block.successHeading}
-      successMessage={block.successMessage}
+      statusText={block.membershipStatus}
+      activeText={block.active}
+      inactiveText={block.inactive}
+      expiresText={block.expires}
       failureHeading={block.failureHeading}
       failureMessage={block.failureMessage}
     />

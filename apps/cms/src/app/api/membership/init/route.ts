@@ -67,13 +67,13 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { error: result.reason },
           { status: 400 }
-        );
+        )
       }
 
       console.error('Failed to initialize a membership: ', result);
       return NextResponse.json(
         { error: 'Internal Server Error' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -102,19 +102,19 @@ export async function POST(request: NextRequest) {
         entryUrl: cleaned.entryUrl ?? '',
         ref: ref ?? '',
       },
-    });
+    })
 
     return NextResponse.json(
       { paymentUrl: session.url },
       { status: 200 },
-    );
+    )
 
   } catch (e) {
     console.error('Error in membership handler:', e);
     return NextResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+      { status: 500 },
+    )
   }
 }
 

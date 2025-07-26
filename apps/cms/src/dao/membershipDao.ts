@@ -84,11 +84,11 @@ export async function completeMembership(personId: string, ref?: string) {
       throw new Error('Person not found')
     }
 
-    const now = new Date();
-    const mostRecentMembership = person.memberships[0];
+    const now = new Date()
+    const mostRecentMembership = person.memberships[0]
     const createdAt = mostRecentMembership?.expiresAt > now 
       ? new Date(mostRecentMembership.expiresAt) 
-      : now;
+      : now
 
     const expiresAt = new Date(createdAt);
     expiresAt.setFullYear(expiresAt.getFullYear() + 1);
@@ -104,4 +104,21 @@ export async function completeMembership(personId: string, ref?: string) {
 
     console.log(`Added new membership! Member: ${membership.id}`)
   })
+}
+
+export async function getLatestMembershipByEmail(email: string) {
+  const person = await prisma.person.findUnique({
+    where: { email },
+    include: { 
+      memberships: {
+        orderBy: {
+          expiresAt: 'desc'
+        },
+        take: 1,
+      }
+    },
+  })
+
+  return (person && person.memberships.length > 0) ? 
+    person.memberships[0] : null
 }
