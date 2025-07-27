@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPayloadRequest } from 'payload'
 import configPromise from '@payload-config'
-import { getSubscriptions } from "../../../dao/subscriptionDao";
-import { sendEmails } from "../../../lib/email";
+import { searchMembers } from "@/apps/cms/src/dao/membershipDao";
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({
       config: configPromise,
@@ -19,21 +18,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { emailSlug } = await request.json()
-    const subscribers = await getSubscriptions()
+    const { searchParams } = new URL(request.url)
+    const query = searchParams.get('query')?.trim() ?? ''
+    if (!query) {
+      return NextResponse.json(
+        { error: 'Missing query param' }, 
+        { status: 400 },
+      )
+    }
 
-    await sendEmails(subscribers, emailSlug, {})
+    const members = await searchMembers(query)
 
     return NextResponse.json(
-      { message: `Broadcast sent to ${subscribers.length} subscribers.` },
+      {
+        message: `Search returned ${members.length} members.`,
+        members,
+      },
       { status: 200 },
-    );
+    )
 
   } catch (e) {
-    console.error('Error in broadcast handler:', e)
+    console.error('Error in broadcast handler:', e);
     return NextResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 },
+      { status: 500 }
     )
   }
 }

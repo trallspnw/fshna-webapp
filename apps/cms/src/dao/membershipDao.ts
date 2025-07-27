@@ -122,3 +122,50 @@ export async function getLatestMembershipByEmail(email: string) {
   return (person && person.memberships.length > 0) ? 
     person.memberships[0] : null
 }
+
+export async function searchMembers(query: string) {
+  const now = new Date()
+
+  const persons = await prisma.person.findMany({
+    where: {
+      memberships: {
+        some: {}, // has memberships
+      },
+      OR: [
+        { email: { contains: query, mode: 'insensitive' } },
+        { name: { contains: query, mode: 'insensitive' } },
+      ],
+    },
+    include: {
+      memberships: {
+        orderBy: {
+          createdAt: 'asc',
+        },
+      },
+    },
+  })
+
+  return persons.map((person) => {
+    const memberships = person.memberships
+    const startDate = memberships.at(0)?.createdAt
+    const expiresAt = memberships.at(-1)?.expiresAt
+    const active = expiresAt ? expiresAt > now : false
+    const latestRef = memberships.at(-1)?.ref
+
+    return {
+      id: person.id,
+      email: person.email,
+      name: person.name,
+      phone: person.phone,
+      address: person.address,
+      language: person.language,
+      startDate,
+      expiresAt,
+      active,
+      ref: latestRef,
+    }
+  }).sort((a, b) => {
+    // Sort by latest expiration first
+    return (b.expiresAt?.getTime() ?? 0) - (a.expiresAt?.getTime() ?? 0)
+  })
+}

@@ -1,5 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { AdminViewServerProps } from 'payload'
+import { MembersClient } from './MembersClient'
 
 export default async function Members({
   initPageResult,
@@ -17,7 +18,7 @@ export default async function Members({
       user={initPageResult.req.user || undefined}
       visibleEntities={initPageResult.visibleEntities}
     >
-      <span>Placeholder</span>
+      <MembersClient />
     </DefaultTemplate>
   )
 }
