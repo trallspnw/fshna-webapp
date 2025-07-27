@@ -27,15 +27,28 @@ export default buildConfig({
     },
     components: {
       views: {
-        testView: {
+        members: {
+          Component: './views/Members',
+          path: '/members',
+          exact: true,
+        },
+        broadcast: {
           Component: './views/Broadcast',
           path: '/broadcast',
           exact: true,
-        }
+        },
+        campaigns: {
+          Component: './views/Campaigns',
+          path: '/campaigns',
+          exact: true,
+        },
       },
-      afterNavLinks: [
+      beforeNavLinks: [
         './views/links/Links#LinkToDashboard',
+        './views/links/Links#LinkToMembers',
         './views/links/Links#LinkToBroadcast',
+        './views/links/Links#LinkToCampaigns',
+        './views/links/Links#NavSpacer',
       ],
     },
   },
