@@ -85,6 +85,7 @@ export interface Config {
     media: Media;
     mediaFiles: MediaFile;
     pages: Page;
+    emails: Email;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -96,6 +97,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     mediaFiles: MediaFilesSelect<false> | MediaFilesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    emails: EmailsSelect<false> | EmailsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -904,6 +906,68 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "emails".
+ */
+export interface Email {
+  id: number;
+  /**
+   * Internal Identifier
+   */
+  slug: string;
+  internalName: string;
+  subject: {
+    en: string;
+    es?: string | null;
+  };
+  blocks?: (EmailHeading | EmailParagraph | EmailReceiptItems)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailHeading".
+ */
+export interface EmailHeading {
+  text: {
+    en: string;
+    es?: string | null;
+  };
+  /**
+   * Choose the heading level (smaller is bigger)
+   */
+  level: '1' | '2' | '3' | '4' | '5' | '6';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emailHeading';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailParagraph".
+ */
+export interface EmailParagraph {
+  text: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emailParagraph';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailReceiptItems".
+ */
+export interface EmailReceiptItems {
+  missingDetailsText: {
+    en: string;
+    es?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'emailReceiptItems';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -928,6 +992,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'emails';
+        value: number | Email;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1739,6 +1807,72 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "emails_select".
+ */
+export interface EmailsSelect<T extends boolean = true> {
+  slug?: T;
+  internalName?: T;
+  subject?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  blocks?:
+    | T
+    | {
+        emailHeading?: T | EmailHeadingSelect<T>;
+        emailParagraph?: T | EmailParagraphSelect<T>;
+        emailReceiptItems?: T | EmailReceiptItemsSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailHeading_select".
+ */
+export interface EmailHeadingSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  level?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailParagraph_select".
+ */
+export interface EmailParagraphSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailReceiptItems_select".
+ */
+export interface EmailReceiptItemsSelect<T extends boolean = true> {
+  missingDetailsText?:
+    | T
+    | {
+        en?: T;
+        es?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
         personId: result.personId ?? '',
         email: cleaned.email,
         itemName: cleaned.itemName ?? 'Donation',
+        itemType: 'DONATION',
         entryUrl: cleaned.entryUrl ?? '',
         ref: ref ?? '',
       },

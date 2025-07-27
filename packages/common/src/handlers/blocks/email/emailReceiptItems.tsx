@@ -1,0 +1,28 @@
+import { JSX } from "react"
+import { EmailReceiptItems as EmailReceiptItemsType } from '@common/types/payload-types' 
+import { Language } from "../../../types/language"
+import { getLocalizedValue } from "../../../lib/translation"
+
+export function render(
+  block: EmailReceiptItemsType, 
+  index: number, 
+  language: Language,
+  params: Record<string, string>,
+): JSX.Element {
+
+  const { itemName, amount } = params ?? {}
+
+  if (!itemName || !amount) {
+    return (
+      <p key={index}>
+        {getLocalizedValue(block.missingDetailsText, language)}
+      </p>
+    )
+  }
+
+  return (
+    <ul key={index}>
+      <li>{itemName}: {amount}</li>
+    </ul>
+  )
+}

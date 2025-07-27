@@ -1,6 +1,10 @@
 import { completeMembership } from '@/apps/cms/src/dao/membershipDao'
+import { getPersonById } from '@/apps/cms/src/dao/personDao'
+import { sendEmails } from '@/apps/cms/src/lib/email'
+import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { LRUCache } from 'lru-cache'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-06-30.basil',
@@ -11,6 +15,11 @@ export const config = {
     bodyParser: false,
   },
 }
+
+const stripeEventCache = new LRUCache<string, true>({
+  max: 1000,
+  ttl: 1000 * 60 * 5, // 5 minutes
+})
 
 export async function POST(request: NextRequest) {
   const rawBody = await request.text()
@@ -34,14 +43,35 @@ export async function POST(request: NextRequest) {
   }
 
   if (event.type === 'checkout.session.completed') {
+    // Use cache for idempotency
+    const eventId = event.id
+    if (stripeEventCache.has(eventId)) return NextResponse.json({ received: true })
+    stripeEventCache.set(eventId, true)
+
     const session = event.data.object as Stripe.Checkout.Session
 
     const personId = session.metadata?.personId
     const ref = session.metadata?.ref
     const itemType = session.metadata?.itemType
+    const person = personId ? await getPersonById(personId) : undefined
 
     if (personId && itemType == 'MEMBERSHIP') {
       await completeMembership(personId, ref)
+    }
+
+    if (person && itemType == 'DONATION') {
+      sendEmails(
+        [ person ], 
+        'donation-receipt', 
+        {
+          itemName: session.metadata?.itemName ?? 'Item',
+          amount: new Intl.NumberFormat(person.language ?? DEFAULT_LANGUAGE, {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+          }).format((session.amount_total ?? 0) / 100),
+        },
+      )
     }
   }
 

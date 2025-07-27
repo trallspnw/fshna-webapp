@@ -14,6 +14,7 @@ import { FooterGlobal } from './globals/Footer'
 import { GeneralGlobal } from './globals/General'
 import { MediaFiles } from './collections/MediaFiles'
 import { allBlocks } from './lib/allBlocks'
+import { Emails } from './collections/Emails'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,6 +32,7 @@ export default buildConfig({
     Media,
     MediaFiles,
     Pages, 
+    Emails,
   ],
   globals: [
     FooterGlobal,
@@ -50,7 +52,7 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
-  email: nodemailerAdapter({
+  email: process.env.TYPEGEN ? undefined : nodemailerAdapter({
     defaultFromAddress: process.env.EMAIL_FROM_ADDRESS ?? '',
     defaultFromName: process.env.EMAIL_FROM_NAME ?? '',
     transportOptions: {
