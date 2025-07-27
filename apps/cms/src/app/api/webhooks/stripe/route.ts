@@ -55,8 +55,20 @@ export async function POST(request: NextRequest) {
     const itemType = session.metadata?.itemType
     const person = personId ? await getPersonById(personId) : undefined
 
-    if (personId && itemType == 'MEMBERSHIP') {
-      await completeMembership(personId, ref)
+    if (person && itemType == 'MEMBERSHIP') {
+      await completeMembership(person.id, ref)
+      sendEmails(
+        [ person ], 
+        'membership-receipt', 
+        {
+          itemName: session.metadata?.itemName ?? 'Membership',
+          amount: new Intl.NumberFormat(person.language ?? DEFAULT_LANGUAGE, {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+          }).format((session.amount_total ?? 0) / 100),
+        },
+      )
     }
 
     if (person && itemType == 'DONATION') {
