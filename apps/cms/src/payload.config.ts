@@ -25,6 +25,19 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      views: {
+        testView: {
+          Component: './views/Broadcast',
+          path: '/broadcast',
+          exact: true,
+        }
+      },
+      afterNavLinks: [
+        './views/links/Links#LinkToDashboard',
+        './views/links/Links#LinkToBroadcast',
+      ],
+    },
   },
   collections: [
     Admins, 
@@ -52,7 +65,7 @@ export default buildConfig({
   }),
   sharp,
   plugins: [],
-  email: process.env.TYPEGEN ? undefined : nodemailerAdapter({
+  email: process.env.TYPEGEN || process.env.IMPORTMAP ? undefined : nodemailerAdapter({
     defaultFromAddress: process.env.EMAIL_FROM_ADDRESS ?? '',
     defaultFromName: process.env.EMAIL_FROM_NAME ?? '',
     transportOptions: {

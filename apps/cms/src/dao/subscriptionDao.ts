@@ -38,3 +38,16 @@ export async function subscribe(email: string, language: string, ref?: string) {
     return { success: true }
   })
 }
+
+export async function getSubscriptions() {
+  return prisma.person.findMany({
+    where: {
+      subscriptions: {
+        some: {}, // At least one subscription
+      },
+    },
+    include: {
+      subscriptions: true,
+    },
+  })
+}

@@ -14,6 +14,7 @@
     "clean": "pnpm -r exec rm -rf dist .next node_modules out && rm -rf .pnpm-store node_modules",
     "clean:site": "rm -rf apps/site/.next apps/site/out",
     "types": "TYPEGEN=1 pnpm --filter cms generate:types",
+    "importmap": "IMPORTMAP=1 pnpm --filter cms generate:importmap",
     "prisma:generate": "pnpm prisma generate --schema apps/cms/prisma/schema.prisma",
     "prisma:push": "pnpm prisma db push --schema apps/cms/prisma/schema.prisma",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
