@@ -7,3 +7,14 @@ export async function getPersonById(id: string) {
     where: { id }
   })
 }
+
+export async function searchPersons(query: string) {
+  return await prisma.person.findMany({
+    where: {
+      OR: [
+        { email: { contains: query, mode: 'insensitive' } },
+        { name: { contains: query, mode: 'insensitive' } },
+      ],
+    },
+  })
+}

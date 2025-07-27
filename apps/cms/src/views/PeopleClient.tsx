@@ -2,11 +2,11 @@
 
 import { Button, Gutter } from "@payloadcms/ui";
 import { useState } from "react";
-import classes from './MembersClient.module.scss'
+import classes from './PeopleClient.module.scss'
 
-export function MembersClient() {
+export function PeopleClient() {
   const [searchInput, setSearchInput] = useState('')
-  const [members, setMembers] = useState<any[]>([])
+  const [persons, setPersons] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
 
@@ -15,20 +15,20 @@ export function MembersClient() {
 
     setLoading(true)
     setStatusMessage('Searching...')
-    setMembers([])
+    setPersons([])
 
     try {
-      const result = await fetch('/api/membership/search?query=' + encodeURIComponent(searchInput), {
+      const result = await fetch('/api/person/search?query=' + encodeURIComponent(searchInput), {
         method: 'GET',
         credentials: 'include',
       })
 
       const json = await result.json()
-      setMembers(json.members || [])
-      setStatusMessage(json.message || 'Searched members.')
+      setPersons(json.persons || [])
+      setStatusMessage(json.message || 'Searched people.')
     } catch (e) {
       console.error(e)
-      setStatusMessage('Failed search members.')
+      setStatusMessage('Failed search people.')
     } finally {
       setLoading(false)
     }
@@ -36,8 +36,8 @@ export function MembersClient() {
 
   return (
     <Gutter>
-      <h1>Search Members</h1>
-      <p>Lookup member information by name or email</p>
+      <h1>Manage Person Records</h1>
+      <p>Lookup people by name or email</p>
       <br />
 
       <form
@@ -67,7 +67,7 @@ export function MembersClient() {
         <br />
       </>}
 
-      {members.length > 0 && (
+      {persons.length > 0 && (
         <div>
           <table className={classes.table}>
             <thead>
@@ -76,25 +76,36 @@ export function MembersClient() {
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Address</th>
-                <th>Active</th>
-                <th>Start</th>
-                <th>Expiration</th>
+                <th>Created</th>
                 <th>Language</th>
                 <th>Ref</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {members.map((member) => (
-                <tr key={member.id}>
-                  <td>{member.email}</td>
-                  <td>{member.name}</td>
-                  <td>{member.phone}</td>
-                  <td>{member.address}</td>
-                  <td>{member.active ? 'Yes' : 'No'}</td>
-                  <td>{member.startDate ? new Date(member.startDate).toLocaleDateString() : ''}</td>
-                  <td>{member.expiresAt ? new Date(member.expiresAt).toLocaleDateString() : ''}</td>
-                  <td>{member.language}</td>
-                  <td>{member.ref}</td>
+              {persons.map((person) => (
+                <tr key={person.id}>
+                  <td>{person.email}</td>
+                  <td>{person.name}</td>
+                  <td>{person.phone}</td>
+                  <td>{person.address}</td>
+                  <td>{person.createdAt ? new Date(person.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{person.language}</td>
+                  <td>{person.ref}</td>
+                  <td>
+                    <Button 
+                      size='small' 
+                      icon='edit' 
+                      buttonStyle='transparent' 
+                      tooltip='Edit' 
+                    />
+                    <Button 
+                      size='small' 
+                      icon='x' 
+                      buttonStyle='transparent' 
+                      tooltip='Delete' 
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>

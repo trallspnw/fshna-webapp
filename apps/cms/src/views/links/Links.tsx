@@ -6,6 +6,10 @@ export const LinkToDashboard: React.FC = () => {
   return <Link href='/admin' className={classes.link}>Dashboard</Link>
 }
 
+export const LinkToPeople: React.FC = () => {
+  return <Link href='/admin/people' className={classes.link}>People</Link>
+}
+
 export const LinkToMembers: React.FC = () => {
   return <Link href='/admin/members' className={classes.link}>Members</Link>
 }

@@ -27,6 +27,11 @@ export default buildConfig({
     },
     components: {
       views: {
+        people: {
+          Component: './views/People',
+          path: '/people',
+          exact: true,
+        },
         members: {
           Component: './views/Members',
           path: '/members',
@@ -45,6 +50,7 @@ export default buildConfig({
       },
       beforeNavLinks: [
         './views/links/Links#LinkToDashboard',
+        './views/links/Links#LinkToPeople',
         './views/links/Links#LinkToMembers',
         './views/links/Links#LinkToBroadcast',
         './views/links/Links#LinkToCampaigns',
