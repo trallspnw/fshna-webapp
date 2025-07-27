@@ -23,6 +23,7 @@
     "@mantine/form": "^8.1.2",
     "@mantine/hooks": "^8.1.2",
     "@payloadcms/db-postgres": "3.43.0",
+    "@payloadcms/email-nodemailer": "^3.49.0",
     "@payloadcms/next": "3.43.0",
     "@payloadcms/payload-cloud": "3.43.0",
     "@payloadcms/richtext-lexical": "3.43.0",
