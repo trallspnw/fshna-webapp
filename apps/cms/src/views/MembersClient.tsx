@@ -23,9 +23,9 @@ export function MembersClient() {
         credentials: 'include',
       })
 
-      const json = await result.json()
-      setMembers(json.members || [])
-      setStatusMessage(json.message || 'Searched members.')
+      const data = await result.json()
+      setMembers(data.members || [])
+      setStatusMessage(data.message || 'Searched members.')
     } catch (e) {
       console.error(e)
       setStatusMessage('Failed search members.')

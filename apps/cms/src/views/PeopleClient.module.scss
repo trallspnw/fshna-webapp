@@ -9,3 +9,9 @@
   text-align: left;
   border-bottom: 1px solid;
 }
+
+.deletionOptions {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1rem;
+}

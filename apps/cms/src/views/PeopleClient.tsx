@@ -3,12 +3,28 @@
 import { Button, Gutter } from "@payloadcms/ui";
 import { useState } from "react";
 import classes from './PeopleClient.module.scss'
+import { PersonForm } from "./PersonForm";
+import { person } from "../../generated/prisma";
+import { Modal } from "./Modal";
 
 export function PeopleClient() {
   const [searchInput, setSearchInput] = useState('')
-  const [persons, setPersons] = useState<any[]>([])
+  const [persons, setPersons] = useState<person[]>([])
   const [loading, setLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
+  const [selectedPerson, setSelectedPerson] = useState<person | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [pendingDeletePerson, setPendingDeletePerson] = useState<person | null>(null)
+
+  const openModal = (person?: person) => {
+    setSelectedPerson(person || null)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedPerson(null)
+  }
 
   const handleSearch = async () => {
     if (!searchInput) return
@@ -23,9 +39,9 @@ export function PeopleClient() {
         credentials: 'include',
       })
 
-      const json = await result.json()
-      setPersons(json.persons || [])
-      setStatusMessage(json.message || 'Searched people.')
+      const data = await result.json()
+      setPersons(data.persons || [])
+      setStatusMessage(data.message || 'Searched people.')
     } catch (e) {
       console.error(e)
       setStatusMessage('Failed search people.')
@@ -34,9 +50,38 @@ export function PeopleClient() {
     }
   }
 
+  const handleDelete = async () => {
+    if (!pendingDeletePerson) return
+
+    setStatusMessage(`Deleting ${pendingDeletePerson.name || pendingDeletePerson.email}...`)
+    try {
+      const result = await fetch(`/api/person/${pendingDeletePerson.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+
+      if (result.ok) {
+        setPersons(previous => previous.filter(p => p.id !== pendingDeletePerson.id))
+        setStatusMessage('Person deleted.')
+      } else {
+        setStatusMessage('Failed to delete person.')
+      }
+    } catch (e) {
+      console.error(e)
+      setStatusMessage('Error deleting person.')
+    } finally {
+      setPendingDeletePerson(null)
+    }
+  }
+
   return (
     <Gutter>
       <h1>Manage Person Records</h1>
+      <br />
+      <h2>New Person</h2>
+      <Button onClick={() => openModal()}>Create</Button>
+
+      <h2>Manage Existing People</h2>
       <p>Lookup people by name or email</p>
       <br />
 
@@ -98,12 +143,14 @@ export function PeopleClient() {
                       icon='edit' 
                       buttonStyle='transparent' 
                       tooltip='Edit' 
+                      onClick={() => openModal(person)}
                     />
                     <Button 
                       size='small' 
                       icon='x' 
                       buttonStyle='transparent' 
                       tooltip='Delete' 
+                      onClick={() => setPendingDeletePerson(person)}
                     />
                   </td>
                 </tr>
@@ -112,6 +159,42 @@ export function PeopleClient() {
           </table>
         </div>
       )}
+
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+        title={selectedPerson ? 'Edit Person' : 'New Person'}
+      >
+        <PersonForm
+          person={selectedPerson || undefined}
+          onSuccess={() => {
+            closeModal()
+            if (selectedPerson) handleSearch()
+          }}
+        />
+      </Modal>
+
+      <Modal 
+        isOpen={!!pendingDeletePerson} 
+        onClose={() => setPendingDeletePerson(null)} 
+        title="Confirm Deletion"
+      >
+        <p>
+          Are you sure you want to delete{'\u00A0'}
+          <strong>{pendingDeletePerson?.name || pendingDeletePerson?.email}</strong>?
+        </p>
+        <p>This will also delete associated subscriptions and memberships.</p>
+        <br />
+        <div className={classes.deletionOptions}>
+          <Button onClick={handleDelete} buttonStyle="primary">
+            Yes
+          </Button>
+          <Button onClick={() => setPendingDeletePerson(null)} buttonStyle="secondary">
+            Cancel
+          </Button>
+        </div>
+      </Modal>
+
     </Gutter>
   )
 }
