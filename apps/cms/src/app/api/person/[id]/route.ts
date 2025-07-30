@@ -2,10 +2,28 @@ import { deletePerson, updatePerson } from "@/apps/cms/src/dao/personDao"
 import { isValidEmail, isValidUsPhone } from "@/packages/common/src/lib/validation"
 import { Language, SUPPORTED_LANGUAGES } from "@/packages/common/src/types/language"
 import { NextRequest, NextResponse } from "next/server"
+import { createPayloadRequest } from "payload"
+import configPromise from '@payload-config'
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = params
+    const payloadRequest = await createPayloadRequest({
+      config: configPromise,
+      request,
+    })
+
+    const user = payloadRequest.user
+    if (!user || user.collection !== 'admins') {
+      return NextResponse.json(
+        { error: 'Unauthorized' }, 
+        { status: 401 },
+      )
+    }
+    
+    const { id } = await context.params
     const { email, name, phone, address, language, ref } = await request.json()
 
     const cleaned = {
@@ -76,9 +94,26 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = params
+    const payloadRequest = await createPayloadRequest({
+      config: configPromise,
+      request,
+    })
+
+    const user = payloadRequest.user
+    if (!user || user.collection !== 'admins') {
+      return NextResponse.json(
+        { error: 'Unauthorized' }, 
+        { status: 401 },
+      )
+    }
+    
+    const { id } = await context.params
 
     if (!id) {
       return NextResponse.json(

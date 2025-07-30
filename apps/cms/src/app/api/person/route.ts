@@ -2,9 +2,24 @@ import { isValidEmail, isValidUsPhone } from "@/packages/common/src/lib/validati
 import { Language, SUPPORTED_LANGUAGES } from "@/packages/common/src/types/language";
 import { NextRequest, NextResponse } from "next/server";
 import { createPerson } from "../../../dao/personDao";
+import { createPayloadRequest } from "payload";
+import configPromise from '@payload-config'
 
 export async function POST(request: NextRequest) {
   try {
+    const payloadRequest = await createPayloadRequest({
+      config: configPromise,
+      request,
+    })
+
+    const user = payloadRequest.user
+    if (!user || user.collection !== 'admins') {
+      return NextResponse.json(
+        { error: 'Unauthorized' }, 
+        { status: 401 },
+      )
+    }
+    
     const { email, name, phone, address, language, ref } = await request.json()
 
     const cleaned = {
