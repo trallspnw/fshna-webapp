@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPayloadRequest } from 'payload'
 import configPromise from '@payload-config'
-import { searchPersons } from "@/apps/cms/src/dao/personDao";
+import { getMembershipsByRef, getPersonsByRef, getSubscriptionsByRef } from "../../../../dao/campaignDao";
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,12 +27,16 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const persons = await searchPersons(query)
+    const persons = await getPersonsByRef(query)
+    const memberships = await getMembershipsByRef(query)
+    const subscriptions = await getSubscriptionsByRef(query)
 
     return NextResponse.json(
       {
-        message: `Search returned ${persons.length} people.`,
+        message: `Search returned ${persons.length + memberships.length + subscriptions.length} entries.`,
         persons,
+        memberships,
+        subscriptions,
       },
       { status: 200 },
     )

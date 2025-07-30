@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     )
 
   } catch (e) {
-    console.error('Error in broadcast handler:', e);
+    console.error('Error in search handler:', e);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
