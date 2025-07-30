@@ -1,6 +1,6 @@
 'use client'
 
-import { createTheme, MantineColorsTuple, MantineProvider } from "@mantine/core"
+import { Button, createTheme, MantineColorsTuple, MantineProvider, Modal } from "@mantine/core"
 import { Nav } from "./Nav"
 import { NavItem } from "@common/types/nav"
 import classes from './BodyLayout.module.scss'
@@ -8,6 +8,7 @@ import clsx from "clsx"
 import { Footer, FooterProps } from "./Footer"
 import { LocalizedMedia } from "../types/language"
 import { useEffect } from "react"
+import { useDisclosure } from "@mantine/hooks"
 
 // TODO - move theme to configuration before launch
 const primaryColor: MantineColorsTuple = [
@@ -48,11 +49,25 @@ export type BodyLayoutProps = {
 }
 
 export function BodyLayout({ logo, hero, navItems, children, footer }: BodyLayoutProps) {
+  const [opened, { open, close }] = useDisclosure(false)
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const ref = params.get('ref')
     if (ref) sessionStorage.setItem('ref', ref)
   }, [])
+
+  useEffect(() => {
+    const acknowledged = sessionStorage.getItem('disclaimerAcknowledged')
+    if (!acknowledged) {
+      open()
+    }
+  }, [open])
+
+  const handleAcknowledge = () => {
+    sessionStorage.setItem('disclaimerAcknowledged', 'true')
+    close()
+  }
 
   return (
     <body className={clsx(classes.body)}>
@@ -67,7 +82,24 @@ export function BodyLayout({ logo, hero, navItems, children, footer }: BodyLayou
           </main>
           <Footer {...footer}/>
         </div>
+        <Modal
+          opened={opened}
+          onClose={handleAcknowledge}
+          title="Heads up!"
+          centered
+          withCloseButton={false}
+          closeOnClickOutside={false}
+          closeOnEscape={false}
+        >
+          <p>This page is in development. Content is placeholder only.</p>
+          <Button fullWidth mt="md" onClick={handleAcknowledge}>
+            Got it
+          </Button>
+        </Modal>
       </MantineProvider>
     </body>
   )
 }
+
+
+
