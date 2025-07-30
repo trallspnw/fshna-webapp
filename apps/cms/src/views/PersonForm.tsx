@@ -71,8 +71,12 @@ export function PersonForm({ person, onSuccess }: PersonFormProps) {
 
       onSuccess()
     } catch (e) {
-      console.error(e)
-      setStatusMessage('An error occurred when saving person.')
+      if (e instanceof Error && e.message === 'EMAIL_ALREADY_EXISTS') {
+        setStatusMessage('A user is already using this email address')
+      } else {
+        setStatusMessage('An error occurred when saving person.')
+        console.error(e)
+      }
     } finally {
       setLoading(false)
     }

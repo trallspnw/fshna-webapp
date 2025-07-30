@@ -169,7 +169,7 @@ export function PeopleClient() {
           person={selectedPerson || undefined}
           onSuccess={() => {
             closeModal()
-            if (selectedPerson) handleSearch()
+            handleSearch()
           }}
         />
       </Modal>

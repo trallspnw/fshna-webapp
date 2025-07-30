@@ -118,5 +118,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const clean = (value: string): string | undefined =>
-  value?.trim() === '' ? undefined : value
+function clean(value: string): string | undefined {
+  return value?.trim() === '' ? undefined : value
+}
