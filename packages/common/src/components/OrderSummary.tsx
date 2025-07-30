@@ -49,13 +49,15 @@ export function OrderSummary({
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
       const id = params.get('sessionId')
+      if (!id) {
+        setLoading(false)
+      }
       setSessionId(id)
     }
   }, [])
 
   useEffect(() => {
     if (!sessionId) {
-      setLoading(false)
       return
     }
     fetch(`/api/payment?sessionId=${sessionId}`)
