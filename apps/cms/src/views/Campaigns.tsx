@@ -1,5 +1,6 @@
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { AdminViewServerProps } from 'payload'
+import { CampaignsClient } from './CampaignsClient'
 
 export default async function Campaigns({
   initPageResult,
@@ -17,7 +18,7 @@ export default async function Campaigns({
       user={initPageResult.req.user || undefined}
       visibleEntities={initPageResult.visibleEntities}
     >
-      <span>Placeholder</span>
+      <CampaignsClient />
     </DefaultTemplate>
   )
 }

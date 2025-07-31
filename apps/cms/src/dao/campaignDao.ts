@@ -10,12 +10,18 @@ export async function getPersonsByRef(ref: string) {
 
 export async function getMembershipsByRef(ref: string) {
   return prisma.membership.findMany({
-    where: { ref }
+    where: { ref },
+    include: {
+      person: true,
+    },
   })
 }
 
 export async function getSubscriptionsByRef(ref: string) {
   return prisma.subscription.findMany({
-    where: { ref }
+    where: { ref },
+    include: {
+      person: true,
+    },
   })
 }
