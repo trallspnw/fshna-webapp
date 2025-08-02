@@ -3,10 +3,16 @@ import { createSession } from "@/apps/cms/src/lib/stripe";
 import { isValidEmail, isValidUsdAmount, isValidUsPhone } from "@/packages/common/src/lib/validation";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * API route for making a donation. Stores person information and kicks off a Stripe session.
+ * @param request Person contact information and donation amount
+ * @returns A Stripe session URL or a failure message
+ */
 export async function POST(request: NextRequest) {
   try {
     const { amount, itemName, email, name, phone, address, entryUrl, language, ref } = await request.json()
 
+    // Normalize input
     const cleaned = {
       amount: clean(amount),
       itemName: clean(itemName),
@@ -17,6 +23,7 @@ export async function POST(request: NextRequest) {
       entryUrl: clean(entryUrl),
     }
 
+    // Validate input
     if (!cleaned.amount || !isValidUsdAmount(cleaned.amount)) {
       return NextResponse.json(
         { error: 'Invalid amount' }, 
@@ -31,6 +38,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Phone is not required, but it must be valid if provided
     if (cleaned.phone && !isValidUsPhone(cleaned.phone)) {
       return NextResponse.json(
         { error: 'Invalid phone' }, 
@@ -57,6 +65,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Kick off Stripe session
     const session = await createSession({
       line_items: [
         {
@@ -65,7 +74,7 @@ export async function POST(request: NextRequest) {
             product_data: {
               name: cleaned.itemName ?? 'Donation',
             },
-            unit_amount: Math.round(parseFloat(cleaned.amount) * 100),
+            unit_amount: Math.round(parseFloat(cleaned.amount) * 100), // cents
           },
           quantity: 1,
         }
@@ -98,5 +107,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-const clean = (value: string): string | undefined =>
-  value?.trim() === '' ? undefined : value
+// Helper for cleaning / normalizing input
+function clean(value: string): string | undefined {
+  return value?.trim() === '' ? undefined : value
+}

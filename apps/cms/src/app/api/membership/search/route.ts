@@ -3,6 +3,11 @@ import { createPayloadRequest } from 'payload'
 import configPromise from '@payload-config'
 import { searchMembers } from "@/apps/cms/src/dao/membershipDao";
 
+/**
+ * API for handling member search. Searches by name and email. Must be used by an authenticated admin
+ * @param request A request including a search query
+ * @returns The matching membership rows
+ */
 export async function GET(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({

@@ -2,6 +2,9 @@ import { BaseNotFoundHandler } from '@common/handlers/not-found'
 import { CmsFetcher } from '@cms/lib/cmsFetcher'
 import { Page } from '@common/types/payload-types'
 
+/**
+ * Renders the 404 page dynamically using the dynamic CmsFetcher.
+ */
 class CmsNotFoundHandler extends BaseNotFoundHandler {
   protected readonly fetcher = new CmsFetcher<Page>(this.COLLECTION)
   protected readonly allFetchers = {

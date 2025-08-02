@@ -2,6 +2,11 @@ import { getLatestMembershipByEmail } from "@/apps/cms/src/dao/membershipDao";
 import { isValidEmail } from "@/packages/common/src/lib/validation";
 import { NextRequest, NextResponse } from "next/server";
 
+/**
+ * API route for checking membership status by email.
+ * @param request An email address
+ * @returns Membership status and expiration
+ */
 export async function GET(request: NextRequest) {
   try {
     const email = request.nextUrl.searchParams.get('email')

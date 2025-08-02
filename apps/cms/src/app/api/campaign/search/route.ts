@@ -3,6 +3,11 @@ import { createPayloadRequest } from 'payload'
 import configPromise from '@payload-config'
 import { getMembershipsByRef, getPersonsByRef, getSubscriptionsByRef } from "../../../../dao/campaignDao";
 
+/**
+ * API route for getting campaign results. Must be used by an authenticated admin.
+ * @param request A request including a ref query
+ * @returns The entities created via the campaign
+ */
 export async function GET(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({

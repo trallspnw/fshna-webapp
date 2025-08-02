@@ -2,6 +2,9 @@ import { BaseHomeHandler } from '@common/handlers/home'
 import { CmsFetcher } from '@cms/lib/cmsFetcher'
 import { Page } from '@common/types/payload-types'
 
+/**
+ * Renders the home page dynamically using the dynamic CmsFetcher.
+ */
 class CmsHomeHandler extends BaseHomeHandler {
   protected readonly fetcher = new CmsFetcher<Page>(this.COLLECTION)
   protected readonly allFetchers = {

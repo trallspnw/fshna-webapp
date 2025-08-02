@@ -4,6 +4,11 @@ import configPromise from '@payload-config'
 import { getSubscriptions } from "../../../dao/subscriptionDao";
 import { sendEmails } from "../../../lib/email";
 
+/**
+ * API route for broadcasting an email. Must be used by an authenticated admin.
+ * @param request A request including an email slug
+ * @returns Result message and code
+ */
 export async function POST(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({

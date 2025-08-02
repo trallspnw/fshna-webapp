@@ -3,6 +3,11 @@ import { createPayloadRequest } from 'payload'
 import configPromise from '@payload-config'
 import { searchPersons } from "@/apps/cms/src/dao/personDao";
 
+/**
+ * API froute for searching for persons by name or email. Must be used by an authenticated admin.
+ * @param request A search query
+ * @returns Matching person rows
+ */
 export async function GET(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({

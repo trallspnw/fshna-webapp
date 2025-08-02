@@ -5,6 +5,12 @@ import { NextRequest, NextResponse } from "next/server"
 import { createPayloadRequest } from "payload"
 import configPromise from '@payload-config'
 
+/**
+ * API route for handling person updates. Must be used by an authenticated admin.
+ * @param request New contact information for the person
+ * @param context The ID of the person to update
+ * @returns Result message and code
+ */
 export async function PATCH(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -23,6 +29,7 @@ export async function PATCH(
       )
     }
     
+    // personID from path and contact info from body
     const { id } = await context.params
     const { email, name, phone, address, language, ref } = await request.json()
 
@@ -35,6 +42,7 @@ export async function PATCH(
       ref: clean(ref),
     }
 
+    // Validate input
     if (!id) {
       return NextResponse.json(
         { error: 'Invalid person id' }, 
@@ -49,6 +57,7 @@ export async function PATCH(
       )
     }
 
+    // Phone is not required, but it must be valid if provided
     if (cleaned.phone && !isValidUsPhone(cleaned.phone)) {
       return NextResponse.json(
         { error: 'Invalid phone' }, 
@@ -94,7 +103,13 @@ export async function PATCH(
   }
 }
 
-
+/**
+ * API route for handing person deletions. Deletes a person and associated records such as subscriptions and memberships.
+ * Must be used by an authenticated admin.
+ * @param request The request body containing auth information
+ * @param context The ID of the person to delete
+ * @returns Result message and code
+ */
 export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -144,6 +159,7 @@ export async function DELETE(
   }
 }
 
+// Helper for cleaning / normalizing input
 function clean(value: string): string | undefined {
   return value?.trim() === '' ? undefined : value
 }

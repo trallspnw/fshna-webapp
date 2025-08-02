@@ -16,15 +16,25 @@ export const config = {
   },
 }
 
+/*
+  Used for in memory cache. Stripe often triggers duplicate callbacks. This cache keeps track of recent triggers in 
+  order to dedupe.
+*/
 const stripeEventCache = new LRUCache<string, true>({
   max: 1000,
   ttl: 1000 * 60 * 5, // 5 minutes
 })
 
+/**
+ * API route for handling Stripe session changes.
+ * @param request Stripe event information
+ * @returns Acknowledgement
+ */
 export async function POST(request: NextRequest) {
   const rawBody = await request.text()
   const signature = request.headers.get('stripe-signature')
 
+  // Validate boddy and signature
   if (!signature) {
     return NextResponse.json({ error: 'Missing Stripe signature' }, { status: 400 })
   }
@@ -39,9 +49,13 @@ export async function POST(request: NextRequest) {
     )
   } catch (error: any) {
     console.error('Webhook signature verification failed.', error.message)
-    return NextResponse.json({ error: `Webhook Error: ${error.message}` }, { status: 400 })
+    return NextResponse.json(
+      { error: `Webhook Error: ${error.message}` }, 
+      { status: 400 },
+    )
   }
 
+  // Filter to events to session completions
   if (event.type === 'checkout.session.completed') {
     // Use cache for idempotency
     const eventId = event.id
@@ -55,6 +69,7 @@ export async function POST(request: NextRequest) {
     const itemType = session.metadata?.itemType
     const person = personId ? await getPersonById(personId) : undefined
 
+    // For memberships, update membership table and send an memberhip confirmation/receipt
     if (person && itemType == 'MEMBERSHIP') {
       await completeMembership(person.id, ref)
       sendEmails(
@@ -71,6 +86,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // For donations, send donation receipt. 
     if (person && itemType == 'DONATION') {
       sendEmails(
         [ person ], 

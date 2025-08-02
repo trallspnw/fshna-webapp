@@ -5,6 +5,11 @@ import { createPerson } from "../../../dao/personDao";
 import { createPayloadRequest } from "payload";
 import configPromise from '@payload-config'
 
+/**
+ * API route for adding a person. Must be used by an authenticated admin.
+ * @param request Person information
+ * @returns The ID of the new person or a failure message
+ */
 export async function POST(request: NextRequest) {
   try {
     const payloadRequest = await createPayloadRequest({
@@ -22,6 +27,7 @@ export async function POST(request: NextRequest) {
     
     const { email, name, phone, address, language, ref } = await request.json()
 
+    // Normalize input
     const cleaned = {
       email: clean(email),
       name: clean(name),
@@ -31,6 +37,7 @@ export async function POST(request: NextRequest) {
       ref: clean(ref),
     }
     
+    // Validate input
     if (!cleaned.email || !isValidEmail(cleaned.email)) {
       return NextResponse.json(
         { error: 'Invalid email' }, 
@@ -38,6 +45,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Phone is not required, but it must be valid if provided
     if (cleaned.phone && !isValidUsPhone(cleaned.phone)) {
       return NextResponse.json(
         { error: 'Invalid phone' }, 
@@ -82,6 +90,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// Helper for cleaning / normalizing input
 function clean(value: string): string | undefined {
   return value?.trim() === '' ? undefined : value
 }

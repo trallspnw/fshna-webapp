@@ -6,14 +6,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+/**
+ * API route for member sign up.
+ * @param request Person contact information
+ * @returns A Stripe session URL or failure message
+ */
 export async function POST(request: NextRequest) {
   try {
+    // Get membership price from payload
     const payload = await getPayload({ config: configPromise })
     const generalGlobals = await payload.findGlobal({ slug: 'general' }) as General 
-
-    const { itemName, email, name, phone, address, entryUrl, language, ref } = await request.json()
     const amount = generalGlobals.membershipPrice
 
+    const { itemName, email, name, phone, address, entryUrl, language, ref } = await request.json()
+
+    // Normalize input
     const cleaned = {
       itemName: clean(itemName),
       email: clean(email),
@@ -23,6 +30,7 @@ export async function POST(request: NextRequest) {
       entryUrl: clean(entryUrl),
     }
 
+    // Validate input
     if (!amount || amount <= 0) {
       return NextResponse.json(
         { error: 'Invalid membership price' }, 
@@ -44,6 +52,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Phone is not required, but it must be valid if provided
     if (cleaned.phone && !isValidUsPhone(cleaned.phone)) {
       return NextResponse.json(
         { error: 'Invalid phone' }, 
@@ -63,6 +72,7 @@ export async function POST(request: NextRequest) {
     )
 
     if (!result.success) {
+      // DAO didn't add because there is an active membership - user error
       if (result.reason === 'ACTIVE_MEMBERSHIP') {
         return NextResponse.json(
           { error: result.reason },
@@ -70,6 +80,7 @@ export async function POST(request: NextRequest) {
         )
       }
 
+      // Some other unknown error.
       console.error('Failed to initialize a membership: ', result);
       return NextResponse.json(
         { error: 'Internal Server Error' },
@@ -77,6 +88,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Kickoff Stripe session
     const session = await createSession({
       line_items: [
         {
@@ -118,6 +130,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// Helper for cleaning / normalizing input
 function clean(value: string): string | undefined {
   return value?.trim() === '' ? undefined : value
 }

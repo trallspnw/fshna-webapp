@@ -3,6 +3,9 @@ import { CmsFetcher } from '@cms/lib/cmsFetcher'
 import { Page } from '@common/types/payload-types'
 import { RouteContext } from '@common/handlers/baseContent'
 
+/**
+ * Renders pages dynamically using the dynamic CmsFetcher.
+ */
 class CmsPageHandler extends BasePageHandler {
   protected fetcher = new CmsFetcher<Page>(this.COLLECTION)
   protected readonly allFetchers = {
