@@ -3,6 +3,9 @@ import { BasePageHandler } from '@common/handlers/page'
 import { SiteFetcher } from '@site/lib/siteFetcher'
 import { RouteContext } from '@common/handlers/baseContent'
 
+/**
+ * Renders pages statically using the static SiteFetcher.
+ */
 class SitePageHandler extends BasePageHandler {
   protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
   protected readonly allFetchers = {
@@ -10,6 +13,10 @@ class SitePageHandler extends BasePageHandler {
     event: new SiteFetcher<Event>('events'),
   }
 
+  /**
+   * Gets all of the slugs for pages. Needed for static site generation.
+   * @returns The slugs of all the pages
+   */
   async generateStaticParams() {
     const pages = await this.fetcher.getAll()
     if (!Array.isArray(pages) || pages.length == 0) {

@@ -2,6 +2,9 @@ import { Page } from '@common/types/payload-types'
 import { BaseNotFoundHandler } from '@common/handlers/not-found'
 import { SiteFetcher } from '@site/lib/siteFetcher'
 
+/**
+ * Renders the 404 page statically using the static SiteFetcher.
+ */
 class SiteNotFoundHandler extends BaseNotFoundHandler {
   protected readonly fetcher = new SiteFetcher<Page>(this.COLLECTION)
   protected readonly allFetchers = {

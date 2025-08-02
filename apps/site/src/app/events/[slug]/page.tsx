@@ -3,6 +3,9 @@ import { SiteFetcher } from '@site/lib/siteFetcher'
 import { Event, Page } from '@common/types/payload-types'
 import { RouteContext } from '@common/handlers/baseContent'
 
+/**
+ * Renders event pages statically using the static SiteFetcher.
+ */
 class SiteEventHandler extends BaseEventHandler {
   protected readonly fetcher = new SiteFetcher<Event>(this.COLLECTION)
     protected readonly allFetchers = {
@@ -10,6 +13,10 @@ class SiteEventHandler extends BaseEventHandler {
     event: this.fetcher,
   }
 
+  /**
+   * Gets all of the slugs for events. Needed for static site generation.
+   * @returns The slugs of all the events
+   */
   async generateStaticParams() {
     const events = await this.fetcher.getAll()
     if (!Array.isArray(events) || events.length == 0) {
