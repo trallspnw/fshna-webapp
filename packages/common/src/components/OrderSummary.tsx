@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { useLanguage } from '../hooks/useLanguage'
 import { getLocalizedValue } from '../lib/translation'
 import { LocalizedText } from '../types/language'
@@ -30,6 +29,9 @@ type StripeSession = {
   }
 }
 
+/**
+ * Component for rendering an order summary. Intended for an order confirmation page. 
+ */
 export function OrderSummary({
   heading,
   paidStatus,
@@ -45,6 +47,7 @@ export function OrderSummary({
   const [session, setSession] = useState<StripeSession | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Get the Stripe sessionId from the URL
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search)
@@ -56,6 +59,7 @@ export function OrderSummary({
     }
   }, [])
 
+  // Get the session details from the payment API
   useEffect(() => {
     if (!sessionId) {
       return
@@ -68,6 +72,7 @@ export function OrderSummary({
 
   let innerDetails
 
+  // Show loadign UI
   if (loading) {
     innerDetails = (
       <Alert 
@@ -80,6 +85,8 @@ export function OrderSummary({
         </Group>
       </Alert>
     )
+
+  // Show order not found
   } else  if (!sessionId || (!loading && !session)) {
     innerDetails = (
      <Alert 
@@ -90,6 +97,8 @@ export function OrderSummary({
       {getLocalizedValue(orderNotFoundText, language)}
     </Alert>
     )
+    
+  // Show paid or unpaid
   } else {
     const alert = session!.payment_status === 'paid' ? 
     (

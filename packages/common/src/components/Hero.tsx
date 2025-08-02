@@ -20,6 +20,9 @@ type HeroProps = {
   className?: string
 }
 
+/**
+ * Hero component intended for use on the homepage. Accepts headings, media, and CTAs (Call To Action).
+ */
 export function Hero({ heading, subheading, media, actions = [], className }: HeroProps) {
   const [language] = useLanguage()
   const localizedMedia = getLocalizedValue(media, language)!

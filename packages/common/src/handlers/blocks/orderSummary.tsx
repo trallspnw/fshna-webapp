@@ -2,6 +2,9 @@ import { JSX } from 'react'
 import { General, OrderSummary as OrderSummaryType } from '@common/types/payload-types'
 import { OrderSummary } from '../../components/OrderSummary'
 
+/**
+ * Handles rendering of order summary blocks.
+ */
 export function render(
   block: OrderSummaryType,
   index: number,

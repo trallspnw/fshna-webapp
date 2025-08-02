@@ -2,6 +2,9 @@ import { JSX } from 'react'
 import { General, MembershipStatusForm as MembershipStatusFormType } from '@common/types/payload-types'
 import { MembershipStatusForm } from '../../components/MembershipStatusForm'
 
+/**
+ * Handles rendering of membership status form blocks.
+ */
 export function render(
   block: MembershipStatusFormType,
   index: number,

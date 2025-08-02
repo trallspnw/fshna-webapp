@@ -51,7 +51,10 @@ const iconMap: Record<SocialChannel | 'generic', JSX.Element> = {
   generic: <IconWorld {...iconProps} />,
 }
 
-
+/**
+ * Footer component. Accepts configured values from the global footer configuration. Includes a logo, a slogan, 
+ * groups links, and social media links.
+ */
 export function Footer({ logo, linkGroups, slogan, socialLinks, className }: FooterProps) {
   const [language] = useLanguage();
 
@@ -113,6 +116,9 @@ export function Footer({ logo, linkGroups, slogan, socialLinks, className }: Foo
   );
 }
 
+/**
+ * Any social media platform may be configured in the CMS. This maps known platforms to well-known icons.
+ */
 function getPlatform(url: string): SocialChannel | 'generic' {
   try {
     const hostname = new URL(url).hostname.toLowerCase()

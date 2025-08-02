@@ -5,6 +5,9 @@ import { render as renderEmailReceiptItems } from '@common/handlers/blocks/email
 import { JSX } from "react";
 import { Language } from "../types/language";
 
+/**
+ * Maps payload email blocks to a renderer and type.
+ */
 export const emailBlockRegistry = {
   emailHeading: {
     render: renderEmailHeading,
@@ -20,16 +23,35 @@ export const emailBlockRegistry = {
   }
 }
 
+/**
+ * Type from block config keys.
+ */
 export type EmailBlockType = keyof typeof emailBlockRegistry
 
+/**
+ * Type of block config.
+ */
 export type EmailBlockRegistry = typeof emailBlockRegistry
 
+/**
+ * A mapping of type (string from payload) to the generated payload type.
+ */
 export type EmailBlockMap = {
   [K in EmailBlockType]: EmailBlockRegistry[K]['type'] & { blockType: K }
 }
 
+/**
+ * A generalized block type with a render function.
+ */
 export type EmailBaseBlock = EmailBlockMap[EmailBlockType]
 
+/**
+ * Renders email blocks to JSX.
+ * @param blocks The blocks to render
+ * @param language The language to use
+ * @param params Key-value pairs used in blocks
+ * @returns 
+ */
 export function renderEmailBlocks(blocks: EmailBaseBlock[], language: Language, params: Record<string, string>) : JSX.Element[] {
   return (
     blocks?.map((block, index) => {

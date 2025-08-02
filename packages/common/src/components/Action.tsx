@@ -24,6 +24,9 @@ type ActionProps = {
   className?: string
 }
 
+/**
+ * An action component. Accept style and action details. Supports links and custom actions.
+ */
 export function Action({ label, style, actionType, size='md', url, customActionKey, className }: ActionProps) {
   const [language] = useLanguage()
   const resolvedLabel = getLocalizedValue(label, language)

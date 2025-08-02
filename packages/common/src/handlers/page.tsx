@@ -3,6 +3,9 @@ import { Page } from '@common/types/payload-types'
 import { notFound } from 'next/navigation'
 import { BaseContentHandler, RouteContext } from '@common/handlers/baseContent'
 
+/**
+ * Handles content rendering for the pages collection.
+ */
 export abstract class BasePageHandler extends BaseContentHandler<Page> {
   protected readonly COLLECTION = 'pages'
 

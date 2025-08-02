@@ -2,6 +2,9 @@ import { JSX } from 'react'
 import { General, DonationForm as DonationFormType } from '@common/types/payload-types'
 import { DonationForm } from '../../components/DonationForm'
 
+/**
+ * Handles rendering of donation form blocks.
+ */
 export function render(
   block: DonationFormType,
   index: number,

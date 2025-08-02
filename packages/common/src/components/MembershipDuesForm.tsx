@@ -29,6 +29,9 @@ type DonationFormProps = {
   serverFailureMessage?: LocalizedText,
 }
 
+/**
+ * Form for membership sign up or renewal.
+ */
 export function MembershipDuesForm(props: DonationFormProps) {
   const [language] = useLanguage()
   const [name, setName] = useState('')
@@ -49,6 +52,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
     setLoading(true)
     const ref = sessionStorage.getItem('ref') || undefined
 
+    // Validation is also performed on the backend, but validation is also done here to prevent extra processing.
     let isValid = true
 
     if (!isValidEmail(email)) {
@@ -71,6 +75,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
     }
 
     try {
+      // Saves person information in preparation for payment and confirmation
       const result = await fetch('/api/membership/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,6 +104,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
         return
       }
 
+      // Session created, go to Stripe payment URL
       if (data.paymentUrl) {
         window.location.href = data.paymentUrl
       } else {

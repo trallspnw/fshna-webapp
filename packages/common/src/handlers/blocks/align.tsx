@@ -4,6 +4,9 @@ import { Flex } from '@mantine/core'
 import type { JSX } from 'react'
 import { Fetchers } from '../../fetchers/fetcher'
 
+/**
+ * Handles rendering of align blocks using Maintine Felx.
+ */
 export function render(block: Align, index: number, fetchers: Fetchers, generalGlobals: General): JSX.Element {
   const justifyMap = {
     left: 'flex-start',

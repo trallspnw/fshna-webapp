@@ -19,6 +19,9 @@ type MembershipStatusFormProps = {
   failureMessage: LocalizedText
 }
 
+/**
+ * A form component for checking membership status. Uses a common EmailForm component.
+ */
 export function MembershipStatusForm(props: MembershipStatusFormProps) {
   const [message, setMessage] = useState({})
 
@@ -53,6 +56,9 @@ export function MembershipStatusForm(props: MembershipStatusFormProps) {
   )
 }
 
+/**
+ * Helper for building a localized status message using the block config, membership status, and membership expiration.
+ */
 function buildMessage(props: MembershipStatusFormProps, isActive: boolean, expires?: string) {
   const message: LocalizedText = {}
 

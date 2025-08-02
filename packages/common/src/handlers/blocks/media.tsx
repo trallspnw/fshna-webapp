@@ -3,6 +3,9 @@ import { MediaBlock } from '@common/types/payload-types';
 import { Media } from '../../components/Media';
 import { normalizeMedia } from '../../lib/mediaUtil';
 
+/**
+ * Handles rendering of media blocks.
+ */
 export function render(block: MediaBlock, index: number): JSX.Element {
   return (
     <Media

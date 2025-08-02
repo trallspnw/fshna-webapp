@@ -12,6 +12,9 @@ type HeadingProps = {
   level?: string
 }
 
+/**
+ * Localized heading component.
+ */
 export function Heading({ text, level = '2' }: HeadingProps) {
   const [language] = useLanguage()
   const order = parseInt(level) as 1 | 2 | 3 | 4 | 5 | 6

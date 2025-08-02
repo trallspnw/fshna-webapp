@@ -3,6 +3,9 @@ import { EmailHeading as EmailHeadingType } from '@common/types/payload-types'
 import { Language } from "../../../types/language"
 import { getLocalizedValue } from "../../../lib/translation"
 
+/**
+ * Handles rendering of email heading blocks.
+ */
 export function render(
   block: EmailHeadingType, 
   index: number, 

@@ -15,6 +15,9 @@ export type EventCardProps = {
   locale?: Language
 }
 
+/**
+ * Component for rendering an event card.
+ */
 export function EventCard({ name, href, imageSrc, date, locale }: EventCardProps) {
 
   return (

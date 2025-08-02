@@ -4,6 +4,9 @@ import { TwoColumns } from '../../components/TwoColumns';
 import { renderBlocks } from '../../lib/blockUtil';
 import { Fetchers } from '../../fetchers/fetcher';
 
+/**
+ * Handles rendering of two columns blocks.
+ */
 export function render(block: TwoColumnsType, index: number, fetchers: Fetchers, generalGlobals: General): JSX.Element {
   return (
     <TwoColumns

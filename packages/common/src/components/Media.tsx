@@ -14,6 +14,9 @@ export type MediaProps = {
   className?: string
 }
 
+/**
+ * Media component for localized media.
+ */
 export function Media({ media, radius = true, className }: MediaProps) {
   const [language] = useLanguage();
   const resolvedMedia = getLocalizedValue(media, language)

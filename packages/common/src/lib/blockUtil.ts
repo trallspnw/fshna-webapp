@@ -32,6 +32,9 @@ import { render as renderTwoColumns } from '@common/handlers/blocks/twoColumns'
 import { JSX } from "react";
 import { Fetcher, Fetchers, FetcherTypes } from "../fetchers/fetcher";
 
+/**
+ * Maps payload blocks to a renderer and type.
+ */
 export const blockRegistry = {
   accordion: {
     render: renderAccordion,
@@ -91,16 +94,35 @@ export const blockRegistry = {
   },
 }
 
+/**
+ * Type from block config keys.
+ */
 export type BlockType = keyof typeof blockRegistry
 
+/**
+ * Type of block config.
+ */
 export type BlockRegistry = typeof blockRegistry
 
+/**
+ * A mapping of type (string from payload) to the generated payload type.
+ */
 export type BlockMap = {
   [K in BlockType]: BlockRegistry[K]['type'] & { blockType: K }
 }
 
+/**
+ * A generalized block type with a render function.
+ */
 export type BaseBlock = BlockMap[BlockType]
 
+/**
+ * Renders blocks to JSX.
+ * @param blocks The blocks to render
+ * @param fetchers The available fetchers for the app environment
+ * @param generalGlobals General global configuration
+ * @returns 
+ */
 export function renderBlocks(blocks: BaseBlock[], fetchers: Fetchers, generalGlobals: General) : JSX.Element[] {
   return (
     blocks?.map((block, index) => {

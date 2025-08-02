@@ -1,5 +1,13 @@
 import { DEFAULT_LANGUAGE, Language } from "@common/types/language"
 
+/**
+ * Gets the local content from localizable content. 
+ * @param localized The content keys by language
+ * @param current The requested langugae
+ * @param fallback The fallback value to return if the requested language is not available. Defaults to the default 
+ *    language if not provided.
+ * @returns The content in the requested language or a fallback value.
+ */
 export function getLocalizedValue<T>(
   localized: Partial<Record<Language, T>> | undefined,
   current: Language,

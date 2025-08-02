@@ -5,6 +5,9 @@ import { SUPPORTED_LANGUAGES, LANGUAGE_LABELS } from '@common/types/language'
 import { Menu, Button } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
 
+/**
+ * Language selector component. The selected language is saved via the useLanguage hook.
+ */
 export function LanguageSelector() {
   const [selectedLanguage, setLanguage] = useLanguage()
 

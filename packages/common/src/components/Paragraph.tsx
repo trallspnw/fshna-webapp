@@ -11,6 +11,9 @@ type ParagraphProps = {
   text: LocalizedText
 }
 
+/**
+ * A paragraph component accepting LocalizedText.
+ */
 export function Paragraph({ text }: ParagraphProps) {
   const [language] = useLanguage()
 

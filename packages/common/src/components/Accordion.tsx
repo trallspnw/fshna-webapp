@@ -15,6 +15,9 @@ type AccordionProps = {
   }[]
 }
 
+/**
+ * Accordion component. Accepts a list of item names and associated children for building accordion items.
+ */
 export function Accordion({ items }: AccordionProps) {
   const [language] = useLanguage()
 

@@ -15,6 +15,9 @@ type SubscriptionFormProps = {
   failureMessage: LocalizedText
 }
 
+/**
+ * A form component for subscribing to emails. Uses a common EmailForm component.
+ */
 export function SubscriptionForm(props: SubscriptionFormProps) {
   const [language] = useLanguage()
 

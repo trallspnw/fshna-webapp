@@ -2,6 +2,9 @@ import { JSX } from 'react'
 import { General, MembershipDuesForm as MembershipDuesFormType } from '@common/types/payload-types'
 import { MembershipDuesForm } from '../../components/MembershipDuesForm'
 
+/**
+ * Handles rendering of membership dues form blocks.
+ */
 export function render(
   block: MembershipDuesFormType,
   index: number,

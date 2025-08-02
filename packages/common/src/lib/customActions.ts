@@ -1,3 +1,6 @@
+/**
+ * Available custom actions. Currently a concept only. No useful actions are currently available.
+ */
 export const customActions = {
   showMoreEvents: {
     label: 'Show more events',

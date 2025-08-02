@@ -24,6 +24,11 @@ type EventCardGridProps = {
   showMoreLabel?: LocalizedText
 }
 
+/**
+ * A component for rendering EventCards in a grid. Accepts an option heading, a list of all event details, a number
+ * of rows to render, and whether psuedo-pagination should be enabled (show more). Number of columns is determined by
+ * window width.
+ */
 export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCardGridProps) {
   const [language] = useLanguage()
   
@@ -38,7 +43,6 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCar
   const visibleEvents = events.slice(0, visibleCount)
   const allEventsVisible = visibleCount >= events.length
   const renderShowMore = showMoreLabel && showMoreLabel[DEFAULT_LANGUAGE] && !allEventsVisible
-  const renderButtons = renderShowMore //|| link
 
   return (
     <div className={classes.wrapper}>
@@ -59,7 +63,7 @@ export function EventCardGrid({ heading, events, rows, showMoreLabel }: EventCar
         ))}
       </div>
 
-      {renderButtons && (
+      {renderShowMore && (
         <div className={classes.buttonContainer}>
           {renderShowMore && (
             <Button 

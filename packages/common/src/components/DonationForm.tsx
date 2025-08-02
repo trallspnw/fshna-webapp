@@ -29,6 +29,9 @@ type DonationFormProps = {
   serverFailureMessage?: LocalizedText,
 }
 
+/**
+ * Form for submitting a donation.
+ */
 export function DonationForm(props: DonationFormProps) {
   const [language] = useLanguage()
   const [amount, setAmount] = useState('')
@@ -51,6 +54,7 @@ export function DonationForm(props: DonationFormProps) {
     setLoading(true)
     const ref = sessionStorage.getItem('ref') || undefined
 
+    // Validation is also performed on the backend, but validation is also done here to prevent extra processing.
     let isValid = true
 
     if (!isValidUsdAmount(amount)) {
@@ -80,6 +84,7 @@ export function DonationForm(props: DonationFormProps) {
     }
 
     try {
+      // Saves person information
       const result = await fetch('/api/donate/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -104,6 +109,7 @@ export function DonationForm(props: DonationFormProps) {
 
       const data = await result.json()
 
+      // Session created, go to Stripe payment URL
       if (data.paymentUrl) {
         window.location.href = data.paymentUrl
       } else {

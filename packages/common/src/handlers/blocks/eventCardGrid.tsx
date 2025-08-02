@@ -5,11 +5,14 @@ import { EventCardGrid } from '@common/components/EventCardGrid'
 import { JSX } from 'react'
 import { normalizeMedia } from '../../lib/mediaUtil'
 
+/**
+ * Handles rendering of event card grid blocks.
+ */
 export async function render(block: EventCardGridType, index: number, fetchers: Fetchers): Promise<JSX.Element> {
   const eventFetcher = fetchers.event as Fetcher<Event>
   const allEvents = await eventFetcher.getAll()
 
-  // Seminary HIll events are always Pacific Time - TODO: make configurable
+  // Seminary HIll events are always Pacific Time - This can be made configuratble in the future.
   const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }))
 
   const filtered = allEvents.filter(event =>

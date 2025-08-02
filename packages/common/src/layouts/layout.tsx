@@ -8,6 +8,9 @@ type LayoutProps = {
   children: React.ReactNode,
 }
 
+/**
+ * Top level shared website layout component.
+ */
 export async function render({ children }: LayoutProps) {
 
   return (

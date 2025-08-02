@@ -18,6 +18,11 @@ export type NavProps = {
   pages: NavItem[]
 }
 
+/**
+ * Main navigation component. Displays links in a row if there is room. Otherwise, links are collapsed into a hamburger
+ * menu. Both Navs are rendered, but only one is shown. The desktop Nav is compared with the window width to determine 
+ * mode.
+ */
 export function Nav({ logo, pages }: NavProps) {
   const [language] = useLanguage()
   const pathname = usePathname()
@@ -27,6 +32,7 @@ export function Nav({ logo, pages }: NavProps) {
   const [isMobile, setIsMobile] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
 
+  // Determine view mode on load and resize: desktop/mobile
   useEffect(() => {
     const update = () => {
       if (!desktopRef.current) return

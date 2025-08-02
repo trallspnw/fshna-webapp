@@ -18,6 +18,10 @@ type EmailFormProps = {
   actionHandler:  (email: string) => Promise<boolean>
 }
 
+/**
+ * A component which includes only an email input and a submit button. Accepts localized texts for rendering the UI and 
+ * an action handler.
+ */
 export function EmailForm({
   emailLabel,
   emailPlaceholder,
@@ -40,6 +44,7 @@ export function EmailForm({
       e.preventDefault()
       setLoading(true)
       
+      // Emails should be validated on the backend, but validation is here to prevent extra processing.
       if (!isValidEmail(email)) {
         setEmailError(getLocalizedValue(emailValidationError, language, 'Invalid email'))
         setLoading(false)

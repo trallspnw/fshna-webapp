@@ -15,6 +15,9 @@ type LogoProps = {
   className?: string
 }
 
+/**
+ * Logo component. Links to homepage by default.
+ */
 export function Logo({ media, link = '/', height = 40, width, className }: LogoProps) {
   const styles: React.CSSProperties = {
     height,

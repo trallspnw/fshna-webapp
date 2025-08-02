@@ -20,6 +20,9 @@ type EventDetailsProps = {
   locationLabel?: LocalizedText
 }
 
+/**
+ * Component for formatted event details
+ */
 export function EventDetails(props: EventDetailsProps) {
   const [language] = useLanguage()
 

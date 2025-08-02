@@ -3,6 +3,9 @@ import { EmailReceiptItems as EmailReceiptItemsType } from '@common/types/payloa
 import { Language } from "../../../types/language"
 import { getLocalizedValue } from "../../../lib/translation"
 
+/**
+ * Handles rendering of email receipt items blocks. Uses itemName and amount params.
+ */
 export function render(
   block: EmailReceiptItemsType, 
   index: number, 

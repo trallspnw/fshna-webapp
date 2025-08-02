@@ -3,6 +3,9 @@ import { EmailParagraph as EmailParagraphType } from '@common/types/payload-type
 import { Language } from "../../../types/language"
 import { getLocalizedValue } from "../../../lib/translation"
 
+/**
+ * Handles rendering of email paragraph blocks.
+ */
 export function render(
   block: EmailParagraphType, 
   index: number, 
