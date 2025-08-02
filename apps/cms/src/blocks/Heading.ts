@@ -1,6 +1,9 @@
 import { Block } from "payload";
 import { LocalizedTextField } from "@cms/fields/localizedTextField";
 
+/**
+ * A heading block with localized text and configurable level.
+ */
 export const Heading: Block = {
   slug: 'heading',
   interfaceName: 'Heading',

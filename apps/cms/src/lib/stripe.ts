@@ -4,6 +4,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-06-30.basil',
 });
 
+/**
+ * Creates a Stripe payment session.
+ * @param line_items The line items for the transaction
+ * @param email The email address of the purchaser
+ * @param success_url The URL the user to be directed to after payment
+ * @param cancel_url The URL the user to be directed to on cancel
+ * @param language The language the user is using
+ * @param metadata Key/value pairs to store in the session
+ * @returns 
+ */
 export async function createSession({
   line_items,
   email,
@@ -32,6 +42,11 @@ export async function createSession({
   });
 }
 
+/**
+ * Gets a Stripe session by ID.
+ * @param sessionId the ID of the session to get
+ * @returns The Stripe session
+ */
 export async function getSession(sessionId: string) {
   return await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['customer', 'payment_intent'],

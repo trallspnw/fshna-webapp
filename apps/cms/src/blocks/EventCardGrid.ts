@@ -1,6 +1,10 @@
 import { Block } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * A block to show a grid of events. Options allow for showing future or past events, a specific number of rows, and 
+ * psuedo-pagination. 
+ */
 export const EventCardGrid: Block = {
   slug: 'eventCardGrid',
   interfaceName: 'EventCardGrid',

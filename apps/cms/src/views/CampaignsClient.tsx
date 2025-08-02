@@ -5,6 +5,9 @@ import { useState } from "react";
 import classes from './CampaignsClient.module.scss'
 import { membership, person, subscription } from "../../generated/prisma";
 
+/**
+ * Custom admin view for pulling campaign reports
+ */
 export function CampaignsClient() {
   const [searchInput, setSearchInput] = useState('')
   const [persons, setPersons] = useState<person[]>([])

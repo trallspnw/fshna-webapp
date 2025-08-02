@@ -12,6 +12,9 @@ type PersonFormProps = {
   onSuccess: () => void
 }
 
+/**
+ * Form compoment used for entering person information.
+ */
 export function PersonForm({ person, onSuccess }: PersonFormProps) {
   const [formData, setFormData] = useState({
     email: person?.email || '',

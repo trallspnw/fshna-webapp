@@ -1,6 +1,9 @@
 import { Block } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * A form block for looking up membership status. Includes localized text.
+ */
 export const MembershipStatusForm: Block = {
   slug: 'membershipStatusForm',
   interfaceName: 'MembershipStatusForm',

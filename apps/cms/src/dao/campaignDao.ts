@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma'
 
+/**
+ * Campaigns are ref tag based. The Campaign DAO allows fetching entities by ref.
+ */
+
 const prisma = new PrismaClient()
 
 export async function getPersonsByRef(ref: string) {

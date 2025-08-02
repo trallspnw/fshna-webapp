@@ -12,6 +12,9 @@ type BroadcastClientProps = {
   emails: EmailOption[]
 }
 
+/**
+ * Custom admin view for sending an email to subscribers.
+ */
 export function BroadcastClient({ emails }: BroadcastClientProps) {
   const [selectedEmailSlug, setSelectedEmailSlug] = useState<string | null>(null)
   const [isSending, setIsSending] = useState(false)

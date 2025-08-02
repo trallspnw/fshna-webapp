@@ -10,6 +10,9 @@ type ModalProps = {
   children: ReactNode
 }
 
+/**
+ * Custom admin page-friendly model component.
+ */
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   if (!isOpen) return null
 

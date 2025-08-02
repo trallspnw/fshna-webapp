@@ -1,6 +1,9 @@
 import { Block } from "payload";
 import { LocalizedTextField } from "@cms/fields/localizedTextField";
 
+/**
+ * A heading blocked used in emails.
+ */
 export const EmailHeading: Block = {
   slug: 'emailHeading',
   interfaceName: 'EmailHeading',

@@ -7,6 +7,9 @@ import { PersonForm } from "./PersonForm";
 import { person } from "../../generated/prisma";
 import { Modal } from "./Modal";
 
+/**
+ * Custom admin view used for CRUD people operations.
+ */
 export function PeopleClient() {
   const [searchInput, setSearchInput] = useState('')
   const [persons, setPersons] = useState<person[]>([])

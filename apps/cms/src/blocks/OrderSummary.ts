@@ -1,6 +1,9 @@
 import { Block } from "payload";
 import { LocalizedTextField } from "../fields/localizedTextField";
 
+/**
+ * A block for displaying an order summary with localized text.
+ */
 export const OrderSummary: Block = {
   slug: 'orderSummary',
   interfaceName: 'OrderSummary',

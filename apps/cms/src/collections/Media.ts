@@ -1,6 +1,10 @@
 import { CollectionConfig } from 'payload'
 import { LANGUAGE_LABELS } from '@common/types/language'
 
+/**
+ * Localized media block. While most raw media likely doesn't need localization, some images may include important text
+ * such as trail names or event details (posters). Also, alt texts should be translated.
+ */
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {

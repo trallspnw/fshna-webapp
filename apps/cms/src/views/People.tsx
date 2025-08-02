@@ -2,6 +2,9 @@ import { DefaultTemplate } from '@payloadcms/next/templates'
 import { AdminViewServerProps } from 'payload'
 import { PeopleClient } from './PeopleClient'
 
+/**
+ * Server component for the custom people admin page.
+ */
 export default async function People({
   initPageResult,
   params,

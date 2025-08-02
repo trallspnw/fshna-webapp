@@ -1,6 +1,9 @@
 import { Block } from 'payload'
 import { commonBlocks } from '../lib/commonBlocks'
 
+/**
+ * Layout block used for aligning children. Contains other common blocks.
+ */
 export const Align: Block = {
   slug: 'align',
   interfaceName: 'Align',

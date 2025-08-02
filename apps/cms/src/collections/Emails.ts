@@ -2,6 +2,9 @@ import { CollectionConfig } from "payload";
 import { LocalizedTextField } from "../fields/localizedTextField";
 import { emailBlocks } from "../lib/emailBlocks";
 
+/**
+ * Emails made of email blocks.
+ */
 export const Emails: CollectionConfig = {
   slug: 'emails',
   admin: {

@@ -11,6 +11,9 @@ import { DonationForm } from '../blocks/DonationForm'
 import { MembershipDuesForm } from '../blocks/MembershipDuesForm'
 import { OrderSummary } from '../blocks/OrderSummary'
 
+/**
+ * Common blocks which can be used on pages, events, and within layout blocks.
+ */
 export const commonBlocks = [
   EventCardGrid,
   Heading,

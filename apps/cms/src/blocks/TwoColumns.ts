@@ -2,6 +2,10 @@ import { Block } from 'payload'
 import { commonBlocks } from '../lib/commonBlocks'
 import { Align } from './Align'
 
+/**
+ * Layout block used to split content into two columns. The width ratio is configurable. Contains onther common blocks
+ * and supported layout blocks (Align).
+ */
 export const TwoColumns: Block = {
   slug: 'twoColumns',
   labels: {

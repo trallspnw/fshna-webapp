@@ -4,6 +4,9 @@ import { Button, Gutter } from "@payloadcms/ui";
 import { useState } from "react";
 import classes from './MembersClient.module.scss'
 
+/**
+ * Custom admin view for viewing membership data.
+ */
 export function MembersClient() {
   const [searchInput, setSearchInput] = useState('')
   const [members, setMembers] = useState<any[]>([])

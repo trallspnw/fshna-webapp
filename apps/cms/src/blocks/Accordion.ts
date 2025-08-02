@@ -2,6 +2,9 @@ import { Block } from 'payload'
 import { commonBlocks } from '../lib/commonBlocks'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * An Accordion block which can be added to pages. Contains other common blocks.
+ */
 export const Accordion: Block = {
   slug: 'accordion',
   interfaceName: 'Accordion',

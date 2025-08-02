@@ -3,6 +3,9 @@ import { BroadcastClient } from './BroadcastClient'
 import { getPayload, AdminViewServerProps } from 'payload'
 import configPromise from '@payload-config'
 
+/**
+ * Server component for seding emails to subscribers.
+ */
 export default async function Broadcast({
   initPageResult,
   params,
@@ -10,12 +13,14 @@ export default async function Broadcast({
 }: AdminViewServerProps) {
   const payload = await getPayload({ config: configPromise })
 
+  // Get latest 100 emails from the emails collection
   const emails = await payload.find({
     collection: 'emails',
     limit: 100,
     sort: '-createdAt',
   })
 
+  // Map emails to slug/title to be used on client
   const emailOptions = emails?.docs?.map((doc) => ({
     slug: doc.slug,
     title: doc.internalName,

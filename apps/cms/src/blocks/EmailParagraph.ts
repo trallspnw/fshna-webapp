@@ -1,6 +1,9 @@
 import { Block } from "payload";
 import { LocalizedTextField } from "@cms/fields/localizedTextField";
 
+/**
+ * A paragraph block used in emails.
+ */
 export const EmailParagraph: Block = {
   slug: 'emailParagraph',
   interfaceName: 'EmailParagraph',

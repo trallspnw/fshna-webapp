@@ -3,8 +3,15 @@ import { LocalizedTextField } from '@cms/fields/localizedTextField'
 import { allBlocks } from '../lib/allBlocks'
 import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 
+/**
+ * These pages should never be allowed to be displayed in the nav.
+ */
 const hideFromNav = ['home', 'not-found']
 
+/**
+ * All root level pages are configured with this page collection. Pages may be configured to show in the nav or hidden
+ * to only be accessible by direct link. Blocks are used to configure page content and layout.
+ */
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -24,6 +31,8 @@ export const Pages: CollectionConfig = {
       required: true,
       unique: true,
     },
+
+    // Internal title is pulled from the page configured page title for the default language
     {
       name: 'titleText',
       type: 'text',
@@ -65,6 +74,7 @@ export const Pages: CollectionConfig = {
         description: 'Pages with lower values will be listed first'
       },
       fields: [
+        // Priority value used for ordering the nav links. Does not need to be sequential. 
         {
           name: 'navOrder',
           type: 'number',

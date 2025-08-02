@@ -2,6 +2,18 @@ import { PrismaClient } from '@prisma'
 
 const prisma = new PrismaClient()
 
+/**
+ * Initializes a membership. The person must either not be a member or have a membership expiring within a month. This
+ * function savings or updates person information and performs membership status validation. Does not record the
+ * membership.
+ * @param email The email address of the potential member
+ * @param name The name of the potential member
+ * @param phone The phone number of the potential member
+ * @param address The address of the potential member
+ * @param language The perferred language of the potential member
+ * @param ref The ref tag identifying the user ingress/campaign (only save on initial creation)
+ * @returns The ID of the potentail member (person)
+ */
 export async function initMembership(
   email: string, 
   name: string, 
@@ -47,6 +59,7 @@ export async function initMembership(
       })
     }
 
+    // Validate no membership or membership expiring soon
     const now = new Date()
     const oneMonthFromNow = new Date()
     oneMonthFromNow.setMonth(now.getMonth() + 1)
@@ -65,6 +78,12 @@ export async function initMembership(
   })
 }
 
+/**
+ * Finalizes a membership. Called after payment confirmation. Creates a new membership record.
+ * @param personId The ID of the person to create a membership for
+ * @param ref The ref tag associated with the membership
+ * @returns Void, used by async system call
+ */
 export async function completeMembership(personId: string, ref?: string) {
   return await prisma.$transaction(async (client) => {
     const person = await client.person.findUnique({
@@ -106,6 +125,11 @@ export async function completeMembership(personId: string, ref?: string) {
   })
 }
 
+/**
+ * Gets the newest membership assiated with a specified email address
+ * @param email The email address to pull membership information for
+ * @returns The latest membership record or null if person has no membership records
+ */
 export async function getLatestMembershipByEmail(email: string) {
   const person = await prisma.person.findUnique({
     where: { email },
@@ -123,9 +147,15 @@ export async function getLatestMembershipByEmail(email: string) {
     person.memberships[0] : null
 }
 
+/**
+ * Search members by email or name. Supports semi-fuzzy matching via prisma insensitive mode.
+ * @param query A query string containing a name or email to match
+ * @returns Person and membership info for members matching the query
+ */
 export async function searchMembers(query: string) {
   const now = new Date()
 
+  // Get people who have memberships matching the query
   const persons = await prisma.person.findMany({
     where: {
       memberships: {
@@ -145,6 +175,7 @@ export async function searchMembers(query: string) {
     },
   })
 
+  // Map person and membership information to a joined model
   return persons.map((person) => {
     const memberships = person.memberships
     const startDate = memberships.at(0)?.createdAt

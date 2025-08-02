@@ -1,6 +1,9 @@
 import { GlobalConfig } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * The confil model for the footer.
+ */
 export const FooterGlobal: GlobalConfig = {
   slug: 'footer',
   label: 'Footer',

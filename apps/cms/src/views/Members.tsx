@@ -2,6 +2,9 @@ import { DefaultTemplate } from '@payloadcms/next/templates'
 import { AdminViewServerProps } from 'payload'
 import { MembersClient } from './MembersClient'
 
+/**
+ * Server component for the members admin view.
+ */
 export default async function Members({
   initPageResult,
   params,

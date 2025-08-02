@@ -1,5 +1,8 @@
 import { Block } from 'payload'
 
+/**
+ * A media (image) block mapping to he media collection.
+ */
 export const Media: Block = {
   slug: 'media',
   interfaceName: 'MediaBlock',

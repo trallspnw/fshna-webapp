@@ -1,6 +1,9 @@
 import { GlobalConfig } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * General global configuration model.
+ */
 export const GeneralGlobal: GlobalConfig = {
   slug: 'general',
   label: 'General',

@@ -1,6 +1,9 @@
 import { Block } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * Donation form block with localized text.
+ */
 export const DonationForm: Block = {
   slug: 'donationForm',
   interfaceName: 'DonationForm',

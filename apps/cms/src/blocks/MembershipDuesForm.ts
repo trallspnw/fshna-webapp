@@ -1,6 +1,9 @@
 import { Block } from 'payload'
 import { LocalizedTextField } from '../fields/localizedTextField'
 
+/**
+ * Membership form block with localized text.
+ */
 export const MembershipDuesForm: Block = {
   slug: 'membershipDuesForm',
   interfaceName: 'MembershipDuesForm',

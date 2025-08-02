@@ -2,6 +2,10 @@ import Link from 'next/link'
 import React from 'react'
 import classes from './Links.module.scss'
 
+/**
+ * Custom side panel links for the Payload admin UI.
+ */
+
 export const LinkToDashboard: React.FC = () => {
   return <Link href='/admin' className={classes.link}>Dashboard</Link>
 }

@@ -3,6 +3,9 @@ import { LocalizedTextField } from '@cms/fields/localizedTextField'
 import { allBlocks } from '../lib/allBlocks'
 import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 
+/**
+ * Events used to render event pages and event tiles. Event pages render configured blocks.
+ */
 export const Events: CollectionConfig = {
   slug: 'events',
   admin: {

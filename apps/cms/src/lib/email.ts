@@ -9,6 +9,12 @@ import { renderToHtml } from "./emailRenderer";
 
 const payload = await getPayload({ config: configPromise })
 
+/**
+ * Sends emails via payload utils and configuration.
+ * @param persons The persons to send the email to
+ * @param slug The slug of the email to send
+ * @param params Params used in the email blocks
+ */
 export async function sendEmails(persons: person[], slug: string, params: Record<string, string>) {
   const email = await getEmailBySlug(slug)
   if (!email) throw new Error(`Email with slug "${slug}" not found.`)
@@ -19,6 +25,7 @@ export async function sendEmails(persons: person[], slug: string, params: Record
     const language = person.language as Language || DEFAULT_LANGUAGE
     const subject = getLocalizedValue(email.subject, language)
 
+    // Payload doesn't accept email body as JSX. Content must be rendered as HTML.
     const html = await renderToHtml(React.createElement(
       React.Fragment, null, renderEmailBlocks(blocks, language, params)))
 
@@ -30,6 +37,11 @@ export async function sendEmails(persons: person[], slug: string, params: Record
   }
 }
 
+/**
+ * Gets an email by slug.
+ * @param slug The slug of the email to get
+ * @returns The email document for the slug
+ */
 async function getEmailBySlug(slug: string) {
   const { docs } = await payload.find({
     collection: 'emails',

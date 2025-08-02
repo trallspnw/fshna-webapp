@@ -2,6 +2,9 @@ import { DefaultTemplate } from '@payloadcms/next/templates'
 import { AdminViewServerProps } from 'payload'
 import { CampaignsClient } from './CampaignsClient'
 
+/**
+ * Server component viewing camplain reports.
+ */
 export default async function Campaigns({
   initPageResult,
   params,

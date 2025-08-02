@@ -2,6 +2,9 @@ import { Block } from 'payload'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
 import { Action } from './Action'
 
+/**
+ * A hero block with an image, heading text and action CTAs.
+ */
 export const Hero: Block = {
   slug: 'hero',
   labels: {

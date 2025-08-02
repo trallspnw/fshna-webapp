@@ -2,6 +2,9 @@ import { Block } from 'payload'
 import { LocalizedTextField } from '@cms/fields/localizedTextField'
 import { customActions } from '@common/lib/customActions'
 
+/**
+ * An Action block used to link to another page or trigger some action.
+ */
 export const Action: Block = {
   slug: 'action',
   interfaceName: 'Action',
