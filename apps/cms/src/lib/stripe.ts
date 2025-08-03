@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -51,4 +52,25 @@ export async function getSession(sessionId: string) {
   return await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ['customer', 'payment_intent'],
   });
+}
+
+export async function getEventFromWebhookRequest(request: NextRequest) {
+  const rawBody = await request.text()
+  const signature = request.headers.get('stripe-signature')
+
+  // Validate boddy and signature
+  if (!signature) {
+    return 'Missing Stripe signature'
+  }
+
+  try {
+    return stripe.webhooks.constructEvent(
+      rawBody,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET!
+    )
+  } catch (error: any) {
+    console.error('Webhook signature verification failed.', error.message)
+    return `Webhook Error: ${error.message}`
+  }
 }

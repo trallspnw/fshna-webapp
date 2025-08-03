@@ -5,10 +5,7 @@ import { DEFAULT_LANGUAGE } from '@/packages/common/src/types/language'
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { LRUCache } from 'lru-cache'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-06-30.basil',
-})
+import { getEventFromWebhookRequest } from '@/apps/cms/src/lib/stripe'
 
 export const config = {
   api: {
@@ -31,29 +28,15 @@ const stripeEventCache = new LRUCache<string, true>({
  * @returns Acknowledgement
  */
 export async function POST(request: NextRequest) {
-  const rawBody = await request.text()
-  const signature = request.headers.get('stripe-signature')
+  const eventOrError = await getEventFromWebhookRequest(request)
 
-  // Validate boddy and signature
-  if (!signature) {
-    return NextResponse.json({ error: 'Missing Stripe signature' }, { status: 400 })
-  }
-
-  let event: Stripe.Event
-
-  try {
-    event = stripe.webhooks.constructEvent(
-      rawBody,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
-  } catch (error: any) {
-    console.error('Webhook signature verification failed.', error.message)
+  if (typeof eventOrError === 'string') { 
     return NextResponse.json(
-      { error: `Webhook Error: ${error.message}` }, 
+      { error: eventOrError },
       { status: 400 },
     )
   }
+  const event = eventOrError as Stripe.Event
 
   // Filter to events to session completions
   if (event.type === 'checkout.session.completed') {

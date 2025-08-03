@@ -1,10 +1,8 @@
 import { initMembership } from "@/apps/cms/src/dao/membershipDao";
 import { createSession } from "@/apps/cms/src/lib/stripe";
 import { isValidEmail, isValidUsPhone } from "@/packages/common/src/lib/validation";
-import { General } from "@/packages/common/src/types/payload-types";
 import { NextRequest, NextResponse } from "next/server";
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { getMembershipPrice } from "@/apps/cms/src/lib/globalsUtil";
 
 /**
  * API route for member sign up.
@@ -14,9 +12,7 @@ import configPromise from '@payload-config'
 export async function POST(request: NextRequest) {
   try {
     // Get membership price from payload
-    const payload = await getPayload({ config: configPromise })
-    const generalGlobals = await payload.findGlobal({ slug: 'general' }) as General 
-    const amount = generalGlobals.membershipPrice
+    const amount = await getMembershipPrice()
 
     const { itemName, email, name, phone, address, entryUrl, language, ref } = await request.json()
 
