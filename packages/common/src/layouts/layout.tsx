@@ -1,5 +1,4 @@
 import '@mantine/core/styles.css';
-import '@common/styles/globals.scss'
 
 import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import { languageStore } from '@common/lib/languageStore'
