@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createPayloadRequest } from 'payload'
-import configPromise from '@payload-config'
 import { searchMembers } from "@/apps/cms/src/dao/membershipDao";
+import { isAdmin } from "@/apps/cms/src/lib/apiAuth";
 
 /**
  * API for handling member search. Searches by name and email. Must be used by an authenticated admin
@@ -10,13 +9,7 @@ import { searchMembers } from "@/apps/cms/src/dao/membershipDao";
  */
 export async function GET(request: NextRequest) {
   try {
-    const payloadRequest = await createPayloadRequest({
-      config: configPromise,
-      request,
-    })
-
-    const user = payloadRequest.user
-    if (!user || user.collection !== 'admins') {
+    if (!(await isAdmin(request))) {
       return NextResponse.json(
         { error: 'Unauthorized' }, 
         { status: 401 },

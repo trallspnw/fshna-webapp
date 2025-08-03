@@ -2,8 +2,7 @@ import { isValidEmail, isValidUsPhone } from "@/packages/common/src/lib/validati
 import { Language, SUPPORTED_LANGUAGES } from "@/packages/common/src/types/language";
 import { NextRequest, NextResponse } from "next/server";
 import { createPerson } from "../../../dao/personDao";
-import { createPayloadRequest } from "payload";
-import configPromise from '@payload-config'
+import { isAdmin } from "../../../lib/apiAuth";
 
 /**
  * API route for adding a person. Must be used by an authenticated admin.
@@ -12,13 +11,7 @@ import configPromise from '@payload-config'
  */
 export async function POST(request: NextRequest) {
   try {
-    const payloadRequest = await createPayloadRequest({
-      config: configPromise,
-      request,
-    })
-
-    const user = payloadRequest.user
-    if (!user || user.collection !== 'admins') {
+    if (!(await isAdmin(request))) {
       return NextResponse.json(
         { error: 'Unauthorized' }, 
         { status: 401 },

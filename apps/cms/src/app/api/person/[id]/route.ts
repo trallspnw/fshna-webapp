@@ -2,8 +2,7 @@ import { deletePerson, updatePerson } from "@/apps/cms/src/dao/personDao"
 import { isValidEmail, isValidUsPhone } from "@/packages/common/src/lib/validation"
 import { Language, SUPPORTED_LANGUAGES } from "@/packages/common/src/types/language"
 import { NextRequest, NextResponse } from "next/server"
-import { createPayloadRequest } from "payload"
-import configPromise from '@payload-config'
+import { isAdmin } from "@/apps/cms/src/lib/apiAuth"
 
 /**
  * API route for handling person updates. Must be used by an authenticated admin.
@@ -16,13 +15,7 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const payloadRequest = await createPayloadRequest({
-      config: configPromise,
-      request,
-    })
-
-    const user = payloadRequest.user
-    if (!user || user.collection !== 'admins') {
+    if (!(await isAdmin(request))) {
       return NextResponse.json(
         { error: 'Unauthorized' }, 
         { status: 401 },
@@ -115,13 +108,7 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const payloadRequest = await createPayloadRequest({
-      config: configPromise,
-      request,
-    })
-
-    const user = payloadRequest.user
-    if (!user || user.collection !== 'admins') {
+    if (!(await isAdmin(request))) {
       return NextResponse.json(
         { error: 'Unauthorized' }, 
         { status: 401 },
