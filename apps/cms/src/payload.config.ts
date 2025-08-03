@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { s3Storage } from '@payloadcms/storage-s3';
 
 import { Admins } from './collections/Admins'
 import { Events } from './collections/Events'
@@ -83,7 +84,23 @@ export default buildConfig({
     push: true,
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    // https://payloadcms.com/posts/guides/how-to-configure-file-storage-in-payload-with-vercel-blob-r2-and-uploadthing
+    s3Storage({
+      collections: {
+        mediaFiles: true,
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET!,
+        },
+        endpoint: process.env.S3_ENDPOINT!,
+        region: 'auto',
+      },
+    }),
+  ],
   email: process.env.TYPEGEN || process.env.IMPORTMAP ? undefined : nodemailerAdapter({
     defaultFromAddress: process.env.EMAIL_FROM_ADDRESS ?? '',
     defaultFromName: process.env.EMAIL_FROM_NAME ?? '',
