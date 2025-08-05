@@ -17,3 +17,4 @@
 # cms
 apps/cms/mediaFiles
 apps/cms/generated
+apps/cms/.swc

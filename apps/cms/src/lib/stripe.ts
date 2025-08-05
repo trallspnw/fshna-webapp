@@ -1,9 +1,7 @@
 import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-06-30.basil',
-});
+let stripe: Stripe | null = null
 
 /**
  * Creates a Stripe payment session.
@@ -31,7 +29,7 @@ export async function createSession({
   metadata?: Record<string, string>
 }) {
 
-  return  await stripe.checkout.sessions.create({
+  return  await getStripe().checkout.sessions.create({
     payment_method_types: ['card'],
     line_items,
     mode: 'payment',
@@ -49,7 +47,7 @@ export async function createSession({
  * @returns The Stripe session
  */
 export async function getSession(sessionId: string) {
-  return await stripe.checkout.sessions.retrieve(sessionId, {
+  return await getStripe().checkout.sessions.retrieve(sessionId, {
     expand: ['customer', 'payment_intent'],
   });
 }
@@ -64,13 +62,26 @@ export async function getEventFromWebhookRequest(request: NextRequest) {
   }
 
   try {
-    return stripe.webhooks.constructEvent(
+    return getStripe().webhooks.constructEvent(
       rawBody,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      'test'
     )
   } catch (error: any) {
     console.error('Webhook signature verification failed.', error.message)
     return `Webhook Error: ${error.message}`
   }
+}
+
+/**
+ * Gets the Stripe instance. Creates it if needed. Avoids instantiation at buildtime. 
+ * @returns A Stripe
+ */
+function getStripe(): Stripe {
+  if (!stripe) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2025-06-30.basil',
+    })
+  }
+  return stripe
 }

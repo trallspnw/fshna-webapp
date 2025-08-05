@@ -1,4 +1,4 @@
-import { getPayload } from "payload";
+import { getPayload, Payload } from "payload";
 import configPromise from '@payload-config'
 import { person } from "../../generated/prisma";
 import { DEFAULT_LANGUAGE, Language } from "@/packages/common/src/types/language";
@@ -7,7 +7,7 @@ import { renderEmailBlocks } from '@common/lib/emailBlockUtil'
 import React from "react";
 import { renderToHtml } from "./emailRenderer";
 
-const payload = await getPayload({ config: configPromise })
+let payloadPromise: Promise<Payload> | null = null
 
 /**
  * Sends emails via payload utils and configuration.
@@ -16,6 +16,7 @@ const payload = await getPayload({ config: configPromise })
  * @param params Params used in the email blocks
  */
 export async function sendEmails(persons: person[], slug: string, params: Record<string, string>) {
+  const payload = await getPayloadPromise()
   const email = await getEmailBySlug(slug)
   if (!email) throw new Error(`Email with slug "${slug}" not found.`)
 
@@ -43,6 +44,7 @@ export async function sendEmails(persons: person[], slug: string, params: Record
  * @returns The email document for the slug
  */
 async function getEmailBySlug(slug: string) {
+  const payload = await getPayloadPromise()
   const { docs } = await payload.find({
     collection: 'emails',
     where: {
@@ -51,4 +53,15 @@ async function getEmailBySlug(slug: string) {
     limit: 1,
   })
   return docs?.[0] ?? null
+}
+
+/**
+ * Gets the Payload Promise. Creates it if needed. Avoids instantiation at buildtime. 
+ * @returns A Payload Promise
+ */
+async function getPayloadPromise(): Promise<Payload> {
+  if (!payloadPromise) {
+    payloadPromise = getPayload({ config: configPromise })
+  }
+  return payloadPromise
 }
