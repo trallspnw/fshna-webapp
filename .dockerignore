@@ -1,0 +1,20 @@
+# dependencies
+*node_modules/
+*.pnpm-store/
+
+# next.js
+*.next/
+*out/
+*next-env.d.ts
+
+# env
+.env
+
+# TS
+*dist/
+*tsconfig.tsbuildinfo
+
+# cms
+apps/cms/mediaFiles
+apps/cms/generated
+apps/cms/.swc
