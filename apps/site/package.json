@@ -4,8 +4,8 @@
   "description": "Static frontend for the FSHNA website.",
   "packageManager": "pnpm@10.11.0",
   "scripts": {
-    "dev": "APP_ENV=site pnpm build && pnpm downloadMedia && serve out -l 3001",
+    "dev": "pnpm build && serve out -l 3001",
     "downloadMedia": "tsx src/scripts/downloadMedia.ts",
-    "build": "next build"
+    "build": "APP_ENV=site next build && pnpm downloadMedia"
   }
 }
