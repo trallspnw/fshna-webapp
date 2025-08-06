@@ -7,12 +7,6 @@ import Stripe from 'stripe'
 import { LRUCache } from 'lru-cache'
 import { getEventFromWebhookRequest } from '@/apps/cms/src/lib/stripe'
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
 /*
   Used for in memory cache. Stripe often triggers duplicate callbacks. This cache keeps track of recent triggers in 
   order to dedupe.

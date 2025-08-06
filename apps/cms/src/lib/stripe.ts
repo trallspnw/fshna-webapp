@@ -79,9 +79,7 @@ export async function getEventFromWebhookRequest(request: NextRequest) {
  */
 function getStripe(): Stripe {
   if (!stripe) {
-    stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2025-06-30.basil',
-    })
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
   }
   return stripe
 }
