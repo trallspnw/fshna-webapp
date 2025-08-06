@@ -65,7 +65,7 @@ export async function getEventFromWebhookRequest(request: NextRequest) {
     return getStripe().webhooks.constructEvent(
       rawBody,
       signature,
-      'test'
+      process.env!.STRIPE_WEBHOOK_SECRET!,
     )
   } catch (error: any) {
     console.error('Webhook signature verification failed.', error.message)
