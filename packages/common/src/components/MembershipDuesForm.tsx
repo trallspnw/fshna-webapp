@@ -9,6 +9,7 @@ import classes from './MembershipDuesForm.module.scss'
 import { isValidEmail, isValidUsPhone } from "../lib/validation"
 
 type DonationFormProps = {
+  backendUrl: string,
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
@@ -76,7 +77,7 @@ export function MembershipDuesForm(props: DonationFormProps) {
 
     try {
       // Saves person information in preparation for payment and confirmation
-      const result = await fetch('/api/membership/init', {
+      const result = await fetch(`${props.backendUrl}/api/membership/init`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

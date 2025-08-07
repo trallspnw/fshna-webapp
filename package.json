@@ -12,7 +12,7 @@
     "cms:dotenv": "pnpm dotenv -e .env -- pnpm cms:dev",
     "site:dev": "pnpm clean:site && pnpm --filter site dev",
     "site:build": "pnpm clean:site && pnpm --filter site build",
-    "site:dotenv": "NODE_ENV= pnpm dotenv -e .env -- pnpm site",
+    "site:dotenv": "NODE_ENV= pnpm dotenv -e .env -- pnpm site:dev",
     "db": "docker compose up postgres",
     "clean": "pnpm -r exec rm -rf dist .next node_modules out && rm -rf .pnpm-store node_modules",
     "clean:site": "rm -rf apps/site/.next apps/site/out",

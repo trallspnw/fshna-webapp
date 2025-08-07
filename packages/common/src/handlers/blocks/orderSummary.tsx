@@ -15,6 +15,7 @@ export function render(
   return (
     <OrderSummary
       key={index}
+      backendUrl={process.env.BASE_URL || ''}
       heading={block.heading}
       paidStatus={block.paidStatus}
       unpaidStatus={block.unpaidStatus}

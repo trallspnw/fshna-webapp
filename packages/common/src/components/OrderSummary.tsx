@@ -8,6 +8,7 @@ import { Alert, Button, Group, List, Loader, Paper, Stack, Text, Title } from '@
 import { IconInfoCircle } from '@tabler/icons-react'
 
 type OrderSummaryProps = {
+  backendUrl: string,
   heading: LocalizedText
   paidStatus: LocalizedText,
   unpaidStatus: LocalizedText,
@@ -33,6 +34,7 @@ type StripeSession = {
  * Component for rendering an order summary. Intended for an order confirmation page. 
  */
 export function OrderSummary({
+  backendUrl,
   heading,
   paidStatus,
   unpaidStatus,
@@ -64,7 +66,7 @@ export function OrderSummary({
     if (!sessionId) {
       return
     }
-    fetch(`/api/payment?sessionId=${sessionId}`)
+    fetch(`${backendUrl}/api/payment?sessionId=${sessionId}`)
       .then(result => result.ok ? result.json() : null)
       .then(data => setSession(data?.sessionData ?? null))
       .finally(() => setLoading(false))

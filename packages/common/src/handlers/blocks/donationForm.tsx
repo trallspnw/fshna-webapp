@@ -15,6 +15,7 @@ export function render(
   return (
     <DonationForm
       key={index}
+      backendUrl={process.env.BASE_URL || ''}
       amountLabel={block.amountLabel}
       amountPlaceholder={block.amountPlaceholder}
       amountValidationError={block.amountValidationError}

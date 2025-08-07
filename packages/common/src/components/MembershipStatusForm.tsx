@@ -6,6 +6,7 @@ import { EmailForm } from './EmailForm'
 import { getLocalizedValue } from '../lib/translation'
 
 type MembershipStatusFormProps = {
+  backendUrl: string,
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
@@ -27,7 +28,7 @@ export function MembershipStatusForm(props: MembershipStatusFormProps) {
 
   const handleSubmit = async (email: string): Promise<boolean> => {
     try {
-      const result = await fetch(`/api/membership/check?email=${encodeURIComponent(email)}`, {
+      const result = await fetch(`${props.backendUrl}/api/membership/check?email=${encodeURIComponent(email)}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })

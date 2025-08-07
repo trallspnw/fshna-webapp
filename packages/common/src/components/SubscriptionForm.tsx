@@ -5,6 +5,7 @@ import { LocalizedText } from '../types/language'
 import { EmailForm } from './EmailForm'
 
 type SubscriptionFormProps = {
+  backendUrl: string,
   emailLabel?: LocalizedText
   emailPlaceholder?: LocalizedText
   emailValidationError?: LocalizedText
@@ -25,7 +26,7 @@ export function SubscriptionForm(props: SubscriptionFormProps) {
     const ref = sessionStorage.getItem('ref') || undefined
 
     try {
-      const result = await fetch('/api/subscribe', {
+      const result = await fetch(`${props.backendUrl}/api/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, language, ref }),

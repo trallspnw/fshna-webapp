@@ -9,6 +9,7 @@ import classes from './DonationForm.module.scss'
 import { isValidEmail, isValidUsdAmount, isValidUsPhone } from "../lib/validation"
 
 type DonationFormProps = {
+  backendUrl: string,
   amountLabel?: LocalizedText
   amountPlaceholder?: LocalizedText
   amountValidationError?: LocalizedText
@@ -85,7 +86,7 @@ export function DonationForm(props: DonationFormProps) {
 
     try {
       // Saves person information
-      const result = await fetch('/api/donate/init', {
+      const result = await fetch(`${props.backendUrl}/api/donate/init`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

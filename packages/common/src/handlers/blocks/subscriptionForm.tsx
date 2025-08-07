@@ -15,6 +15,7 @@ export function render(
   return (
     <SubscriptionForm
       key={index}
+      backendUrl={process.env.BASE_URL || ''}
       emailLabel={generalGlobals.email?.emailLabel}
       emailPlaceholder={generalGlobals.email?.emailPlaceholder}
       emailValidationError={generalGlobals.email?.emailValidationError}
