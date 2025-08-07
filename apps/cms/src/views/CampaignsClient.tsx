@@ -128,7 +128,7 @@ export function CampaignsClient() {
                   <td>{person.name}</td>
                   <td>{person.phone}</td>
                   <td>{person.address}</td>
-                  <td>{person.createdAt ? new Date(person.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{person.createdAt ? new Date(person.createdAt).toLocaleString() : ''}</td>
                   <td>{person.language}</td>
                 </tr>
               ))}
@@ -158,7 +158,7 @@ export function CampaignsClient() {
                   <td>{membership.person.name}</td>
                   <td>{membership.person.phone}</td>
                   <td>{membership.person.address}</td>
-                  <td>{membership.createdAt ? new Date(membership.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{membership.createdAt ? new Date(membership.createdAt).toLocaleString() : ''}</td>
                   <td>{membership.person.language}</td>
                 </tr>
               ))}
@@ -188,7 +188,7 @@ export function CampaignsClient() {
                   <td>{subscription.person.name}</td>
                   <td>{subscription.person.phone}</td>
                   <td>{subscription.person.address}</td>
-                  <td>{subscription.createdAt ? new Date(subscription.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{subscription.createdAt ? new Date(subscription.createdAt).toLocaleString() : ''}</td>
                   <td>{subscription.person.language}</td>
                 </tr>
               ))}

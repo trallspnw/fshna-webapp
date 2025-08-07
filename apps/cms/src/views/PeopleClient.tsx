@@ -137,7 +137,7 @@ export function PeopleClient() {
                   <td>{person.name}</td>
                   <td>{person.phone}</td>
                   <td>{person.address}</td>
-                  <td>{person.createdAt ? new Date(person.createdAt).toLocaleDateString() : ''}</td>
+                  <td>{person.createdAt ? new Date(person.createdAt).toLocaleString() : ''}</td>
                   <td>{person.language}</td>
                   <td>{person.ref}</td>
                   <td>
