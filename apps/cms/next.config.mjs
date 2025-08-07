@@ -30,7 +30,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Access-Control-Allow-Origin',
-            value: process.env.FRONT_END_URL || '',
+            value: 'https://fshna-webapp.pages.dev',
           },
           {
             key: 'Access-Control-Allow-Methods',
