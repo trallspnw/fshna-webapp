@@ -67,14 +67,14 @@ export function BodyLayout({ logo, hero, navItems, children, footer }: BodyLayou
     natural area (yet). This page should not be discoverable, but just in case, a content disclaimer is shown for now.
   */
   useEffect(() => {
-    const acknowledged = sessionStorage.getItem('disclaimerAcknowledged')
+    const acknowledged = localStorage.getItem('disclaimerAcknowledged')
     if (!acknowledged) {
       open()
     }
   }, [open])
 
   const handleAcknowledge = () => {
-    sessionStorage.setItem('disclaimerAcknowledged', 'true')
+    localStorage.setItem('disclaimerAcknowledged', 'true')
     close()
   }
 
