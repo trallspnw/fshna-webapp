@@ -99,8 +99,8 @@ export async function POST(request: NextRequest) {
         }
       ],
       email: cleaned.email,
-      success_url: `${process.env.BASE_URL}/orderSuccess?sessionId={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.BASE_URL}/orderFailed?sessionId={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.FRONT_END_URL}/orderSuccess?sessionId={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONT_END_URL}/orderFailed?sessionId={CHECKOUT_SESSION_ID}`,
       language: language,
       metadata: {
         personId: result.personId ?? '',
