@@ -1,29 +1,42 @@
-<strong>**DO NOT DISTRIBUTE OR PUBLICLY POST SOLUTIONS TO THESE LABS. MAKE ALL FORKS OF THIS REPOSITORY WITH SOLUTION CODE PRIVATE. PLEASE REFER TO THE STUDENT CODE OF CONDUCT AND ETHICAL EXPECTATIONS FOR COLLEGE OF INFORMATION TECHNOLOGY STUDENTS FOR SPECIFICS. **</strong>
 
-# WESTERN GOVERNORS UNIVERSITY 
-## D424 – SOFTWARE ENGINEERING CAPSTONE
-Welcome to Software Engineering Capstone! This is an opportunity for students to develop full stack software engineering documentation and applications. They will execute documentation, unit testing, revision of software applications, and deploy software applications with scripts and containers on a cloud platform.
+# FSHNA Web Application
 
-FOR SPECIFIC TASK INSTRUCTIONS AND REQUIREMENTS FOR THIS ASSESSMENT, PLEASE REFER TO THE COURSE PAGE.
-BASIC INSTRUCTIONS
-For this assessment, you will deploy your developed full stack software product to a web service of your choice.
+This is a purpose built application for the Friend of the Seminary Hill Natural Area (FSHNA). It is a full stack web application comprising of a full CMS (Payload CMS) and a static frontend. This is intended to meet the needs of small organizations requiring a website with basic content management, payments, emails, and member management. It is designed be be hosted with minimal infrastructure cost. While it's purpose built for FSHNA, many other small organizations have similar needs, so it was built in a way to easily adapt to other organizations.
 
+## Requirements
 
-## SUPPLEMENTAL RESOURCES  
-1.	How to clone a project to IntelliJ using Git?
+* Node.js 22
+* pnpm 10
+* Docker
+* Cloudflare with R2 bucket
+* Brevo email provider account
+* Stripe account
 
-> Ensure that you have Git installed on your system and that IntelliJ is installed using [Toolbox](https://www.jetbrains.com/toolbox-app/). Make sure that you are using version 2022.3.2. Once this has been confirmed, click the clone button and use the 'IntelliJ IDEA (HTTPS)' button. This will open IntelliJ with a prompt to clone the proejct. Save it in a safe location for the directory and press clone. IntelliJ will prompt you for your credentials. Enter in your WGU Credentials and the project will be cloned onto your local machine.  
+## Running locally
 
-2. How to create a branch and start Development?
+* Copy `.env.example` to `.env`. Included values may be kept. Populate missing values. `STRIPE_WEBHOOK_SECRET` may be left empty to to start. This value will be generated below.
+* Install dependencies with `pnpm i`.
+* Start the database in docker with `pnpm db`.
+* [Optional] Restore the database from a prod backup if needed. This can be done with `pg_dump` and `pg_restore`.
+* [Optional] If working with payments, start Stripe webhook forwarding with `pnpm stripe:forward`. Note the webhook secret and add it to `.env`.
+* Start the CMS application with `pnpm csm:dotenv`.
+* Confirm the backend is available at `http://localhost:3000`. Go to `/admin` and add the first admin account if needed.
+* The CMS backend uses a live server. Code changes will render without rebuild or refresh.
+* Build the static frontend with `pnpm site:dotenv`.
+* Confirm the static frontend is available at `http://localhost:3001`.
 
-- GitLab method
-> Press the '+' button located near your branch name. In the dropdown list, press the 'New branch' button. This will allow you to create a name for your branch. Once the branch has been named, you can select 'Create Branch' to push the branch to your repository.
+## Testing
 
-- IntelliJ method
-> In IntelliJ, Go to the 'Git' button on the top toolbar. Select the new branch option and create a name for the branch. Make sure checkout branch is selected and press create. You can now add a commit message and push the new branch to the local repo.
+All API handlers have unit tests. Run them with `pnpm test`. Add to these as needed and run them before merging changes. They run as part of automated deployments. If there are failures, changes would be reverted.
 
-## SUPPORT
-If you need additional support, please navigate to the course page and reach out to your course instructor.
+## Deployment
 
-## FUTURE USE
-Take this opportunity to create or add to a simple resume portfolio to highlight and showcase your work for future use in career search, experience, and education!
+On code change, GitHub Actions pulls the repo, installs dependencies, and runs tests. If there are no failures, the CMS application is deployed to Fly.io. Once the CMS backend is deployed, the static build is ran and deployed to Cloudflare. A full deployment or a static only deployment may be triggered manually via GitHub Actions.
+
+## Content Updates
+
+Saved changes in the CMS will be made available immediately on the CMS backend application. But this version of the site is intended for admin use only. The frontend must be rebuilt and deployed once content changes are ready. This can be done via the GitHub static only workflow.
+
+## Additional Information
+
+This project in its current state is implemented to meet requirements for WGU D424. This software is unlicensed and is not currently intended for distribution.
